@@ -1,5 +1,7 @@
 # The Smallest Starting Point
 
+Hopefully this works 
+
 So, you want to build a full-stack JavaScript application with:
 
 - An Express web server
