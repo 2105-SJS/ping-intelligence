@@ -25,10 +25,10 @@ async function buildTables() {
     await client.query(`
     CREATE TABLE users(
       id SERIAL PRIMARY KEY,
-      firstName VARCHAR(255) NOT NULL,
-      lastName VARCHAR(255) NOT NULL,
+      "firstName" VARCHAR(255) NOT NULL,
+      "lastName" VARCHAR(255) NOT NULL,
       email VARCHAR(255) UNIQUE NOT NULL,
-      imageURL VARCHAR(255),
+      "imageURL" VARCHAR(255),
       username VARCHAR(255) UNIQUE NOT NULL,
       password VARCHAR(255) UNIQUE NOT NULL,
       "isAdmin" BOOLEAN DEFAULT false
@@ -58,7 +58,7 @@ async function buildTables() {
       "productName" VARCHAR UNIQUE NOT NULL,
       description VARCHAR NOT NULL,
       price VARCHAR NOT NULL,
-      imageURL VARCHAR,
+      "imageURL" VARCHAR,
       "inStock" DEFAULT VALUE false,
       category NOT NULL
     );
