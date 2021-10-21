@@ -41,4 +41,12 @@ for(let i=1;i<=100;i++)
         username:"testUser"+i,
         password:passwordGenerator()
     }
+    const created=await createUser(usersArray[i-1]);
+    console.log("createUser returns a user object:",created,
+    "with id:",created.id,
+    "firstName:",created.firstName,
+    "lastName:",created.lastName,
+    "email:",created.email,
+    "username:",created.username);
 }
+
