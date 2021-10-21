@@ -59,8 +59,8 @@ async function buildTables() {
       description VARCHAR NOT NULL,
       price VARCHAR NOT NULL,
       "imageURL" VARCHAR,
-      "inStock" DEFAULT VALUE false,
-      category NOT NULL
+      "inStock" BOOLEAN DEFAULT false,
+      category VARCHAR(255) NOT NULL
     );
 
   `);
@@ -70,10 +70,10 @@ async function buildTables() {
     await client.query(`
     CREATE TABLE order_products(
       "order_productId" SERIAL PRIMARY KEY,
-      "productId" INTEGER REFERENCE products("productId"),
-      "orderId" INTEGER REFERENCE orders("orderId"),
+      "productId" INTEGER REFERENCES products("productId"),
+      "orderId" INTEGER REFERENCES orders("orderId"),
       price NUMERIC NOT NULL,
-      quantity INTEGER DEFAULT VALUE 1
+      quantity INTEGER DEFAULT 1
     );
 
   `);
