@@ -1,5 +1,5 @@
 const bcrypt=require('bcrypt');
-const {client}=require("./index");
+const {client}=require('./index');
 
 const createUser= async({firstName,lastName,email,username,password})=>
 {
@@ -12,7 +12,7 @@ const createUser= async({firstName,lastName,email,username,password})=>
             VALUES($1,$2,$3,$4,$5)
             ON CONFLICT (email,username)
             DO NOTHING
-            RETURNING "firstName","lastName",email,username`,
+            RETURNING id,"firstName","lastName",email,username`,
             [firstName,lastName,email,username,await bcrypt.hash(password,10)]
             );
             return user;
