@@ -30,7 +30,7 @@ const createUser= async({firstName,lastName,email,username,password})=>
 
 const emailCheck=(email)=>
 {
-    return /.+?@.+?\..+?/.test(email);
+    return /.+?@.+?/.test(email);
 }
 
 
