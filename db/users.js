@@ -36,22 +36,75 @@ const emailCheck=(email)=>
 
 const getUser=async({username,password})=>
 {
-
+    try
+    {
+        const {rows:[user]}=await client.query(
+        `SELECT *
+        FROM users 
+        WHERE username=$1;`,
+        [username]    
+        );
+        if(await bcrypt.compare(password,user.password))
+        {
+            delete user.password;//dont expose password unless required to
+            return user;
+        }
+        else
+        {
+            return;
+        }
+    }
+    catch(error)
+    {
+        throw error;
+    }
 }
 
 const getAllUsers=async()=>
 {
-
+    const {rows:users}=await client.query(
+    `SELECT id,"firstName","lastName",email,username
+    FROM users;`,   
+    );
+    return users;
 }
 
 const getUserById=async(id)=>
 {
-    
+    try
+    {
+        const {rows:[user]}=await client.query(
+        `SELECT *
+        FROM users 
+        WHERE id=$1;`,
+        [id]    
+        );
+        delete user.password;//dont expose password unless required to
+        return user;
+    }
+    catch(error)
+    {
+        throw error;
+    }
 }
 
 const getUserByUsername=async(username)=>
 {
-    
+    try
+    {
+        const {rows:[user]}=await client.query(
+        `SELECT *
+        FROM users 
+        WHERE username=$1;`,
+        [username]    
+        );
+        delete user.password;//dont expose password unless required to
+        return user;
+    }
+    catch(error)
+    {
+        throw error;
+    }
 }
 
 module.exports=

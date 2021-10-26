@@ -1,3 +1,5 @@
+//file does not work yet do not use
+
 //initalize userSettings
 
 require('dotenv').config();

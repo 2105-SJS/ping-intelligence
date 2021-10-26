@@ -11,8 +11,7 @@
     "db:build": "node ./db/init_db.js",
     "dev:build": "nodemon ./db/init_db.js",
     "start": "node index.js",
-    "reset": "sudo service postgresql restart",
-    "test":"nodemon ./tests/users.js"
+    "reset": "sudo service postgresql restart"
   },
   "keywords": [],
   "author": "",
