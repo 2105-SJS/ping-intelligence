@@ -4,6 +4,7 @@ import {BrowserRouter,Route,Switch} from 'react-router-dom';
 import NavBar from './NavBar';
 import Component404 from './404';
 import Users from './Users';
+import Home from './Home';
 
 import {
     getSomething
