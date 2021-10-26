@@ -61,7 +61,7 @@ const UserForm = (props) =>
         }
         else
         {
-            setMessage("Enter username and password to "+(register?"register":"login")+".");
+            setMessage("Enter all active fields to "+(register?"register":"login")+".");
         }
     },[password,confirmPassword,register])
 
