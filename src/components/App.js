@@ -7,6 +7,7 @@ import {
 } from './index';
 
 import { callApi } from '../util';
+import { Router } from 'express';
 
 const { REACT_APP_BASE_URL } = process.env;
 
@@ -27,7 +28,7 @@ const App = () => {
             token
         });
         const productResponse = respObj.data.products;
-        if (productResponse) setProduct(productResponse);
+        if (productResponse) setProducts(productResponse);
     }
 
     useEffect(() => {
@@ -40,6 +41,7 @@ const App = () => {
 
     return <div>
         <header className="site-banner">
+            <Router>
             <Link to='/' className='emblem'><h1>Underground Cars</h1></Link>
             <div className='nav-bar'>
                 <Link to="/" className="nav-link">Home</Link>
@@ -49,6 +51,7 @@ const App = () => {
                     token ? <Link to='/user/login' className='nav-link' onClick={() => setToken('')}>Log Out</Link> : <Link to='/users/login' className='nav-link'>Login</Link>
                 }
             </div>
+            </Router>
         </header>
         <footer />
     </div>
