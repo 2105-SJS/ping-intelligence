@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, BrowserRouter } from 'react-router-dom';
 
 import {
   Products,
@@ -7,8 +7,6 @@ import {
 } from './index';
 
 import { callApi } from '../util';
-import { Router } from 'express';
-
 const { REACT_APP_BASE_URL } = process.env;
 
 
@@ -23,12 +21,21 @@ const App = () => {
     const [price, setPrice] = useState('');
     
     const fetchProducts = async () => {
-        const respObj = await callApi({
+        try {
+            const respObj = await callApi({
             url: `/products`,
             token
-        });
-        const productResponse = respObj.data.products;
-        if (productResponse) setProducts(productResponse);
+            });
+            if(respObj)
+            {
+                const productResponse = respObj.data.products;
+                if (productResponse) setProducts(productResponse); 
+            }
+        } catch (error) {
+            throw error;
+        }
+        
+        
     }
 
     useEffect(() => {
@@ -41,7 +48,7 @@ const App = () => {
 
     return <div>
         <header className="site-banner">
-            <Router>
+            <BrowserRouter>
             <Link to='/' className='emblem'><h1>Underground Cars</h1></Link>
             <div className='nav-bar'>
                 <Link to="/" className="nav-link">Home</Link>
@@ -51,7 +58,7 @@ const App = () => {
                     token ? <Link to='/user/login' className='nav-link' onClick={() => setToken('')}>Log Out</Link> : <Link to='/users/login' className='nav-link'>Login</Link>
                 }
             </div>
-            </Router>
+            </BrowserRouter>
         </header>
         <footer />
     </div>
