@@ -1,4 +1,6 @@
-const { REACT_APP_BASE_URL = '' }
+require('dotenv').config();
+
+const { REACT_APP_BASE_URL = 'postgres://localhost:5000/' }=process.env.REACT_APP_BASE_URL;
 
 export const callApi = async ({ url, method, token, body }) => {
     try {

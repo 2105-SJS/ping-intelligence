@@ -12,7 +12,7 @@ const NewProduct = ({ token, setProduct }) => {
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
     const [imageUrl, setImageUrl] = useState('');
-    const [inStock setInStock] = useState(false);
+    const [inStock, setInStock] = useState(false);
     const [category, setCategory] = useState('');
 
     const handleAdd = async (ev) => {
