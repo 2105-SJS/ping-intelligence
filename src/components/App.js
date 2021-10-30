@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import {BrowserRouter,Route,Switch} from 'react-router-dom';
-
 import NavBar from './NavBar';
 import Component404 from './404';
 import Users from './Users';
 import Home from './Home';
-
+import Account from './Account';
 import {
-    getSomething
-} from '../api';
+  NewProduct,
+} from './index';
+import { callApi } from '../util';
+import Products from './Product';
+
+const { REACT_APP_BASE_URL } = process.env;
 
 const App = () => {
+
+    const [products, setProducts] = useState([]);
+    const [productId, setProductId] = useState('');
+    const [productName, setProductName] = useState([]);
+    const [description, setDescription] = useState('');
+    const [price, setPrice] = useState('');
     const [message, setMessage] = useState('');
     const [token,setToken]=useState(localStorage.getItem("token")||"");
     const [currentUser,setCurrentUser]=useState(
@@ -19,31 +28,48 @@ const App = () => {
         name:localStorage.getItem("username")
     }||{});
 
+    const fetchProducts = async () => {
+        try {
+            const respObj = await callApi({
+            url: `products/`,
+            token
+            });
+            if(respObj&&respObj.allProducts)
+            {
+                setProducts(respObj.allProducts); 
+            }
+        } catch (error) {
+            throw error;
+        }
+        
+        
+    }
 
-    useEffect(() => 
-    {
-        getSomething()
-        .then(response => 
-        {
-            setMessage(response.message);
-        })
-        .catch(error => 
-        {
-            setMessage(error.message);
-        });
-    });
+    useEffect(() => {
+        try {
+            fetchProducts();
+        } catch (error) {
+            console.error(error);
+        }
+    }, [token]);
+
 
     return <div className="App">
-        <h1>Hello, World!</h1>
-        <h2>{ message }</h2>
-        <BrowserRouter>
-            <NavBar token={token}></NavBar>
 
+        <BrowserRouter>
+            <header className="site-banner">
+                <NavBar token={token}></NavBar>
+            </header>
+        
             <Users setToken={setToken} setCurrentUser={setCurrentUser} currentUser={currentUser}/>
             
             <Switch>
                 <Route exact path ="/">
                     <Home currentUser={currentUser}></Home>
+                </Route>
+
+                <Route exact path ="/products/">
+                    <Products products={products}></Products>
                 </Route>
 
                 {/*
@@ -65,77 +91,16 @@ const App = () => {
                     <Activities token={token}></Activities>
                 </Route>
                 */}
-
+                <Route exact path="/account/">
+                    <Account token={token}></Account>
+                </Route>
                 <Route path="/*">
                     <Component404></Component404>
                 </Route>
             </Switch>
         </BrowserRouter>
-    </div>;
-import { Route, Link, BrowserRouter } from 'react-router-dom';
-
-import {
-  Products,
-  NewProduct,
-} from './index';
-
-import { callApi } from '../util';
-const { REACT_APP_BASE_URL } = process.env;
-
-
-const App = () => {
-    const [token, setToken] = useState('');
-    const [user, setUser] = useState('');
-    const [products, setProducts] = useState([]);
-    const [productId, setProductId] = useState('');
-    const [productName, setProductName] = useState([]);
-    const [userId, setUserId] = useState('');
-    const [description, setDescription] = useState('');
-    const [price, setPrice] = useState('');
-    
-    const fetchProducts = async () => {
-        try {
-            const respObj = await callApi({
-            url: `/products`,
-            token
-            });
-            if(respObj)
-            {
-                const productResponse = respObj.data.products;
-                if (productResponse) setProducts(productResponse); 
-            }
-        } catch (error) {
-            throw error;
-        }
-        
-        
-    }
-
-    useEffect(() => {
-        try {
-            fetchProducts();
-        } catch (error) {
-            console.error(error);
-        }
-    }, [token]);
-
-    return <div>
-        <header className="site-banner">
-            <BrowserRouter>
-            <Link to='/' className='emblem'><h1>Underground Cars</h1></Link>
-            <div className='nav-bar'>
-                <Link to="/" className="nav-link">Home</Link>
-                <Link to="/products" className="nav-link">Products</Link>
-             
-                {
-                    token ? <Link to='/user/login' className='nav-link' onClick={() => setToken('')}>Log Out</Link> : <Link to='/users/login' className='nav-link'>Login</Link>
-                }
-            </div>
-            </BrowserRouter>
-        </header>
         <footer />
-    </div>
-}
+    </div>;
 }
 export default App;
 

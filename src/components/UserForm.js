@@ -1,10 +1,10 @@
 import React, { useState,useEffect } from 'react';
-//import APIFetch from './api';
+import {callApi} from '../util'
 
 const UserForm = (props) => 
 {
     const setToken=props.setToken;
-    const setUser=props.setUser;
+    const setCurrentUser=props.setCurrentUser;
 
 
     const [register,setRegister]=useState(false);
@@ -68,7 +68,7 @@ const UserForm = (props) =>
     return <form onSubmit={async(event)=>
     {
             event.preventDefault();
-            /*const response= await APIFetch(
+            callApi(
             {
                 url:`users/${register?"register":"login"}`,
                 method:"POST",
@@ -81,30 +81,40 @@ const UserForm = (props) =>
                     password:password
                 }
             }
-            );
-            console.log(response);
-
-            if(response.token)
+            ).then((response)=>
             {
-                setToken(response.token);
-                setMessage("You are logged in.");
-                setUser(
+                console.log(response);
+                if(response)
                 {
-                    id:response.user.id,
-                    name:response.user.username
-                });
-                if(remember)
-                {
-                    localStorage.setItem("token",response.token);
-                    localStorage.setItem("username",response.user.username);
-                    localStorage.setItem("id",response.user.id);
+                    if(response.token)
+                    {
+                        setToken(response.token);
+                        setMessage("You are logged in.");
+                        setCurrentUser(
+                        {
+                            id:response.id,
+                            name:response.username
+                        });
+                        if(remember)
+                        {
+                            localStorage.setItem("token",response.token);
+                            localStorage.setItem("username",response.username);
+                            localStorage.setItem("id",response.id);
+                        }
+                    }
+                    else
+                    {
+                        setMessage(response.message);
+                    }
                 }
-            }
-            else
-            {
-                setMessage(response.error);
-            }
-            */
+                else
+                {
+                    setMessage("error "+(register?"registering":"logging in")+".");
+                }
+            })
+
+           
+        
     }}>
         <div>
             <input type="checkbox" checked={register} value={register}  onChange={()=>
@@ -164,7 +174,7 @@ const UserForm = (props) =>
 
         <p>{message}</p>
 
-        <button type="submit" disabled={!username||!password||(register&&password!==confirmPassword&&!firstName&&!lastName&&!email)}>{register?"Register":"Login"}</button>
+        <button type="submit" disabled={!username||!password||(register&&(password!==confirmPassword||!firstName||!lastName||!email))}>{register?"Register":"Login"}</button>
     </form>
 }
 

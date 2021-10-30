@@ -5,11 +5,11 @@ const NavBar = (props)=>
 {
     const token=props.token;
 
-    return <h2 className="NavBar">
+    return <h2 className='nav-bar'>
         <NavLink to="/">Home</NavLink>|
-        <NavLink to="/routines/">Routines</NavLink>|
-        {token ? <><NavLink to="/myroutines/">My Routines</NavLink>|</>:null}
-        <NavLink to="/activities/">Activities</NavLink>
+        <NavLink to="/products">Products</NavLink>|
+        {token ? <><NavLink to="/account">Account</NavLink>|</>:null}
+        <NavLink to="/cart/">View Cart</NavLink>
     </h2>
 }
 
