@@ -79,8 +79,8 @@ async function createInitialProducts() {
             description: 'Twin-turbocharged 5.2 V12 powered Two-seater',
             price: '$300,000 USD',
             imageURL: 'https://tinyurl.com/AstinMartinURL',
-            inStock: yes,
-            category: new
+            inStock: true,
+            category: 'new'
         });
         await createProduct({
             id: 456,
@@ -88,8 +88,8 @@ async function createInitialProducts() {
             description: 'A 542 hp V8 powered Two-seater',
             price: '$200,000 USD',
             imageURL: 'https://tinyurl.com/BentleyContinentalGT',
-            inStock: yes,
-            category: new
+            inStock: true,
+            category: 'new'
         });
        await createProduct({
             id: 789,
@@ -97,8 +97,8 @@ async function createInitialProducts() {
             description: 'A 6.5-liter, 770 hp, naturally aspirated V12 Two-seater',
             price: '$600,000 USD',
             imageURL: 'https://tinyurl.com/LamborghiniRoadster',
-            inStock: yes,
-            category: new
+            inStock: true,
+            category: 'used'
         });
 
         console.log("Finished creating products!");
