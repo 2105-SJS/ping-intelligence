@@ -36,11 +36,11 @@ const getOrdersByUser = async ({ id }) => {
     }
 }
 
-const createOrder = async ({ status, userId }) => { 
+const createOrder = async ({ status, userId, orderId }) => { 
     try {
         const { rows: [ status ] } = await client.query(`
             SELECT *
-            FROM status AND user."userId" = true
+            FROM status AND user."userId" AND user."orderId" = true
         `)
     
     } catch (error) { 
