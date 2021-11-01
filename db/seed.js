@@ -67,6 +67,46 @@ async function createInitialOrders() {
         throw error;
     }
 }
+id, name, description, price, imageURL, inStock, category
+
+async function createInitialProducts() {
+    try {
+        console.log("Starting to create products...");
+
+        await createProduct({
+            id: 123,
+            name: 'Aston Martin DBS Superleggera 2020',
+            description: 'Twin-turbocharged 5.2 V12 powered Two-seater',
+            price: '$300,000 USD',
+            imageURL: 'https://tinyurl.com/AstinMartinURL',
+            inStock: yes,
+            category: new
+        });
+        await createProduct({
+            id: 456,
+            name: 'Bentley Continental GT V8 2020',
+            description: 'A 542 hp V8 powered Two-seater',
+            price: '$200,000 USD',
+            imageURL: 'https://tinyurl.com/BentleyContinentalGT',
+            inStock: yes,
+            category: new
+        });
+       await createProduct({
+            id: 789,
+            name: 'Lamborghini Aventador SVJ Roadster 2020',
+            description: 'A 6.5-liter, 770 hp, naturally aspirated V12 Two-seater',
+            price: '$600,000 USD',
+            imageURL: 'https://tinyurl.com/LamborghiniRoadster',
+            inStock: yes,
+            category: new
+        });
+
+        console.log("Finished creating products!");
+    } catch (error) {
+        console.error("Error creating products!");
+        throw error;
+    }
+}
 
 // async function rebuildDB() {
 //     try {
@@ -92,7 +132,11 @@ async function testDB() {
         const orders = await createInitialOrders();
         console.log("Result:", orders);
 
-        console.log("Finished orders tests!");
+        console.log("Calling createInitialProducts");
+        const orders = await createInitialProducts();
+        console.log("Result:", products);
+
+        console.log("Finished orders and products tests!");
     } catch (error) {
         console.log("Error during testDB");
         throw error;
@@ -105,5 +149,6 @@ async function testDB() {
 
     module.exports = {
     createInitialUsers,
-    createInitialOrders
+    createInitialOrders,
+    createInitialProducts
   }
