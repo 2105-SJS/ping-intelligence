@@ -91,6 +91,14 @@ const App = () => {
                     <Activities token={token}></Activities>
                 </Route>
                 */}
+                 <Route exact path="/users/:userId/orders">
+                    <UserId token={token}></UserId>
+                </Route>
+
+                 <Route exact path="/orders">
+                    <Orders token={token}></Orders>
+                </Route>
+                
                 <Route exact path="/account/">
                     <Account token={token}></Account>
                 </Route>
