@@ -67,7 +67,6 @@ async function createInitialOrders() {
         throw error;
     }
 }
-id, name, description, price, imageURL, inStock, category
 
 async function createInitialProducts() {
     try {
@@ -108,17 +107,6 @@ async function createInitialProducts() {
     }
 }
 
-// async function rebuildDB() {
-//     try {
-//         client.connect();
-
-//         await createInitialUsers();
-//         await createInitialOrders();
-//     } catch (error) {
-//         console.log("Error during rebuildDB")
-//         throw error;
-//     }
-// }
 
 async function testDB() {
     try {
@@ -133,7 +121,7 @@ async function testDB() {
         console.log("Result:", orders);
 
         console.log("Calling createInitialProducts");
-        const orders = await createInitialProducts();
+        const products = await createInitialProducts();
         console.log("Result:", products);
 
         console.log("Finished orders and products tests!");
@@ -143,9 +131,6 @@ async function testDB() {
     }
 }
 
-// rebuildDB()
-//     .then(testDB)
-//     .catch(console.error);
 
     module.exports = {
     createInitialUsers,

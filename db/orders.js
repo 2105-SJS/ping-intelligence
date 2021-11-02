@@ -7,18 +7,22 @@ const getOrdersByProduct = async ({ id }) => {
             SELECT *
             FROM orders WHERE id = product.id
         `)
+       return orders;
+
     } catch (error) { 
         throw error
     }
+    
 }
 
 const getCartByUser = async ({ id }) => { 
     try {
         const { rows: [ id ] } = await client.query(`
             SELECT *
-            FROM id WHERE orders = orders."userId" AND status = true
+            FROM orders WHERE id = orders."userId" AND status = created
         `)
-    
+        return id;
+
     } catch (error) { 
         throw error
     }
@@ -26,10 +30,11 @@ const getCartByUser = async ({ id }) => {
 
 const getOrdersByUser = async ({ id }) => { 
     try {
-        const { rows: [ id ] } = await client.query(`
+        const { rows: orders  } = await client.query(`
             SELECT *
-            FROM id WHERE orders = orders."userId" AND status = true
+            FROM orders WHERE id = orders."userId" AND status = created
         `)
+        return orders;
     
     } catch (error) { 
         throw error
@@ -42,7 +47,8 @@ const createOrder = async ({ status, userId, orderId }) => {
             SELECT *
             FROM status AND user."userId" AND user."orderId" = true
         `)
-    
+        return status;
+        
     } catch (error) { 
         throw error
     }
