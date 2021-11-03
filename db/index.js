@@ -1,5 +1,3 @@
-
-
 // database methods
 
 
@@ -7,7 +5,6 @@
 module.exports = {
   ...require('./client'),
   ...require('./Products'),
-  ...require('./users'),
-  ...require('./seed')
+  ...require('./users')
   // db methods
 }

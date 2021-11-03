@@ -215,6 +215,7 @@ async function testDB() {
   }
 }
 
+
 buildTables()
   .then(populateInitialData)
   .catch(console.error)
