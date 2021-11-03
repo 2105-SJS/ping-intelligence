@@ -30,18 +30,17 @@ const updateOrderByProductId = async (ev) => {
             const response = await callApi({
                 url: `orders/:orderId/products`,
                 method: "PATCH",
-                body: { productId, quantity },
-                token
+                body: { productId, quantity }   
             })
             if (response.error) {
                 setError(response.error);
             };
             if (response) {
-                await callApi({url: `order_products`, token});
+                await callApi({url: `order_products`});
                 setPrice({ price });
                 setQuantity({ quantity });
                 await updateOrderProduct;
-                history.push('order/order_products/:orderProductId');
+                history.push('order/order_products/:orderProductId/products');
             };
             return response;
         } catch (error) {
@@ -56,7 +55,7 @@ const updateOrderByProductId = async (ev) => {
                 method: "DELETE",
                 token            
             })
-            await callApi({url: 'order/order_products/:orderProductId', token});
+            await callApi({url: 'order/order_products/:orderProductId/products', token});
         
             history.push('/orders/order_products/:orderProductId');
         } catch (error) {
