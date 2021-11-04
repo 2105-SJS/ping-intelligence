@@ -5,12 +5,13 @@ const db = require('./cars-dev');
 // return the order, include the order's products
 const getOrderById = async ( orderId ) => { 
     try {  
-        const { rows } = await client.query(`
+        const { rows: [order] } = await client.query(`
             SELECT *
-            FROM orders; 
-        `)
+            FROM orders
+            WHERE id=$1
+        `, [orderId])
 
-        return rows;
+        return order;
     } catch (error) { 
         throw error
     }
@@ -18,11 +19,11 @@ const getOrderById = async ( orderId ) => {
 
 
 // Should select and return an array of orders, include their products 
-const getAllOrders = async ( orders ) => { 
+const getAllOrders = async () => { 
     try { 
-        const { rows: [ orders ] } = await client.query(`
+        const { rows: orders } = await client.query(`
             SELECT * 
-            FROM order_products;
+            FROM orders
         `)
 
         return orders; 
@@ -32,12 +33,42 @@ const getAllOrders = async ( orders ) => {
 }
 
 // select and return an array of orders made by user, include their products
-const getOrdersByUser = async ({ id }) => { 
+const getOrdersByUser = async ({ orderId }) => { 
     try {
-        const { rows: [ orders ] } = await client.query(`
-            SELECT FROM 
-        `)
+        const { rows: orders } = await client.query(`
+            SELECT *
+            FROM orders
+            WHERE "userId" = $1
+        `, [orderId])
+
+        return orders
     } catch (error) { 
+        throw error
+    }
+}
+
+const getCartByUser = async ({ orderId }) => { 
+    try { 
+        const { rows: [ cart ] } = await client.query(`
+            SELECT * 
+            FROM orders 
+            WHERE "userID"=$1 AND status='true';
+        `, [orderId])
+
+        return cart;
+    } catch (error) { 
+        throw error
+    }
+}
+
+const createOrder = async ({ userId, datePlaced, status }) => { 
+    try { 
+        const { rows: [ order ]} = await client.query(`
+        INSERT INTO orders("userId", "datePlaced", status)
+        VALUES($1, $2, $3)
+        RETURNING *
+        `, [userId, datePlaced, status])
+    } catch(error) {
         throw error
     }
 }
@@ -46,5 +77,7 @@ module.exports = {
     client, 
     getOrderById,
     getAllOrders,
-    getOrdersByUser
+    getOrdersByUser,
+    getCartByUser,
+    createOrder
 }
