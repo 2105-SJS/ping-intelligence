@@ -70,7 +70,8 @@ async function destroyOrderProduct(id) {
         DELETE from order_products
         WHERE "id" = $1
         RETURNING *;
-        `, [id])  
+        `, [id])
+        return product 
     } catch (error) {
         throw error
     }
