@@ -15,26 +15,36 @@ const Cart = ( props ) =>
 
     useEffect( () =>
     {
-        callApi(          
+        if ( token )
         {
-            url: `users/me`,
-            method: "GET",
-            token: token
-        } )
-        .then( ( response ) =>
-        {
-            if ( response && response.id )
+            callApi(          
             {
-                setUser( response );
-            }
-            else
+                url: `users/me`,
+                method: "GET",
+                token: token
+            } )
+            .then( ( response ) =>
             {
-                setUser( 
+                if ( response && response.id )
                 {
-                    username: "Guest"
-                } );
-            }
-        } );
+                    setUser( response );
+                }
+                else
+                {
+                    setUser( 
+                    {
+                        username: "Guest"
+                    } );
+                }
+            } );
+        }
+        else
+        {
+            setUser( 
+            {
+                username: "Guest"
+            } );
+        }
         callApi(
         {
             url: `orders/cart`,
@@ -80,7 +90,10 @@ const Cart = ( props ) =>
             {
                 if ( response.orderId )
                 {
-                    //stripe submit order here if type=completed
+                    if ( response.status === completed)
+                    {
+                        //stripe submit order here
+                    }
                     setMessage( `order for ${ user.username } successfully ${ type }` );
                 }
                 else if ( response.message )
