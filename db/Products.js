@@ -48,6 +48,36 @@ const createProduct = async ({ id, name, description, price, imageURL, inStock, 
     }
 }
 
+ const destroyProduct = async ({ id }) => {
+        try {
+            await callApi({
+                url: `order/order_products/:orderProductId${ orderProductId }`, 
+                method: "DELETE",
+                token            
+            })
+            const updatedProductId = order.orderId.productId;
+            await callApi({url: 'order/order_products/:orderProductId/products', token});
+            history.push('/orders/order_products/:orderProductId');
+            return updatedProductId;
+        } catch (error) {
+            console.error(error);
+        };    
+    };
+
+    const updateProduct = async ({ product }) => { 
+    try { 
+        const updatedProduct = products.productId
+        const { rows: [ product ] } = await client.query(`
+            INSERT INTO products(name, description, price)
+            VALUES($1, $2, $3)
+            RETURNING *;
+        `, [name, description, price])
+        return updatedProduct;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     getProductById,
     getAllProducts,
