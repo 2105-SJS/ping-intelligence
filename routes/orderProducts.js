@@ -14,6 +14,7 @@ order_productRouter.use((req, res, next) => {
 order_productRouter.post('/', async (req, res, next) => {
     try {
         
+        
     } catch (error) {
         throw error
     }
@@ -21,6 +22,8 @@ order_productRouter.post('/', async (req, res, next) => {
 
 order_productRouter.patch('/:order_productId', requireUser, async (req, res, next) => {
     try {
+        const { orderProductsId } = req.params;
+        const { quantity } = 
 
     } catch (error) {
         throw error
@@ -31,8 +34,8 @@ order_productRouter.patch('/:order_productId', requireUser, async (req, res, nex
 order_productRouter.delete('/Id', requireUser, async (req, res, next) => {
     try {
         const { Id } = req.params
-        const userId = req.user.Id
-        console.log('userId: ', userId)
+        const userid = req.user.id
+        console.log('userid: ', userid)
         const orderProducts = await getOrderProductsById(Id)
         if ( orderProducts ) {
             const { orderId } = orderProducts;
