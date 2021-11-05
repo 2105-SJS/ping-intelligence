@@ -111,6 +111,25 @@ usersRouter.get('/me',async(req,res,next)=>
     }
 });
 
+usersRouter.get('/users',async(req,res,next)=>
+{
+    try 
+    {
+            if(req.auth)
+            {
+                const isAdmin= await getUserByUsername(req.auth.username);
+                res.send(users);
+            }
+            else
+            {
+                next('Invalid Credentials')
+            }
+    }
+    catch(error)
+    {
+        next(error);
+    }
+});
 
 
 

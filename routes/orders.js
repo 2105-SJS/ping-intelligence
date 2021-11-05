@@ -1,3 +1,5 @@
+
+
 const updateOrder = async (ev) => {
         ev.preventDefault();
         try {
@@ -11,18 +13,17 @@ const updateOrder = async (ev) => {
                 setError(response.error);
             };
             if (response) {
-                await callApi({url: `order_products`, token});
+                await callApi({url: `orders/order_products`, token
                 addProduct: { productId },
                 setPrice: { price },
                 setQuantity: { quantity };
                 await updateOrderProduct;
-                history.push('/user/orders/:orderId');
-            };
+                history.push('/user/orders/:orderId'))};
             return response;
         } catch (error) {
             console.error(error);
-        };
-    };
+        }
+    }};
 
 const updateOrderByProductId = async (ev) => {
         ev.preventDefault();

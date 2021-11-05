@@ -1,4 +1,4 @@
-const { client } = require('.');
+const { client } = require('./index');
 const db = require('./cars-dev');
 
 const getOrdersByProduct = async ({ id }) => { 
@@ -18,7 +18,6 @@ const getOrdersByProduct = async ({ id }) => {
         throw error
     }
 }
-
 
 const updateOrderProduct = async ({ id, price, quantity }) => { 
     try {

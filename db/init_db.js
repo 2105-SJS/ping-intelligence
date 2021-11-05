@@ -84,11 +84,10 @@ async function buildTables() {
   }
 }
 
-async function populateInitialData() {
-  try {
-    async function createInitialUsers() {
+async function createInitialUsers() {
     try {
         console.log("Starting to create users...");
+        const createUser= () => {};
 
         await createUser({
             firstName: 'Albert',
@@ -119,10 +118,11 @@ async function populateInitialData() {
     }
 }
 
-async function createInitialOrders() {
+async function createInitialOrders(userId, datePlaced, status, order_product) {
+  const createOrder= () => {};
     try {
         console.log("Starting to create orders...");
-
+        
         await createOrder({
             orderId: '12345678',
             userId: { userId },
@@ -144,7 +144,6 @@ async function createInitialOrders() {
             status: { status },
             order_product: { order_product }
         });
-
         console.log("Finished creating orders!");
     } catch (error) {
         console.error("Error creating orders!");
@@ -155,6 +154,7 @@ async function createInitialOrders() {
 async function createInitialProducts() {
     try {
         console.log("Starting to create products...");
+        const createProduct= () => {};
 
         await createProduct({
             id: 123,
@@ -191,30 +191,25 @@ async function createInitialProducts() {
     }
 }
 
-async function testDB() {
+async function populateInitialData() {
     try {
         console.log("Starting to test database...");
 
         console.log("Calling createInitialUsers");
         const users = await createInitialUsers();
-
-        console.log("Calling createInitialOrders");
-        const orders = await createInitialOrders();
     
         console.log("Calling createInitialProducts");
         const products = await createInitialProducts();
+
+        console.log("Calling createInitialOrders");
+        const orders = await createInitialOrders();
       
         console.log("Finished orders and products tests!");
     } catch (error) {
-        console.log("Error during testDB");
+        console.log("Error during populateInitialData");
         throw error;
     }
 }
-  } catch (error) {
-    throw error;
-  }
-}
-
 
 buildTables()
   .then(populateInitialData)
