@@ -30,11 +30,7 @@ const App = () => {
 
     useEffect( () =>
     {
-        JSON.parse( localStorage.getItem( "order" ) )
-        .then( ( result ) =>
-        {
-            setLocalCart( result );
-        } );
+        setLocalCart( JSON.parse( localStorage.getItem( "order" ) ) );
     },
     []);
 

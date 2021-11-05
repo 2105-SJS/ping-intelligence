@@ -69,7 +69,7 @@ const Cart = ( props ) =>
                 }
             }
         } );
-    }, [ token ] )
+    }, [ token, localCart ] )
 
     const callUpdate=(type)=>
     {
@@ -90,7 +90,7 @@ const Cart = ( props ) =>
             {
                 if ( response.orderId )
                 {
-                    if ( response.status === completed)
+                    if ( response.status === 'completed' )
                     {
                         //stripe submit order here
                     }
