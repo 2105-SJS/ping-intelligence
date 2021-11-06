@@ -6,41 +6,51 @@ const { getOrderById } = require('../db/orders');
 const { requireUser } = require('./utils');
 
 
+
 order_productRouter.use((req, res, next) => {
     console.log("A request is being made to /order_products");
 
     next();
 });
 
-order_productRouter.post('/orderId/products', async (req, res, next) => {
+order_productRouter.post('/order:Id/products', async (req, res, next) => {
     try {
+        const { orderId } = req.params;
         const userId = req.user.Id
         const orderProducts = await getOrderProductsById(id);
-        const products = await getProductById(orderProducts.productsId);
-        if(orderProducts === productsId) 
-
-        
-    } catch (error) {
-        throw error
-    }
-})
-
-order_productRouter.patch('/:order_productId', requireUser, async (req, res, next) => {
-    try {
-        const orderProducts = await getOrderProductsById(orderProductsId);
-        const products = await getProductById (orderProducts.productsId)
-        const { orderProductsId } = req.params;
         const { quantity } = req.body;
-        const { price } = products;
-        const updatedPrice = price * quantity;
-
-
-
+        const { price } = req.body;
+        
+        if( orderProducts ) {
+            const product = await getProductById(orderProducts.productsId);
+            const { productId } = product;
+            if( !productId ) 
+                throw Error("Unsuccessful in adding prodcut")
+            } else {
+                const addingProduct = await addProductToOrder({ orderId, productId, price, quantity }) 
+                res.send(addingProduct);
+            } 
     } catch (error) {
         throw error
     }
-
 })
+
+// order_productRouter.patch('/:order_productId', requireUser, async (req, res, next) => {
+//     try {
+//         const orderProducts = await getOrderProductsById(orderProductsId);
+//         const products = await getProductById (orderProducts.productsId)
+//         const { orderProductsId } = req.params;
+//         const { quantity } = req.body;
+//         const { price } = products;
+//         const updatedPrice = price * quantity;
+
+
+
+//     } catch (error) {
+//         throw error
+//     }
+
+// })
 
 order_productRouter.delete('/Id', requireUser, async (req, res, next) => {
     try {
