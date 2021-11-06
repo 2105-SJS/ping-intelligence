@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { JWT_SECRET } = process.env;
-const { createUser, getUser, getUserByUsername } = require('../db');
+const { createUser, getUser, getUserByUsername, getAllUsers, updateUser } = require('../db');
 const usersRouter = express.Router();
 
 usersRouter.post( '/register', async ( req, res, next ) =>
@@ -49,7 +49,7 @@ usersRouter.post( '/register', async ( req, res, next ) =>
         console.log( error );
         next( error );
     }
-});
+} );
 
 usersRouter.post( '/login', async ( req,  res, next ) =>
 {
@@ -90,7 +90,7 @@ usersRouter.post( '/login', async ( req,  res, next ) =>
     {
         next ( error );
     }
-});
+} );
 
 usersRouter.get( '/me', async ( req, res, next ) =>
 {
@@ -98,8 +98,7 @@ usersRouter.get( '/me', async ( req, res, next ) =>
     {
         if ( req.auth )
         {
-            const user = await getUserByUsername( req.auth.username );
-            res.send ( user );
+            res.send ( await getUserByUsername( req.auth.username ) );
         }
         else
         {
@@ -110,6 +109,52 @@ usersRouter.get( '/me', async ( req, res, next ) =>
     {
         next( error );
     }
-});
+} );
+
+usersRouter.get( '/', async ( req, res, next ) =>
+{
+    try 
+    {
+        if ( req.auth.isAdmin )
+        {
+            res.send ( await getAllUsers() );
+        }
+        else
+        {
+            next( 'Invalid Credentials' );
+        }
+    }
+    catch ( error )
+    {
+        next( error );
+    }
+} );
+
+usersRouter.patch( '/:userId/', async ( req, res, next ) =>
+{
+    try 
+    {
+        if ( req.auth.isAdmin )
+        {
+            if ( req.params.userId === req.body.id )
+            {
+                res.send( await updateUser( req.body ) );
+            }
+            else
+            {
+                res.send('{"message":"Mismatched ids: Make sure you are using correct user and id"}');
+            }
+        }
+        else
+        {
+            next( 'Invalid Credentials' );
+        }
+        
+    }
+    catch ( error ) 
+    {
+        next( error );
+    }
+} );
 
 module.exports = usersRouter;

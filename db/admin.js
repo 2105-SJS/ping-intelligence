@@ -104,49 +104,9 @@ const updateUser = async (user) =>
     }
 }
 
-const getUserById=async(id)=>
-{
-    try
-    {
-        const {rows:[user]}=await client.query(
-        `SELECT *
-        FROM users 
-        WHERE id=$1;`,
-        [id]    
-        );
-        delete user.password;//dont expose password unless required to
-        return user;
-    }
-    catch(error)
-    {
-        throw error;
-    }
-}
-
-const getUserByUsername=async(username)=>
-{
-    try
-    {
-        const {rows:[user]}=await client.query(
-        `SELECT *
-        FROM users 
-        WHERE username=$1;`,
-        [username]    
-        );
-        delete user.password;//dont expose password unless required to
-        return user;
-    }
-    catch(error)
-    {
-        throw error;
-    }
-}
-
 module.exports=
 {
-    createUser,
-    getUser,
-    getAllUsers,
-    getUserById,
-    getUserByUsername,
+    destoryProduct,
+    updateProduct,
+    updateUser,
 }
