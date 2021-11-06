@@ -21,7 +21,6 @@ order_productRouter.post('/order:Id/products', async (req, res, next) => {
         const { quantity } = req.body;
         const { price } = req.body;
         
-<<<<<<< HEAD
         if( orderProducts ) {
             const product = await getProductById(orderProducts.productsId);
             const { productId } = product;
@@ -31,15 +30,11 @@ order_productRouter.post('/order:Id/products', async (req, res, next) => {
                 const addingProduct = await addProductToOrder({ orderId, productId, price, quantity }) 
                 res.send(addingProduct);
             } 
-=======
-        
->>>>>>> dev
     } catch (error) {
         throw error
     }
 })
 
-<<<<<<< HEAD
 order_productRouter.patch('/:order_productId', requireUser, async (req, res, next) => {
     try {
         const { orderProductsId } = req.params;
@@ -68,21 +63,6 @@ order_productRouter.patch('/:order_productId', requireUser, async (req, res, nex
             throw error
         }
     })
-=======
-// order_productRouter.patch('/:order_productId', requireUser, async (req, res, next) => {
-//     try {
-//         const orderProducts = await getOrderProductsById(orderProductsId);
-//         const products = await getProductById (orderProducts.productsId)
-//         const { orderProductsId } = req.params;
-//         const { quantity } = req.body;
-//         const { price }
-
-//     } catch (error) {
-//         throw error
-//     }
-
-// })
->>>>>>> dev
 
 order_productRouter.delete('/Id', requireUser, async (req, res, next) => {
     try {
