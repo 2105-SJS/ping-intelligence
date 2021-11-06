@@ -10,6 +10,13 @@ import {
 } from './index';
 import { callApi } from '../util';
 import Products from './Product';
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Badge from "@material-ui/core/Badge";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+  
 
 const { REACT_APP_BASE_URL } = process.env;
 
@@ -110,7 +117,9 @@ const App = () => {
         <footer />
     </div>;
 }
-export default App;
+export default function App() {
+  const [itemCount, setItemCount] = React.useState(1);
+  
 
 // import React, { useState, useEffect } from 'react';
 
