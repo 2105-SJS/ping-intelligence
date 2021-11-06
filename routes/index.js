@@ -1,33 +1,33 @@
 const apiRouter = require('express').Router();
-const usersRouter=require('./users');
+const usersRouter = require('./users');
 
-const productRouter=require('../src/api/Products')
-const jwt=require('jsonwebtoken');
+const productRouter = require('../src/api/Products');
+const jwt = require('jsonwebtoken');
 const { getUserById } = require('../db');
-const {JWT_SECRET}=process.env;
+const { JWT_SECRET } = process.env;
 
 //Check authorization before anything else
 //JWT Authorization
-apiRouter.use(async (req,res,next)=>
+apiRouter.use( async ( req, res, next )=>
 {
-    const authHeader=req.header('Authorization');
-    if(!authHeader)//skip if empty
+    const authHeader = req.header('Authorization');
+    if ( !authHeader )//skip if empty
     {
         next();
     }
     else try
     {
-        if(req.auth)//make sure authorization is only from here
+        if ( req.auth ) //make sure authorization is only from here
         {
             delete req.auth;
         }
-        const auth=authHeader.slice(7);
+        const auth = authHeader.slice( 7 );
         
-        const{id,username}=jwt.verify(auth,JWT_SECRET);
-        if(id&&username)
+        const { id, username } = jwt.verify( auth,JWT_SECRET );
+        if ( id && username )
         {
-            req.auth=await getUserById(id);
-            if(req.auth&&req.auth.username===username)
+            req.auth = await getUserById( id );
+            if( req.auth && req.auth.username === username )
             {
                 next();
             }
@@ -38,14 +38,14 @@ apiRouter.use(async (req,res,next)=>
             }     
         }
     }
-    catch(error)
+    catch ( error )
     {
-        next(error);
+        next ( error );
     }
 });
 
 //CORS enable
-apiRouter.use((req,res,next)=> 
+apiRouter.use( ( req, res, next ) => 
 {
     res.header('Access-Control-Allow-Origin','http://localhost:3000');
     res.header("Access-Control-Allow-Credentials","true");
@@ -54,24 +54,23 @@ apiRouter.use((req,res,next)=>
     next();
 });
 
-apiRouter.get("/", (req, res, next) => {
+apiRouter.get("/", ( req, res, next ) => {
     res.send({
         message: "API is under construction!"
     });
 });
 
-
 //routes
-apiRouter.use('/users',usersRouter);
+apiRouter.use( '/users', usersRouter );
 
-apiRouter.use('/products',productRouter);
+apiRouter.use( '/products', productRouter );
 
 //error handling
-apiRouter.use((req,res)=>
+apiRouter.use( ( req, res ) =>
 {
     res.status(404).send('request 404 error route not found');
 });
-apiRouter.use((error, req, res, next) => 
+apiRouter.use( ( error, req, res, next) => 
 {
     console.log("hit error route:",error);
     res.status(500).send(error);

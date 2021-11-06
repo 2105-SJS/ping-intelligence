@@ -96,4 +96,21 @@ Which will run `npm run db:build` on the heroku server.
 
 Once that command runs, you can type `heroku open` to get a browser to open up locally with your full-stack application running remotely.
 
-Ryan Tran
+
+Example routes
+
+<Route exact path ="/">
+    <Home currentUser={currentUser}></Home>
+</Route>
+
+<Route exact path ="/routines/">
+    <Routines token={token} currentUser={currentUser}></Routines>
+</Route>
+
+<Route exact path ="/myroutines/">
+    <MyRoutines token={token} currentUser={currentUser}></MyRoutines>
+</Route>
+
+<Route exact path ="/activities/">
+    <Activities token={token}></Activities>
+</Route>
