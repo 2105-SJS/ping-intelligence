@@ -53,7 +53,7 @@ order_productRouter.patch('/:order_productId', requireUser, async (req, res, nex
                 }
             }
         }
-        if (!orderProducts || orderProducts && !isCreator) {
+        if (!orderProducts || orderProducts && !isCreator()) {
                 throw Error("Unsuccessful update")
             } else {
                 const updatedOrderProduct = await updateOrderProduct ({ id, price, quantity })
