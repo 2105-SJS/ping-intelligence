@@ -10,12 +10,25 @@ productRouter.use((req, res, next) => {
     next();
 });
 
-productRouter.get('/', async (req, res, next) => {
+productRouter.get('/products', async (req, res, next) => {
     try {
         const allProducts = await getAllProducts();
 
         res.send({
             allProducts
+        });
+    } catch ({ name, message }) {
+        console.log("productRouter.get message: ", message)
+        next({ name, message });
+    }
+});
+
+productRouter.get('/products/:productId', async (req, res, next) => {
+    try {
+        const allProductsById = await getAllProducts({id});
+
+        res.send({
+            allProductsById
         });
     } catch ({ name, message }) {
         console.log("productRouter.get message: ", message)
@@ -55,6 +68,12 @@ productRouter.patch('/order_products/:orderProductId', requireUser, async (req, 
     }
       if (imageUrl) {
         updateFields.imageUrl = imageUrl;
+    }
+     if (inStock) {
+        updateFields.inStock = inStock;
+    }
+     if (category) {
+        updateFields.category = category;
     }
    
     try {

@@ -11,6 +11,13 @@ import {
 import { callApi } from '../util';
 import Products from './Product';
 
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Badge from "@material-ui/core/Badge";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+
 const { REACT_APP_BASE_URL } = process.env;
 
 const App = () => {
@@ -40,8 +47,7 @@ const App = () => {
             }
         } catch (error) {
             throw error;
-        }
-        
+        }     
         
     }
 
@@ -59,6 +65,7 @@ const App = () => {
         <BrowserRouter>
             <header className="site-banner">
                 <NavBar token={token}></NavBar>
+                <Link to='/products' className='./NavBar'>Products</Link>
             </header>
         
             <Users setToken={setToken} setCurrentUser={setCurrentUser} currentUser={currentUser}/>
@@ -72,6 +79,10 @@ const App = () => {
                     <Products products={products}></Products>
                 </Route>
 
+                <Route exact path ="/products/:productId">
+                    <ProductsId productId={product.id}></ProductsId>
+                </Route>
+
                 <Route exact path="/account/">
                     <Account token={token}></Account>
                 </Route>
@@ -83,33 +94,36 @@ const App = () => {
         <footer />
     </div>;
 }
-export default App;
+export default function App() {
+  const [itemCount, setItemCount] = React.useState(1);
+  return (
+    <div style={{ display: "block", padding: 30 }}>
+      <h4>How to create ShoppingCart Button in ReactJS?</h4>
+      <div>
+        <Badge color="secondary" badgeContent={itemCount}>
+          <ShoppingCartIcon />{" "}
+        </Badge>
+        <ButtonGroup>
+          <Button
+            onClick={() => {
+              setItemCount(Math.max(itemCount - 1, 0));
+            }}
+          >
+            {" "}
+            <RemoveIcon fontSize="small" />
+          </Button>
+          <Button
+            onClick={() => {
+              setItemCount(itemCount + 1);
+            }}
+          >
+            {" "}
+            <AddIcon fontSize="small" />
+          </Button>
+        </ButtonGroup>
+      </div>
+    </div>
+  );
+}
 
-// import React, { useState, useEffect } from 'react';
 
-// import {
-//   getSomething
-// } from '../api';
-
-// const App = () => {
-//   const [message, setMessage] = useState('');
-
-//   useEffect(() => {
-//     getSomething()
-//       .then(response => {
-//         setMessage(response.message);
-//       })
-//       .catch(error => {
-//         setMessage(error.message);
-//       });
-//   });
-
-//   return (
-//     <div className="App">
-//       <h1>Hello, World!</h1>
-//       <h2>{ message }</h2>
-//     </div>
-//   );
-// }
-
-// export default App;

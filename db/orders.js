@@ -1,6 +1,6 @@
 const { client } = require('.');
 const db = require('./cars-dev');
-import { order_products };
+
 
 
 // return the order, include the order's products
@@ -73,25 +73,6 @@ const createOrder = async ({ userId, datePlaced, status }) => {
     }
 }
 
-async function getOrderProductById(id) {
-    try {
-        const { rows: [ orders ] } = await client.query(`
-      SELECT *
-      FROM orders
-      WHERE id=$1;
-    `, [id]);
-        
-        if (!product) {
-            throw {
-                name: "ProductNotFoundError",
-                message: "Could not find a product with that product id"
-            };
-        }
-        return order_products;
-    } catch (error) {
-        throw error;
-    }
-}
 
 module.exports = { 
     client, 

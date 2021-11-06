@@ -1,12 +1,12 @@
 const {client}=require('./client');
 
-async function getProductById(productId) {
+async function getProductById(id) {
     try {
         const { rows: [ product ] } = await client.query(`
       SELECT *
       FROM product
       WHERE id=$1;
-    `, [productId]);
+    `, [id]);
         
         if (!product) {
             throw {
@@ -47,8 +47,94 @@ const createProduct = async ({ id, name, description, price, imageURL, inStock, 
     }
 }
 
+async function getOrderProductById(id) {
+    try {
+        const { rows: [ orders ] } = await client.query(`
+      SELECT *
+      FROM orders
+      WHERE id=$1;
+    `, [id]);
+        
+        if (!product) {
+            throw {
+                name: "ProductNotFoundError",
+                message: "Could not find a product with that product id"
+            };
+        }
+        return order_products;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function addProductToOrder({ orderId, productId, price, quantity }) {
+    try {
+        const { rows: [ orders ] } = await client.query(`
+      SELECT *
+      FROM orders
+      WHERE "orderId"=$1, "productId"=$2, price=$3, quantity=$4;
+    `, [orderId, productId, price, quantity]);
+        
+        if (!productId) {
+            createProduct(productId);
+            throw {
+                name: "ProductNotFoundError",
+                message: "Could not find a product with that product id"
+            };
+        }
+        order_products = order_products.quantity;
+        order_products = order_products.price;
+        return order_products;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const updateOrderProduct = async ({ orderId, ...fields }) => {
+    try {
+        const setString = Object.keys(fields).map(
+            (key, index) => `"${key}"=$${index + 1}`
+        ).join(', ');
+
+        const { rows: [updateOrderProduct] } = await client.query(`
+            UPDATE order_products
+            SET ${setString}
+            WHERE "orderId"=${orderId}
+            WHERE "productId"=${productId}
+            WHERE price=${price}
+            WHERE quantity=${quantity}
+            RETURNING *;
+        `, Object.values(fields));
+        return updateOrderProduct;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const destroyOrderProduct = async (id) => {
+    try {
+        const { rows: [orders] } = await client.query(`
+            DELETE FROM order_products
+            WHERE id=$1
+            RETURNING *;
+        `, [id]);
+         await client.query(`
+            DELETE FROM order_products
+            WHERE id=$1
+            RETURNING *;
+        `, [id]);
+        return order_products;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+
 module.exports = {
     getProductById,
     getAllProducts,
-    createProduct
+    createProduct,
+    getOrderProductById,
+    updateOrderProduct
   }
