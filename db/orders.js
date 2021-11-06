@@ -1,5 +1,4 @@
 const { client } = require('.');
-const db = require('./cars-dev');
 
 
 // return the order, include the order's products
@@ -52,7 +51,7 @@ const getCartByUser = async ({ orderId }) => {
         const { rows: [ cart ] } = await client.query(`
             SELECT * 
             FROM orders 
-            WHERE "userID"=$1 AND status='true';
+            WHERE "userID"=$1 AND status='created';
         `, [orderId])
 
         return cart;
@@ -68,6 +67,7 @@ const createOrder = async ({ userId, datePlaced, status }) => {
         VALUES($1, $2, $3)
         RETURNING *
         `, [userId, datePlaced, status])
+        return order;
     } catch(error) {
         throw error
     }
