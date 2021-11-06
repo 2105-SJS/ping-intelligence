@@ -2,46 +2,81 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { JWT_SECRET } = process.env;
-const { createUser, getUser, getUserByUsername, getAllUsers, updateUser } = require('../db');
-const usersRouter = express.Router();
+const { createUser, getUser, getUserByUsername, getAllUsers, updateUser, createProduct } = require('../db');
+const productsRouter = express.Router();
 
-usersRouter.post( '/register', async ( req, res, next ) =>
+productsRouter.post( '/', async ( req, res, next ) =>
 {
     try 
     {
-        if ( req.body && req.body.username && req.body.password && req.body.password.length >= 8 && req.body.firstName && req.body.lastName && req.body.email )
+        if ( req.auth && req.auth.isAdmin )
         {
-            const user = await createUser(
+            if ( req.body )
             {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                username: req.body.username,
-                password: req.body.password
-            } );
-            if ( user && user.id )
-            {
-                const token = jwt.sign(
+                const { productName, description, price, imageURL, inStock, catagory } = req.body;
+                
+                if ( productName, description, price, inStock, catagory )
                 {
-                    id: user.id,
-                    username: user.username
-                },
-                JWT_SECRET,
-                {
-                    expiresIn: '1w'
+                    res.send( await createProduct(
+                    {
+                        productName,
+                        description,
+                        price,
+                        imageURL,
+                        inStock,
+                        catagory
+                    } ) );
                 }
-                );
-                user.token = token;
+                else
+                {
+                    res.send('{"message":"missing required field: check all required fields."}');
+                }
             }
             else
             {
-                res.send('{"message":"Username/Email in use already."}');
+                res.send('{"message":"no body sent: must have a body with required fields in request."}');
             }
-            res.send ( user );
         }
         else
         {
-            res.send('{"message":"invalid username/password: must have a username and a password 8 characters or longer."}');
+            next( 'Invalid Credentials' );
+        }
+    }
+    catch ( error )
+    {
+        console.log( error );
+        next( error );
+    }
+} );
+
+productsRouter.delete( '/:productId', async ( req, res, next ) =>
+{
+    try 
+    {
+        if ( req.body )
+        {
+            const { productName, description, price, imageURL, inStock, catagory } = req.body;
+            
+            if ( productName, description, price, inStock, catagory )
+            {
+                res.send( await createProduct(
+                {
+                    productName,
+                    description,
+                    price,
+                    imageURL,
+                    inStock,
+                    catagory
+                } ) );
+            }
+            else
+            {
+                res.send('{"message":"missing required field: check all required fields."}');
+            }
+        }
+        else
+        {
+            res.send('{"message":"no body sent: must have a body with required fields in request."}');
         }
     }
     catch ( error )
@@ -55,7 +90,7 @@ usersRouter.post( '/login', async ( req,  res, next ) =>
 {
     try 
     {
-        if ( req.body && req.body.username && req.body.password )
+        if ( req.body.username && req.body.password )
         {
             const user = await getUser(
             {
