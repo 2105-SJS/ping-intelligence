@@ -7,7 +7,7 @@ async function getOrderProductsById(id) {
         const { rows: [order_Products] } = await client.query(`
         SELECT * 
         FROM order_products
-        WHERE "id" = $1 
+        WHERE "order_productId" = $1 
         `, [id])
 
         return order_Products;
@@ -55,7 +55,7 @@ async function updateOrderProduct({ id, price, quantity }) {
         const {rows: [order]} = await client.query(`
         UPDATE order_products
         SET price = $1, quantity = $2
-        WHERE id = $3
+        WHERE "order_productId" = $3
         RETURNING *;
         `, [price, quantity, id]);
         return order; 
@@ -69,7 +69,7 @@ async function destroyOrderProduct(id) {
     try {
         const { rows: [product] } = await client.query(`
         DELETE from order_products
-        WHERE "id" = $1
+        WHERE "order_productId" = $1
         RETURNING *;
         `, [id])
         return product 
