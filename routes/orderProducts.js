@@ -1,4 +1,5 @@
 const express = require('express');
+const { getProductById } = require('../db');
 const order_productRouter = express.Router();
 const { getOrderProductsById, addProductToOrder, updateOrderProduct, destroyOrderProduct } = require('../db/orderProducts');
 const { getOrderById } = require('../db/orders');
@@ -11,8 +12,13 @@ order_productRouter.use((req, res, next) => {
     next();
 });
 
-order_productRouter.post('/', async (req, res, next) => {
+order_productRouter.post('/orderId/products', async (req, res, next) => {
     try {
+        const userId = req.user.Id
+        const orderProducts = await getOrderProductsById(id);
+        const products = await getProductById(orderProducts.productsId);
+        if(orderProducts === productsId) 
+
         
     } catch (error) {
         throw error
@@ -21,6 +27,14 @@ order_productRouter.post('/', async (req, res, next) => {
 
 order_productRouter.patch('/:order_productId', requireUser, async (req, res, next) => {
     try {
+        const orderProducts = await getOrderProductsById(orderProductsId);
+        const products = await getProductById (orderProducts.productsId)
+        const { orderProductsId } = req.params;
+        const { quantity } = req.body;
+        const { price } = products;
+        const updatedPrice = price * quantity;
+
+
 
     } catch (error) {
         throw error
