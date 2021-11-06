@@ -1,5 +1,6 @@
 const { client } = require('.');
 const db = require('./cars-dev');
+import { order_products };
 
 
 // return the order, include the order's products
@@ -16,7 +17,6 @@ const getOrderById = async ( orderId ) => {
         throw error
     }
 }
-
 
 // Should select and return an array of orders, include their products 
 const getAllOrders = async () => { 
@@ -70,6 +70,26 @@ const createOrder = async ({ userId, datePlaced, status }) => {
         `, [userId, datePlaced, status])
     } catch(error) {
         throw error
+    }
+}
+
+async function getOrderProductById(id) {
+    try {
+        const { rows: [ orders ] } = await client.query(`
+      SELECT *
+      FROM orders
+      WHERE id=$1;
+    `, [id]);
+        
+        if (!product) {
+            throw {
+                name: "ProductNotFoundError",
+                message: "Could not find a product with that product id"
+            };
+        }
+        return order_products;
+    } catch (error) {
+        throw error;
     }
 }
 

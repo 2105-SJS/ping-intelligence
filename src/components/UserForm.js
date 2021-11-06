@@ -112,9 +112,6 @@ const UserForm = (props) =>
                     setMessage("error "+(register?"registering":"logging in")+".");
                 }
             })
-
-           
-        
     }}>
         <div>
             <input type="checkbox" checked={register} value={register}  onChange={()=>
@@ -160,10 +157,6 @@ const UserForm = (props) =>
             setEmail(event.target.value);
         }}/>
 
-        
-        
-
-        
         <div>
             <input type="checkbox" checked={remember} value={remember}  onChange={()=>
             {

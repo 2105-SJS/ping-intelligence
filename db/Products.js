@@ -14,7 +14,6 @@ async function getProductById(productId) {
                 message: "Could not find a product with that productId"
             };
         }
-        
         return product;
     } catch (error) {
         throw error;

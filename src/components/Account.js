@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { callApi } from '../util';
 import User from './User';
 
-
-
 const Account=(props)=>
 {
     const token=props.token;

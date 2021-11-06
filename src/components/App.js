@@ -72,25 +72,6 @@ const App = () => {
                     <Products products={products}></Products>
                 </Route>
 
-                {/*
-                Example routes
-
-                <Route exact path ="/">
-                    <Home currentUser={currentUser}></Home>
-                </Route>
-
-                <Route exact path ="/routines/">
-                    <Routines token={token} currentUser={currentUser}></Routines>
-                </Route>
-
-                <Route exact path ="/myroutines/">
-                    <MyRoutines token={token} currentUser={currentUser}></MyRoutines>
-                </Route>
-
-                <Route exact path ="/activities/">
-                    <Activities token={token}></Activities>
-                </Route>
-                */}
                 <Route exact path="/account/">
                     <Account token={token}></Account>
                 </Route>
