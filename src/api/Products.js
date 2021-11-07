@@ -51,11 +51,11 @@ productRouter.patch('/order_products/:orderProductId', requireUser, async (req, 
     const { order_products } = req.params;
     const { isPublic, productId, productName, description, price, imageUrl, inStock, category } = req.body;
     const updateFields = {}
-    if (productId) {
-        updateFields.id = productId;
-    }
     if (isPublic) {
         updateFields.isPublic = isPublic
+    }
+    if (productId) {
+        updateFields.id = productId;
     }
     if (productName) {
         updateFields.productName = productName;
@@ -66,10 +66,10 @@ productRouter.patch('/order_products/:orderProductId', requireUser, async (req, 
     if (price) {
         updateFields.price = price;
     }
-      if (imageUrl) {
+    if (imageUrl) {
         updateFields.imageUrl = imageUrl;
     }
-     if (inStock) {
+    if (inStock) {
         updateFields.inStock = inStock;
     }
      if (category) {

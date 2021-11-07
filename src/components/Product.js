@@ -9,11 +9,11 @@ const Products = ({products}) => {
             <div className='products'>
                 <span>Products:</span>
                 {
-                products.map(product => /*<SingleProduct key={product.id} product={product} />*/ "placeholder for SingleProduct")
+                products.map(product => <SingleProduct key={product.id} product={product}/>)
                 }
             </div>
         </>
-        : 'Loading Products...'
+        : 'Loading Product...'
 };
 
 export default Products;

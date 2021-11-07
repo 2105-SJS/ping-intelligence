@@ -58,8 +58,7 @@ const App = () => {
             console.error(error);
         }
     }, [token]);
-
-
+    
     return <div className="App">
 
         <BrowserRouter>
@@ -98,7 +97,7 @@ export default function App() {
   const [itemCount, setItemCount] = React.useState(1);
   return (
     <div style={{ display: "block", padding: 30 }}>
-      <h4>How to create ShoppingCart Button in ReactJS?</h4>
+      <h4>Shopping Cart</h4>
       <div>
         <Badge color="secondary" badgeContent={itemCount}>
           <ShoppingCartIcon />{" "}
