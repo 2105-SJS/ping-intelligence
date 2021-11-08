@@ -3,23 +3,21 @@ const productRouter = express.Router();
 const { createProduct, getProductById, getAllProducts } = require('../../db');
 const { requireUser } = require('./utils');
 
-
-productRouter.use((req, res, next) => {
+productRouter.use( ( req, res, next ) => {
     console.log("A request is being made to /products");
-
+  
     next();
 });
 
-productRouter.get('/products', async (req, res, next) => {
+productRouter.get( '/', async (req, res, next) => {
+        dev
     try {
         const allProducts = await getAllProducts();
 
-        res.send({
-            allProducts
-        });
-    } catch ({ name, message }) {
-        console.log("productRouter.get message: ", message)
-        next({ name, message });
+        res.send( { allProducts } );
+    } catch ( { name, message } ) {
+        console.log( "productRouter.get message: ", message );
+        next( { name, message });
     }
 });
 

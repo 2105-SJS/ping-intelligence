@@ -44,7 +44,7 @@ async function buildTables() {
       "orderId" SERIAL PRIMARY KEY,
       "userId" INTEGER REFERENCES users(id),
       "datePlaced" DATE,
-      status BOOLEAN DEFAULT true
+      status VARCHAR(255) DEFAULT 'created'
     );
 
   `);

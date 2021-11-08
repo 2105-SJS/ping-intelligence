@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import {BrowserRouter,Route,Switch} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import NavBar from './NavBar';
 import Component404 from './404';
 import Users from './Users';
 import Home from './Home';
 import Account from './Account';
-import {
-  NewProduct,
-} from './index';
+import { NewProduct, } from './index';
 import { callApi } from '../util';
 import Products from './Product';
+import Cart from './Cart';
 
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Badge from "@material-ui/core/Badge";
@@ -22,41 +21,50 @@ const { REACT_APP_BASE_URL } = process.env;
 
 const App = () => {
 
-    const [products, setProducts] = useState([]);
-    const [productId, setProductId] = useState('');
-    const [productName, setProductName] = useState([]);
-    const [description, setDescription] = useState('');
-    const [price, setPrice] = useState('');
-    const [message, setMessage] = useState('');
-    const [token,setToken]=useState(localStorage.getItem("token")||"");
-    const [currentUser,setCurrentUser]=useState(
+    const [ products, setProducts ] = useState( [] );
+    const [ productId, setProductId ] = useState( '' );
+    const [ productName, setProductName ] = useState( [] );
+    const [ description, setDescription ] = useState( '' );
+    const [ price, setPrice ] = useState( '' );
+    const [ message, setMessage ] = useState( '' );
+    const [ token, setToken ] = useState ( localStorage.getItem( "token" ) || "" );
+    const [ currentUser, setCurrentUser ] = useState(
     {
-        id:Number(localStorage.getItem("id")),
-        name:localStorage.getItem("username")
-    }||{});
+        id: Number( localStorage.getItem( "id" ) ),
+        name: localStorage.getItem( "username" )
+    } || {} );
+    const [ localCart, setLocalCart ] = useState( {} );
+
+    useEffect( () =>
+    {
+        setLocalCart( JSON.parse( localStorage.getItem( "order" ) ) );
+    },
+    []);
 
     const fetchProducts = async () => {
         try {
-            const respObj = await callApi({
+            const respObj = await callApi( {
             url: `products/`,
             token
             });
-            if(respObj&&respObj.allProducts)
+            if ( respObj && respObj.allProducts )
             {
-                setProducts(respObj.allProducts); 
+                setProducts( respObj.allProducts ); 
             }
-        } catch (error) {
+        } catch ( error ) {
             throw error;
         }     
         
+        }
     }
 
-    useEffect(() => {
+    useEffect( () => {
         try {
             fetchProducts();
-        } catch (error) {
-            console.error(error);
+        } catch ( error ) {
+            console.error( error );
         }
+      
     }, [token]);
     
     return <div className="App">
@@ -65,9 +73,16 @@ const App = () => {
             <header className="site-banner">
                 <NavBar token={token}></NavBar>
                 <Link to='/products' className='./NavBar'>Products</Link>
+    }, [ token ] );
+
+    return <div className = "App">
+
+        <BrowserRouter>
+            <header className = "site-banner">
+                <NavBar token = { token }></NavBar>
             </header>
         
-            <Users setToken={setToken} setCurrentUser={setCurrentUser} currentUser={currentUser}/>
+            <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/>
             
             <Switch>
                 <Route exact path ="/">
@@ -85,6 +100,11 @@ const App = () => {
                 <Route exact path="/account/">
                     <Account token={token}></Account>
                 </Route>
+
+                <Route exact path="/cart/checkout">
+                    <Cart token = { token } currentUser = { currentUser } localCart = { localCart }></Cart>
+                </Route>    
+
                 <Route path="/*">
                     <Component404></Component404>
                 </Route>
@@ -93,36 +113,4 @@ const App = () => {
         <footer />
     </div>;
 }
-export default function App() {
-  const [itemCount, setItemCount] = React.useState(1);
-  return (
-    <div style={{ display: "block", padding: 30 }}>
-      <h4>Shopping Cart</h4>
-      <div>
-        <Badge color="secondary" badgeContent={itemCount}>
-          <ShoppingCartIcon />{" "}
-        </Badge>
-        <ButtonGroup>
-          <Button
-            onClick={() => {
-              setItemCount(Math.max(itemCount - 1, 0));
-            }}
-          >
-            {" "}
-            <RemoveIcon fontSize="small" />
-          </Button>
-          <Button
-            onClick={() => {
-              setItemCount(itemCount + 1);
-            }}
-          >
-            {" "}
-            <AddIcon fontSize="small" />
-          </Button>
-        </ButtonGroup>
-      </div>
-    </div>
-  );
-}
-
 

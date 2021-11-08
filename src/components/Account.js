@@ -2,34 +2,35 @@ import React, { useEffect, useState } from 'react';
 import { callApi } from '../util';
 import User from './User';
 
-const Account=(props)=>
+const Account = ( props ) =>
+      dev
 {
-    const token=props.token;
+    const token = props.token;
 
-    const [user,setUser]=useState({});
+    const [ user, setUser ] = useState( {} );
 
-    useEffect(()=>
+    useEffect( () =>
     {
-        callApi(            
+        callApi(          
         {
-            url:`users/me`,
-            method:"GET",
-            token:token
-        })
-        .then((response)=>
+            url: `users/me`,
+            method: "GET",
+            token: token
+        } )
+        .then( ( response ) =>
         {
-            if(response&&response.id)
+            if ( response && response.id )
             {
-                setUser(response);
+                setUser( response );
             }
             else
             {
-                setUser({});
+                setUser( {} );
             }
-        })
-    },[token])
+        } )
+    }, [ token ])
 
-    return <>{user && user.id ? <User user={user}></User>:<>You must be logged in to view this page.</>}</>;
+    return <>{ user && user.id ? <User user = { user } ></User>:<>You must be logged in to view this page.</>}</>;
 }
 
 export default Account;
