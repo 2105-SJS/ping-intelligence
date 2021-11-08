@@ -3,7 +3,6 @@ import { callApi } from '../util';
 import User from './User';
 
 const Account = ( props ) =>
-      dev
 {
     const token = props.token;
 
