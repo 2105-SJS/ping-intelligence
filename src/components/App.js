@@ -72,14 +72,7 @@ const App = () => {
         <BrowserRouter>
             <header className="site-banner">
                 <NavBar token={token}></NavBar>
-                <Link to='/products' className='./NavBar'>Products</Link>
-    }, [ token ] );
-
-    return <div className = "App">
-
-        <BrowserRouter>
-            <header className = "site-banner">
-                <NavBar token = { token }></NavBar>
+                <NavBar  to='/products' className='./NavBar'>Products</NavBar>
             </header>
         
             <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/>
@@ -93,9 +86,9 @@ const App = () => {
                     <Products products={products}></Products>
                 </Route>
 
-                <Route exact path ="/products/:productId">
-                    <ProductsId productId={product.id}></ProductsId>
-                </Route>
+                {/* <Route exact path ="/products/:productId">
+                    <ProductsId productId={products.id}></ProductsId>
+                </Route> */}
 
                 <Route exact path="/account/">
                     <Account token={token}></Account>
@@ -112,5 +105,8 @@ const App = () => {
         </BrowserRouter>
         <footer />
     </div>;
+
+  
 }
+export default App;
 

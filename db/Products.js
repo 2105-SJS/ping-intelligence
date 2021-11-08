@@ -1,20 +1,20 @@
 const {client}=require('./client');
 
-async function getProductById(id) {
+async function getProductById(productId) {
     try {
         const { rows: [ product ] } = await client.query(`
       SELECT *
       FROM product
       WHERE id=$1;
-    `, [id]);
+    `, [productId]);
         
-        if (!product) {
+        if (!productId) {
             throw {
                 name: "ProductNotFoundError",
                 message: "Could not find a product with that productId"
             };
         }
-        return product;
+        return productId;
     } catch (error) {
         throw error;
     }
