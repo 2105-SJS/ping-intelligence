@@ -9,7 +9,7 @@ const NavBar = (props)=>
         <NavLink to="/">Home</NavLink>|
         <NavLink to="/products">Products</NavLink>|
         {token ? <><NavLink to="/account">Account</NavLink>|</>:null}
-        <NavLink to="/cart/">View Cart</NavLink>
+        <NavLink to="/cart">View Cart</NavLink>
     </h2>
 }
 

@@ -17,7 +17,7 @@ ordersRouter.use((req, res, next) => {
 ordersRouter.get('/', async (req, res, next) => {
     try {
         const orders = await getAllOrders();
-        reset.send(orders)
+        res.send(orders)
     } catch (error) {
         next(error);
     }
