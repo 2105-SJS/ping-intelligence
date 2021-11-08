@@ -8,11 +8,14 @@ const Products = ( { products } ) => {
             <div className = 'products'>
                 <span>Products:</span>
                 {
+                  
+                products.map(product => <SingleProduct key={product.id} product={product}/>)
+                
                 products.map( product => /*<SingleProduct key={product.id} product={product} />*/ "placeholder for SingleProduct")
                 }
             </div>
         </>
-        : 'Loading Products...'
+        : 'Loading Product...'
 };
 
 export default Products;

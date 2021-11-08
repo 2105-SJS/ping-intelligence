@@ -10,6 +10,13 @@ import { callApi } from '../util';
 import Products from './Product';
 import Cart from './Cart';
 
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Badge from "@material-ui/core/Badge";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+
 const { REACT_APP_BASE_URL } = process.env;
 
 const App = () => {
@@ -46,6 +53,8 @@ const App = () => {
             }
         } catch ( error ) {
             throw error;
+        }     
+        
         }
     }
 
@@ -55,6 +64,15 @@ const App = () => {
         } catch ( error ) {
             console.error( error );
         }
+      
+    }, [token]);
+    
+    return <div className="App">
+
+        <BrowserRouter>
+            <header className="site-banner">
+                <NavBar token={token}></NavBar>
+                <Link to='/products' className='./NavBar'>Products</Link>
     }, [ token ] );
 
     return <div className = "App">
@@ -75,6 +93,10 @@ const App = () => {
                     <Products products={products}></Products>
                 </Route>
 
+                <Route exact path ="/products/:productId">
+                    <ProductsId productId={product.id}></ProductsId>
+                </Route>
+
                 <Route exact path="/account/">
                     <Account token={token}></Account>
                 </Route>
@@ -91,4 +113,4 @@ const App = () => {
         <footer />
     </div>;
 }
-export default App;
+
