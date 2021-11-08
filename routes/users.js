@@ -35,13 +35,13 @@ usersRouter.post( '/register', async ( req, res, next ) =>
             }
             else
             {
-                res.send('{"message":"Username/Email in use already."}');
+                res.send( '{"message":"Username/Email in use already."}' );
             }
             res.send ( user );
         }
         else
         {
-            res.send('{"message":"invalid username/password: must have a username and a password 8 characters or longer."}');
+            res.send( '{"message":"invalid username/password: must have a username and a password 8 characters or longer."}' );
         }
     }
     catch ( error )
@@ -61,7 +61,7 @@ usersRouter.post( '/login', async ( req,  res, next ) =>
             {
                 username: req.body.username,
                 password: req.body.password
-            });
+            } );
             if ( user && user.id )
             {
                 const token = jwt.sign(
@@ -72,18 +72,18 @@ usersRouter.post( '/login', async ( req,  res, next ) =>
                 JWT_SECRET,
                 {
                     expiresIn: '1w'
-                });
+                } );
                 user.token = token;
                 res.send( user );
             }
             else
             {
-                res.send('{"message":"Invalid username/password"}');
+                res.send( '{"message":"Invalid username/password"}' );
             }
         }
         else
         {
-            res.send('{"message":"Missing username/password"}');
+            res.send( '{"message":"Missing username/password"}' );
         }
     }
     catch ( error )
@@ -136,13 +136,13 @@ usersRouter.patch( '/:userId/', async ( req, res, next ) =>
     {
         if ( req.auth && req.auth.isAdmin )
         {
-            if ( req.params.userId === req.body.id )
+            if (req.body && req.params.userId === req.body.id )
             {
                 res.send( await updateUser( req.body ) );
             }
             else
             {
-                res.send('{"message":"Mismatched ids: Make sure you are using correct user and id"}');
+                res.send( '{"message":"Mismatched/missing ids: Make sure you are using correct user and id"}' );
             }
         }
         else

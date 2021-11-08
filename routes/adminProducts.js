@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { JWT_SECRET } = process.env;
-const { createUser, getUser, getUserByUsername, getAllUsers, updateUser, createProduct, destoryProduct } = require('../db');
+const { createUser, getUser, getUserByUsername, getAllUsers, updateUser, createProduct, destoryProduct, updateProduct } = require('../db');
 const productsRouter = express.Router();
 
 productsRouter.post( '/', async ( req, res, next ) =>
@@ -29,12 +29,12 @@ productsRouter.post( '/', async ( req, res, next ) =>
                 }
                 else
                 {
-                    res.send('{"message":"missing required field: check all required fields."}');
+                    res.send( '{"message":"missing required field: check all required fields."}' );
                 }
             }
             else
             {
-                res.send('{"message":"no body sent: must have a body with required fields in request."}');
+                res.send( '{"message":"no body sent: must have a body with required fields in request."}' );
             }
         }
         else
@@ -69,44 +69,76 @@ productsRouter.delete( '/:productId', async ( req, res, next ) =>
     }
 } );
 
-usersRouter.post( '/login', async ( req,  res, next ) =>
+productsRouter.patch( '/:productId', async ( req, res, next ) =>
 {
     try 
     {
-        if ( req.body.username && req.body.password )
+        if ( req.auth && req.auth.isAdmin )
         {
-            const user = await getUser(
+            if ( req.body &&
+                req.body.productName &&
+                req.body.description &&
+                req.body.price &&
+                req.body.imageURL && 
+                req.body.inStock && 
+                req.body.catagory )
             {
-                username: req.body.username,
-                password: req.body.password
-            });
-            if ( user && user.id )
-            {
-                const token = jwt.sign(
-                {
-                    id: user.id,
-                    username: user.username,
-                },
-                JWT_SECRET,
-                {
-                    expiresIn: '1w'
-                });
-                user.token = token;
-                res.send( user );
+                res.send ( await updateProduct( req.body ) );
             }
             else
             {
-                res.send('{"message":"Invalid username/password"}');
+                res.send( '{"message":"missing data: must have a body with all fields in request."}' );
             }
         }
         else
         {
-            res.send('{"message":"Missing username/password"}');
+            next( 'Invalid Credentials' );
         }
     }
     catch ( error )
     {
-        next ( error );
+        console.log( error );
+        next( error );
+    }
+} );
+
+productsRouter.get( '/:productId/orders', async ( req,  res, next ) =>
+{
+    try 
+    {
+        if ( req.auth && req.auth.isAdmin )
+        {
+            res.send ( await destoryProduct( { id:req.params.productId } ) );
+        }
+        else
+        {
+            next( 'Invalid Credentials' );
+        }
+    }
+    catch ( error )
+    {
+        console.log( error );
+        next( error );
+    }
+} );
+
+productsRouter.patch( '/:productId', async ( req, res, next ) =>
+{
+    try 
+    {
+        if ( req.auth && req.auth.isAdmin )
+        {
+            res.send ( await getAllOrdersByProduct( req.params.productId ) );
+        }
+        else
+        {
+            next( 'Invalid Credentials' );
+        }
+    }
+    catch ( error )
+    {
+        console.log( error );
+        next( error );
     }
 } );
 
@@ -148,30 +180,4 @@ usersRouter.get( '/', async ( req, res, next ) =>
     }
 } );
 
-usersRouter.patch( '/:userId/', async ( req, res, next ) =>
-{
-    try 
-    {
-        if ( req.auth && req.auth.isAdmin )
-        {
-            if ( req.params.userId === req.body.id )
-            {
-                res.send( await updateUser( req.body ) );
-            }
-            else
-            {
-                res.send('{"message":"Mismatched ids: Make sure you are using correct user and id"}');
-            }
-        }
-        else
-        {
-            next( 'Invalid Credentials' );
-        }
-    }
-    catch ( error ) 
-    {
-        next( error );
-    }
-} );
-
-module.exports = usersRouter;
+module.exports = productsRouter;
