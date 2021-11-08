@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { JWT_SECRET } = process.env;
-const { createUser, getUser, getUserByUsername, getAllUsers, updateUser, createProduct } = require('../db');
+const { createUser, getUser, getUserByUsername, getAllUsers, updateUser, createProduct, destoryProduct } = require('../db');
 const productsRouter = express.Router();
 
 productsRouter.post( '/', async ( req, res, next ) =>
@@ -53,30 +53,13 @@ productsRouter.delete( '/:productId', async ( req, res, next ) =>
 {
     try 
     {
-        if ( req.body )
+        if ( req.auth && req.auth.isAdmin )
         {
-            const { productName, description, price, imageURL, inStock, catagory } = req.body;
-            
-            if ( productName, description, price, inStock, catagory )
-            {
-                res.send( await createProduct(
-                {
-                    productName,
-                    description,
-                    price,
-                    imageURL,
-                    inStock,
-                    catagory
-                } ) );
-            }
-            else
-            {
-                res.send('{"message":"missing required field: check all required fields."}');
-            }
+            res.send ( await destoryProduct( { id:params.productId } ) );
         }
         else
         {
-            res.send('{"message":"no body sent: must have a body with required fields in request."}');
+            next( 'Invalid Credentials' );
         }
     }
     catch ( error )
