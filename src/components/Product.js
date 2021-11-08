@@ -1,19 +1,20 @@
 import React from 'react';
 import { callApi } from '../util';
 import { Link } from 'react-router-dom';
+import SingleProduct from './SingleProduct';
 
-const Products = ({products}) => {
-    console.log(products)
+const Products = ( { products } ) => 
+{
     return products
         ? <>
-            <div className='products'>
+            <div className = 'products'>
                 <span>Products:</span>
                 {
-                products.map(product => /*<SingleProduct key={product.id} product={product} />*/ "placeholder for SingleProduct")
+                    products.map(product => <SingleProduct key={product.id} product={product}/>)
                 }
             </div>
         </>
-        : 'Loading Products...'
+        : 'Loading Product...'
 };
 
 export default Products;
