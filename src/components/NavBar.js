@@ -9,7 +9,8 @@ const NavBar = ( props ) =>
         <NavLink to = "/">Home</NavLink>|
         <NavLink to = "/products">Products</NavLink>|
         {token ? <><NavLink to="/account">Account</NavLink>|</> : null}
-        <NavLink to = "/cart/checkout">View Cart</NavLink>
+        <NavLink to = "/cart/checkout">View Cart</NavLink>|
+        <NavLink to = "/accounts/register">Profile</NavLink>
     </h2>
 }
 
