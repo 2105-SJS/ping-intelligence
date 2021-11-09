@@ -1,22 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { callApi } from '../util'
 
-const UserForm = ( props ) => 
+const AdminUserForm = ( props ) => 
 {
-    const setToken = props.setToken;
-    const setCurrentUser = props.setCurrentUser;
+    const params = useParams();
+    const url = params[0];
+    
+    const token = props.token;
+    const currentUser = props.currentUser;
 
-    const [ register, setRegister ] = useState( false );
-    const [ username, setUsername ] = useState( "" );
-    const [ password, setPassword ] = useState( "" );
-    const [ confirmPassword, setConfirmPassword ] = useState( "" );
+    const [ username, setUsername ] = useState( user.username || "" );
     const [ firstName, setFirstName ] = useState( "" );
     const [ lastName, setLastName ] = useState( "" );
     const [ email, setEmail ] = useState( "" );
     const [ message, setMessage ] = useState( "" );
     const [ hidden, setHidden ] = useState( true );
-    const [ remember, setRemember ] = useState( true );
     
+    useEffect( () =>
+    {
+        callApi( 
+        {
+            url: `users/${ register ? "register" : "login" }`,
+            method: "POST",
+            body:
+            {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                username: username,
+                password: password
+            }
+        } )
+        .then( ( response ) =>
+        {
+
+        } );
+    },[])
+
     //message manager
     useEffect( () =>
     {
@@ -169,4 +189,4 @@ const UserForm = ( props ) =>
     </form>
 }
 
-export default UserForm;
+export default AdminUserForm;

@@ -3,13 +3,14 @@ import { NavLink } from 'react-router-dom';
 
 const NavBar = ( props ) =>
 {
-    const token = props.token;
+    const currentUser = props.currentUser;
 
     return <h2 className = 'nav-bar'>
         <NavLink to = "/">Home</NavLink>|
-        <NavLink to = "/products">Products</NavLink>|
-        {token ? <><NavLink to="/account">Account</NavLink>|</> : null}
-        <NavLink to = "/cart/checkout">View Cart</NavLink>
+        <NavLink to = "/products/">Products</NavLink>|
+        { currentUser && currentUser.id ? <><NavLink to="/account/">Account</NavLink>|</> : null}
+        { currentUser && currentUser.admin ? <><NavLink to="/users/">Users</NavLink>|</> : null}
+        <NavLink to = "/cart/checkout/">View Cart</NavLink>
     </h2>
 }
 

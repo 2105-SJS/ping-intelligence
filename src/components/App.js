@@ -9,6 +9,7 @@ import { NewProduct, } from './index';
 import { callApi } from '../util';
 import Products from './Product';
 import Cart from './Cart';
+import AllUsers from './AllUsers';
 
 const { REACT_APP_BASE_URL } = process.env;
 
@@ -24,7 +25,8 @@ const App = () => {
     const [ currentUser, setCurrentUser ] = useState(
     {
         id: Number( localStorage.getItem( "id" ) ),
-        name: localStorage.getItem( "username" )
+        name: localStorage.getItem( "username" ),
+        admin: localStorage.getItem( "admin" )
     } || {} );
     const [ localCart, setLocalCart ] = useState( {} );
 
@@ -61,25 +63,33 @@ const App = () => {
 
         <BrowserRouter>
             <header className = "site-banner">
-                <NavBar token = { token }></NavBar>
+                <NavBar currentUser = { currentUser }></NavBar>
             </header>
         
             <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/>
             
             <Switch>
-                <Route exact path ="/">
-                    <Home currentUser={currentUser}></Home>
+                <Route exact path = "/">
+                    <Home currentUser = { currentUser }></Home>
                 </Route>
 
-                <Route exact path ="/products/">
-                    <Products products={products}></Products>
+                <Route exact path = "/products/">
+                    <Products products = { products }></Products>
                 </Route>
 
-                <Route exact path="/account/">
-                    <Account token={token}></Account>
+                <Route exact path = "/account/">
+                    <Account token = { token } ></Account>
                 </Route>
 
-                <Route exact path="/cart/checkout">
+                <Route exact path = "/users/">
+                    <AllUsers token={ token } currentUser = { currentUser }></AllUsers>
+                </Route>
+
+                <Route exact path = "/users/:userId">
+                    <AllUsers token={ token } currentUser = { currentUser }></AllUsers>
+                </Route>
+
+                <Route exact path="/cart/checkout/">
                     <Cart token = { token } currentUser = { currentUser } localCart = { localCart }></Cart>
                 </Route>    
 
