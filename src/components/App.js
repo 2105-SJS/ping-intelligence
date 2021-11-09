@@ -5,7 +5,10 @@ import Component404 from './404';
 import Users from './Users';
 import Home from './Home';
 import Account from './Account';
-import { NewProduct, } from './index';
+import SingleProduct from './SingleProduct';
+import {
+  NewProduct,
+} from './index';
 import { callApi } from '../util';
 import Products from './Product';
 import Cart from './Cart';
@@ -84,23 +87,19 @@ const App = () =>
                 <Route exact path ="/">
                     <Home currentUser={currentUser}></Home>
                 </Route>
-
                 <Route exact path ="/products/">
                     <Products products={products}></Products>
                 </Route>
-
                 <Route exact path ="/products/:productId">
                     {/* no such react component exists un comment this when created also where is product.id coming from?
                     <ProductsId productId={product.id}></ProductsId>*/}
                 </Route>
-
                 <Route exact path="/account/">
                     <Account token={token}></Account>
                 </Route>
-
-                <Route exact path="/cart/checkout">
+                {/* <Route exact path="/cart/checkout">
                     <Cart token = { token } currentUser = { currentUser } localCart = { localCart }></Cart>
-                </Route>    
+                </Route> */}   
 
                 <Route path="/accounts/register">
                     <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/>
@@ -112,6 +111,7 @@ const App = () =>
             </Switch>
         </BrowserRouter>
         <footer />
+
     </div>;
 }
 export default App;

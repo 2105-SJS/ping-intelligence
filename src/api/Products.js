@@ -10,7 +10,6 @@ productRouter.use( ( req, res, next ) => {
 });
 
 productRouter.get( '/', async (req, res, next) => {
-        dev
     try {
         const allProducts = await getAllProducts();
 
@@ -21,9 +20,9 @@ productRouter.get( '/', async (req, res, next) => {
     }
 });
 
-productRouter.get('/products/:productId', async (req, res, next) => {
+productRouter.get('/:productId', async (req, res, next) => {
     try {
-        const allProductsById = await getAllProducts({id});
+        const allProductsById = await getProductById(req.params.productId);
 
         res.send({
             allProductsById

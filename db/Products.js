@@ -1,20 +1,20 @@
 const {client}=require('./client');
 
-async function getProductById(id) {
+async function getProductById(productId) {
     try {
         const { rows: [ product ] } = await client.query(`
       SELECT *
       FROM product
       WHERE id=$1;
-    `, [id]);
+    `, [productId]);
         
-        if (!product) {
+        if (!productId) {
             throw {
                 name: "ProductNotFoundError",
                 message: "Could not find a product with that productId"
             };
         }
-        return product;
+        return productId;
     } catch (error) {
         throw error;
     }
@@ -90,22 +90,15 @@ async function addProductToOrder({ orderId, productId, price, quantity }) {
     }
 }
 
-const updateOrderProduct = async ({ orderId, ...fields }) => {
+const updateOrderProduct = async ({ id, price, quantity }) => {
     try {
-        const setString = Object.keys(fields).map(
-            (key, index) => `"${key}"=$${index + 1}`
-        ).join(', ');
-
-        const { rows: [updateOrderProduct] } = await client.query(`
+        const {rows: updatedOrderProduct } = await client.query(`
             UPDATE order_products
-            SET ${setString}
-            WHERE "orderId"=${orderId}
-            WHERE "productId"=${productId}
-            WHERE price=${price}
-            WHERE quantity=${quantity}
+            SET price = $1, quantity = $2
+            WHERE id = $3
             RETURNING *;
-        `, Object.values(fields));
-        return updateOrderProduct;
+        `, [price, quantity, id]);
+        return updatedOrderProduct;
     } catch (error) {
         throw error;
     }
@@ -118,18 +111,11 @@ const destroyOrderProduct = async (id) => {
             WHERE id=$1
             RETURNING *;
         `, [id]);
-         await client.query(`
-            DELETE FROM order_products
-            WHERE id=$1
-            RETURNING *;
-        `, [id]);
         return order_products;
     } catch (error) {
         throw error;
     }
 }
-
-
 
 module.exports = {
     getProductById,
