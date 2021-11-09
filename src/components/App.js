@@ -5,7 +5,10 @@ import Component404 from './404';
 import Users from './Users';
 import Home from './Home';
 import Account from './Account';
-import { NewProduct, } from './index';
+import SingleProduct from './SingleProduct';
+import {
+  NewProduct,
+} from './index';
 import { callApi } from '../util';
 import Products from './Product';
 import Cart from './Cart';
@@ -55,7 +58,7 @@ const App = () => {
             throw error;
         }     
         
-        }
+  
     }
 
     useEffect( () => {
@@ -67,46 +70,37 @@ const App = () => {
       
     }, [token]);
     
-    return <div className="App">
-
+  return <div className = "App">
         <BrowserRouter>
-            <header className="site-banner">
-                <NavBar token={token}></NavBar>
-                <NavBar  to='/products' className='./NavBar'>Products</NavBar>
+            <header className = "site-banner">
+                <NavBar token = { token }></NavBar>
             </header>
-        
             <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/>
-            
             <Switch>
                 <Route exact path ="/">
                     <Home currentUser={currentUser}></Home>
                 </Route>
-
                 <Route exact path ="/products/">
                     <Products products={products}></Products>
                 </Route>
-
-                {/* <Route exact path ="/products/:productId">
-                    <ProductsId productId={products.id}></ProductsId>
-                </Route> */}
-
+                <Route exact path ="/products/:productId">
+                    no such react component exists un comment this when created also where is product.id coming from?
+                    <SingleProduct productId={productId}></SingleProduct>
+                </Route>
                 <Route exact path="/account/">
                     <Account token={token}></Account>
                 </Route>
-
-                <Route exact path="/cart/checkout">
+                {/* <Route exact path="/cart/checkout">
                     <Cart token = { token } currentUser = { currentUser } localCart = { localCart }></Cart>
-                </Route>    
-
+                </Route>     */}
                 <Route path="/*">
                     <Component404></Component404>
                 </Route>
             </Switch>
         </BrowserRouter>
         <footer />
-    </div>;
 
-  
+    </div>;
 }
 export default App;
 

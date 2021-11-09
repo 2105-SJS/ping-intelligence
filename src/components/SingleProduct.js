@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SingleProduct = ({ product, children }) => {
+const SingleProduct = ({ product }) => {
     return product
         ? <div
             style={{ margin: '1.2rem' }}
@@ -15,9 +15,7 @@ const SingleProduct = ({ product, children }) => {
             <div>Image URL: { product.imageUrl }</div>
             <div>In Stock: { product.inStock }</div>
             <div>Category: { product.category }</div>
-            {
-                children
-            }
+           
         </div>
         : 'Loading Single Product...'
 }
