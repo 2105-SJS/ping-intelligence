@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { JWT_SECRET } = process.env;
-const { createUser, getUser, getUserByUsername, getAllUsers, updateUser } = require('../db');
+const { createUser, getUser, getUserByUsername, getAllUsers, updateUser, getUserById } = require('../db');
 const usersRouter = express.Router();
 
 usersRouter.post( '/register', async ( req, res, next ) =>
@@ -156,4 +156,22 @@ usersRouter.patch( '/:userId/', async ( req, res, next ) =>
     }
 } );
 
+usersRouter.get( '/:userId/', async ( req, res, next ) =>
+{
+    try 
+    {
+        if ( req.auth && req.auth.isAdmin )
+        {
+            res.send ( await getUserById( req.params.userId ) );
+        }
+        else
+        {
+            next( 'Invalid Credentials' );
+        }
+    }
+    catch ( error )
+    {
+        next( error );
+    }
+} );
 module.exports = usersRouter;

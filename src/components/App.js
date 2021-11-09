@@ -10,6 +10,7 @@ import { callApi } from '../util';
 import Products from './Product';
 import Cart from './Cart';
 import AllUsers from './AllUsers';
+import AdminUserForm from './AdminUserForm';
 
 const { REACT_APP_BASE_URL } = process.env;
 
@@ -86,7 +87,7 @@ const App = () => {
                 </Route>
 
                 <Route exact path = "/users/:userId">
-                    <AllUsers token={ token } currentUser = { currentUser }></AllUsers>
+                    <AdminUserForm token={ token } currentUser = { currentUser }></AdminUserForm>
                 </Route>
 
                 <Route exact path="/cart/checkout/">

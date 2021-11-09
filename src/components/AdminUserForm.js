@@ -4,84 +4,46 @@ import { callApi } from '../util'
 const AdminUserForm = ( props ) => 
 {
     const params = useParams();
-    const url = params[0];
+    const id = Number(params[0]);
     
     const token = props.token;
     const currentUser = props.currentUser;
 
-    const [ username, setUsername ] = useState( user.username || "" );
+    const [ username, setUsername ] = useState( "" );
     const [ firstName, setFirstName ] = useState( "" );
     const [ lastName, setLastName ] = useState( "" );
     const [ email, setEmail ] = useState( "" );
+    const [ imageURL, setImageUrl ] = useState( "" );
+    const [ admin, setAdmin ] = useState( false );
     const [ message, setMessage ] = useState( "" );
-    const [ hidden, setHidden ] = useState( true );
     
     useEffect( () =>
     {
         callApi( 
         {
-            url: `users/${ register ? "register" : "login" }`,
-            method: "POST",
-            body:
-            {
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                username: username,
-                password: password
-            }
+            url: `users/${ id }/`,
+            method: "GET",
+            token: token,
         } )
         .then( ( response ) =>
         {
-
-        } );
-    },[])
-
-    //message manager
-    useEffect( () =>
-    {
-        if ( confirmPassword && register )
-        {
-            if ( confirmPassword !== password )
+            if ( response && response.id )
             {
-                let output = "Password match o=matching character, x=wrong character, _=missing character, *=extra character:";
-                for ( let i = 0; i < password.length || i < confirmPassword.length; i++)
-                {
-                    if ( i < password.length )
-                    {
-                        if ( i < confirmPassword.length )
-                        {
-                            if ( password.charAt(i) === confirmPassword.charAt(i) )
-                            {
-                                output += "o";
-                            }
-                            else
-                            {
-                                output += "x";
-                            }
-                        }
-                        else
-                        {
-                            output += "_";
-                        }
-                    }
-                    else
-                    {
-                        output += "*";
-                    }
-                }
-                setMessage( output );
+                setUsername( response.username );
+                setFirstName( response.firstName );
+                setLastName( response.lastName );
+                setEmail( response.email );
+                setImageUrl( response.imageURL );
+                setAdmin( response.admin );
+                setMessage( `Editing user Id:${id} Username:${username}` );
             }
             else
             {
-                setMessage( "Passwords match!" );
+                setMessage( `Unable to find user with Id:${id}` );
             }
-        }
-        else
-        {
-            setMessage( "Enter all active fields to " + ( register ? "register" : "login" ) + "." );
-        }
-    }, [ password, confirmPassword, register ] );
+        } );
+    }, [] );
+
 
     return <form onSubmit = { async ( event ) =>
     {
