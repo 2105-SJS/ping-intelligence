@@ -4,6 +4,8 @@ const {
   // other db methods 
 } = require('./index');
 
+import { createInitialUsers,createInitialProducts } from 'seed';
+
 async function buildTables() {
   try {
     client.connect();
@@ -87,7 +89,8 @@ async function buildTables() {
 
 async function populateInitialData() {
   try {
-    // create useful starting data
+    createInitialUsers();
+    createInitialProducts();
   } catch (error) {
     throw error;
   }
