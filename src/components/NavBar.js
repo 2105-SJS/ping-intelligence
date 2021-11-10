@@ -42,7 +42,7 @@ const NavBar = ( props ) =>
         <div id ='leftside'>
         <NavLink className= {styles.link} to = "/">Home</NavLink>
         <NavLink className= {styles.link} to = "/products">Products</NavLink>
-        {token ? <><NavLink to="/account">Account</NavLink>|</> : null}
+        {token ? <><NavLink className= {styles.link} to="/account">Account</NavLink></> : null}
         </div>
         <div id ='rightNav'>
        <NavLink className= {styles.link} to = "/cart/checkout">View Cart</NavLink>
