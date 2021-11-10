@@ -9,146 +9,159 @@ const AdminUserForm = ( props ) =>
     const token = props.token;
     const currentUser = props.currentUser;
 
+    const [ edit, setEdit ] = useState( true );
     const [ username, setUsername ] = useState( "" );
     const [ firstName, setFirstName ] = useState( "" );
     const [ lastName, setLastName ] = useState( "" );
     const [ email, setEmail ] = useState( "" );
     const [ imageURL, setImageUrl ] = useState( "" );
     const [ admin, setAdmin ] = useState( false );
+    const [ confirmAdmin, setConfirmAdmin ] = useState( "" );
+    const [ password, setPassword ] = useState( "" );
     const [ message, setMessage ] = useState( "" );
     
     useEffect( () =>
     {
-        callApi( 
+        if ( id )
         {
-            url: `users/${ id }/`,
-            method: "GET",
-            token: token,
-        } )
-        .then( ( response ) =>
+            callApi( 
+            {
+                url: `users/${ id }/`,
+                method: "GET",
+                token: token,
+            } )
+            .then( ( response ) =>
+            {
+                if ( response && response.id )
+                {
+                    setUsername( response.username );
+                    setFirstName( response.firstName );
+                    setLastName( response.lastName );
+                    setEmail( response.email );
+                    setImageUrl( response.imageURL );
+                    setAdmin( response.admin );
+                    setMessage( `Editing user Id:${id} Username:${username}` );
+                }
+                else
+                {
+                    setMessage( `Unable to find user with Id:${id}` );
+                }
+            } );    
+        }
+        else
         {
-            if ( response && response.id )
-            {
-                setUsername( response.username );
-                setFirstName( response.firstName );
-                setLastName( response.lastName );
-                setEmail( response.email );
-                setImageUrl( response.imageURL );
-                setAdmin( response.admin );
-                setMessage( `Editing user Id:${id} Username:${username}` );
-            }
-            else
-            {
-                setMessage( `Unable to find user with Id:${id}` );
-            }
-        } );
+            setEdit( false );
+            setMessage( "Add new User" );
+        }
     }, [] );
 
-
-    return <form onSubmit = { async ( event ) =>
-    {
-        event.preventDefault();
-        callApi(
+    return currentUser && currentUser.admin ? 
+        <form onSubmit = { async ( event ) =>
         {
-            url: `users/${ register ? "register" : "login" }`,
-            method: "POST",
-            body:
+            event.preventDefault();
+            callApi(
             {
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                username: username,
-                password: password
-            }
-        }
-        ).then( ( response ) =>
-        {
-            if ( response )
-            {
-                if ( response.token )
+                url: `users/${ register ? "register" : "login" }`,
+                method: ( edit ? "UPDATE" : "POST" ),
+                body:
                 {
-                    setToken( response.token );
-                    setMessage( "You are logged in." );
-                    setCurrentUser(
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    username: username,
+                    imageURL: imageURL,
+                    admin: admin
+                }
+            }
+            ).then( ( response ) =>
+            {
+                if ( response )
+                {
+                    if ( response.token )
                     {
-                        id: response.id,
-                        name: response.username,
-                        admin: response.admin
-                    });
-                    if ( remember )
+                        setToken( response.token );
+                        setMessage( "You are logged in." );
+                        setCurrentUser(
+                        {
+                            id: response.id,
+                            name: response.username,
+                            admin: response.admin
+                        });
+                        if ( remember )
+                        {
+                            localStorage.setItem( "token", response.token );
+                            localStorage.setItem( "username", response.username );
+                            localStorage.setItem( "id", response.id );
+                            localStorage.setItem( "admin", response.admin )
+                        }
+                    }
+                    else
                     {
-                        localStorage.setItem( "token", response.token );
-                        localStorage.setItem( "username", response.username );
-                        localStorage.setItem( "id", response.id );
-                        localStorage.setItem( "admin", response.admin )
+                        setMessage( response.message );
                     }
                 }
                 else
                 {
-                    setMessage( response.message );
+                    setMessage("error " + ( register ? "registering":"logging in" ) + "." );
                 }
-            }
-            else
+            });
+        }}>
+            <div>
+                <input type = "checkbox" checked = { register } value = { register }  onChange = { () =>
+                {
+                    setRegister(!register);
+                }}/>
+                <label htmlFor = "Register">Register</label>
+            </div>
+            <input required type = "text" placeholder = "Username" value = { username } onChange = { ( event ) =>
             {
-                setMessage("error " + ( register ? "registering":"logging in" ) + "." );
-            }
-        });
-    }}>
-        <div>
-            <input type = "checkbox" checked = { register } value = { register }  onChange = { () =>
-            {
-                setRegister(!register);
+                setUsername( event.target.value );
             }}/>
-            <label htmlFor = "Register">Register</label>
-        </div>
-        <input required type = "text" placeholder = "Username" value = { username } onChange = { ( event ) =>
-        {
-            setUsername( event.target.value );
-        }}/>
 
-        <input required type = { hidden ? "password" : "text" } placeholder = "Password" value = { password } onChange = { ( event ) =>
-        {
-            setPassword( event.target.value );
-        }}/>
-
-        <input required type = "password" disabled = { !register } placeholder = "Confirm Password" value = { confirmPassword } onChange = { ( event ) =>
-        {
-            setConfirmPassword( event.target.value );
-        }}/>
-
-        <div>
-            <input type = "checkbox" checked = { hidden } value = { hidden }  onChange = { () =>
+            <input required type = { hidden ? "password" : "text" } placeholder = "Password" value = { password } onChange = { ( event ) =>
             {
-                setHidden ( !hidden );
+                setPassword( event.target.value );
             }}/>
-            <label htmlFor = "Hide Password">Hide Password</label>
-        </div>
-        <input required type = "text" disabled = { !register } placeholder = "First Name" value = { firstName } onChange = { ( event ) =>
-        {
-            setFirstName( event.target.value );
-        }}/>
 
-        <input required type = "text" disabled = { !register } placeholder = "Last Name" value = { lastName } onChange = { ( event ) =>
-        {
-            setLastName( event.target.value );
-        }}/>
-
-        <input required type = "email" pattern = ".+@.+" disabled = { !register } placeholder = "Email" value = { email } title = "Please provide a valid email address like: someName@someSite" onChange = { ( event ) =>
-        {
-            setEmail( event.target.value );
-        }}/>
-        <div>
-            <input type = "checkbox" checked = { remember } value = { remember }  onChange = { () =>
+            <input required type = "password" disabled = { !register } placeholder = "Confirm Password" value = { confirmPassword } onChange = { ( event ) =>
             {
-                setRemember( !remember );
+                setConfirmPassword( event.target.value );
             }}/>
-            <label htmlFor = "Remember Me">Remember Me</label>
-        </div>
 
-        <p>{ message }</p>
+            <div>
+                <input type = "checkbox" checked = { hidden } value = { hidden }  onChange = { () =>
+                {
+                    setHidden ( !hidden );
+                }}/>
+                <label htmlFor = "Hide Password">Hide Password</label>
+            </div>
+            <input required type = "text" disabled = { !register } placeholder = "First Name" value = { firstName } onChange = { ( event ) =>
+            {
+                setFirstName( event.target.value );
+            }}/>
 
-        <button type = "submit" disabled = { !username || !password || ( register && ( password !== confirmPassword || !firstName || !lastName|| !email ) ) }>{ register ? "Register" : "Login" }</button>
-    </form>
+            <input required type = "text" disabled = { !register } placeholder = "Last Name" value = { lastName } onChange = { ( event ) =>
+            {
+                setLastName( event.target.value );
+            }}/>
+
+            <input required type = "email" pattern = ".+@.+" disabled = { !register } placeholder = "Email" value = { email } title = "Please provide a valid email address like: someName@someSite" onChange = { ( event ) =>
+            {
+                setEmail( event.target.value );
+            }}/>
+            <div>
+                <input type = "checkbox" checked = { remember } value = { remember }  onChange = { () =>
+                {
+                    setRemember( !remember );
+                }}/>
+                <label htmlFor = "Remember Me">Remember Me</label>
+            </div>
+
+            <p>{ message }</p>
+
+            <button type = "submit" disabled = { !username || !password || ( register && ( password !== confirmPassword || !firstName || !lastName|| !email ) ) }>{ register ? "Register" : "Login" }</button>
+        </form>
+    : <>You must be logged in as an admin to view this page.</>
 }
 
 export default AdminUserForm;
