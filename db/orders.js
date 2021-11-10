@@ -1,5 +1,6 @@
 const { client } = require('.');
 
+<<<<<<< HEAD
 
 // return the order, include the order's products
 const getOrderById = async ( orderId ) => { 
@@ -11,11 +12,20 @@ const getOrderById = async ( orderId ) => {
         `, [orderId])
 
         return order;
+=======
+const getOrdersByProduct = async ({ id }) => { 
+    try {
+        const { rows: [ orders ] } = await client.query(`
+            SELECT *
+            FROM orders WHERE id = product.id
+        `)
+>>>>>>> ff937d9 (created orders db and api)
     } catch (error) { 
         throw error
     }
 }
 
+<<<<<<< HEAD
 
 // Should select and return an array of orders, include their products 
 const getAllOrders = async () => { 
@@ -26,11 +36,21 @@ const getAllOrders = async () => {
         `)
 
         return orders; 
+=======
+const getCartByUser = async ({ id }) => { 
+    try {
+        const { rows: [ id ] } = await client.query(`
+            SELECT *
+            FROM id WHERE orders = orders."userId" AND status = true
+        `)
+    
+>>>>>>> ff937d9 (created orders db and api)
     } catch (error) { 
         throw error
     }
 }
 
+<<<<<<< HEAD
 // select and return an array of orders made by user, include their products
 const getOrdersByUser = async ({ orderId }) => { 
     try {
@@ -41,11 +61,21 @@ const getOrdersByUser = async ({ orderId }) => {
         `, [orderId])
 
         return orders
+=======
+const getOrdersByUser = async ({ id }) => { 
+    try {
+        const { rows: [ id ] } = await client.query(`
+            SELECT *
+            FROM id WHERE orders = orders."userId" AND status = true
+        `)
+    
+>>>>>>> ff937d9 (created orders db and api)
     } catch (error) { 
         throw error
     }
 }
 
+<<<<<<< HEAD
 const getCartByUser = async ({ orderId }) => { 
     try { 
         const { rows: [ cart ] } = await client.query(`
@@ -55,10 +85,20 @@ const getCartByUser = async ({ orderId }) => {
         `, [orderId])
 
         return cart;
+=======
+const createOrder = async ({ status, userId }) => { 
+    try {
+        const { rows: [ status ] } = await client.query(`
+            SELECT *
+            FROM status AND user."userId" = true
+        `)
+    
+>>>>>>> ff937d9 (created orders db and api)
     } catch (error) { 
         throw error
     }
 }
+<<<<<<< HEAD
 
 const createOrder = async ({ userId, datePlaced, status }) => { 
     try { 
@@ -81,3 +121,5 @@ module.exports = {
     getCartByUser,
     createOrder
 }
+=======
+>>>>>>> ff937d9 (created orders db and api)
