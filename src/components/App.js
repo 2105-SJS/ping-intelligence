@@ -9,6 +9,7 @@ import { NewProduct, } from './index';
 import { callApi } from '../util';
 import Products from './Product';
 import Cart from './Cart';
+import Login from './Login';
 
 /* do these need an import or something? commented out as temp fix 
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -77,7 +78,7 @@ const App = () =>
                 <NavBar token = { token }></NavBar>
             </header>
         
-            <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/>
+            {/* <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/> */}
             
             <Switch>
                 <Route exact path ="/">
@@ -100,6 +101,10 @@ const App = () =>
                 <Route exact path="/cart/checkout">
                     <Cart token = { token } currentUser = { currentUser } localCart = { localCart }></Cart>
                 </Route>    
+
+                <Route path="/accounts/register">
+                    <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/>
+                </Route>
 
                 <Route path="/*">
                     <Component404></Component404>

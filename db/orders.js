@@ -1,71 +1,119 @@
 const { client } = require('.');
 
-
-// return the order, include the order's products
-const getOrderById = async ( orderId ) => { 
-    try {  
-        const { rows: [order] } = await client.query(`
+const getOrdersByProduct = async ({ id }) => { 
+    try {
+        const { rows: orders } = await client.query(`
+            SELECT * 
+            FROM orders 
+            JOIN order_products ON orders."orderId"=order_products."orderId"
+            WHERE order_products."productId"=$1;
+        `, [id]);
+        orders.forEach(async (order) => {
+            const { rows: product } = await client.query(`
             SELECT *
-            FROM orders
-            WHERE id=$1
-        `, [orderId])
+            FROM products
+            JOIN order_products ON products."productId"=order_products."productId"
+            WHERE order_products."orderId"=$1
+            `, [order.id])
+            order.products = product
+        })
+        return orders;
+    } catch (error) { 
+        throw error
+    }
+}
 
-        return order;
+const getOrderById = async (id) => {
+    try {   
+        if(!id) throw Error('There is no order id')
+        const { rows: [order] } = await client.query(`
+            SELECT * 
+            FROM orders 
+            WHERE id=$1
+        `, [id])
+
+        const { rows: products } = await client.query(`
+            SELECT * 
+            FROM products 
+            JOIN order_products ON products."productId"=order_products."productId"
+            WHERE order_products."orderId"=$1;
+        `, [id])
+        order.products = products
+    } catch (error) {
+        throw error
+    }
+}
+
+const getCartByUser = async ({ id }) => { 
+    try {
+     const { rows: [cart] } = await client.query(`
+        SELECT *
+        FROM orders
+        WHERE "userId" = $1 and status='created'
+     `, [id])
+
+     const { rows: products } = await client.query(`
+        SELECT * 
+        FROM products 
+        JOIN order_products ON products."productId"=order_products."productId"
+        WHERE order_products."orderId"=$1;
+    `, [id])
+    cart.products = products;
+    return cart
+    } catch (error) { 
+        throw error
+    }
+}
+
+const getOrdersByUser = async ({ id }) => { 
+    try {
+     const { rows: order } = await client.query(`
+        SELECT * 
+        FROM orders
+        WHERE "userId" = $1
+    `, [id]);
+     const { rows: products} = await client.query(`
+        SELECT * 
+        FROM products
+        JOIN order_products ON products."productId"=order_products."productId"
+        WHERE order_products."orderId"=$1;
+     `, [id]);
+     order.products = products;
+     return order
     } catch (error) { 
         throw error
     }
 }
 
 
-// Should select and return an array of orders, include their products 
+// May need to go look over 
 const getAllOrders = async () => { 
     try { 
         const { rows: orders } = await client.query(`
-            SELECT * 
-            FROM orders
-        `)
-
-        return orders; 
-    } catch (error) { 
-        throw error
-    }
-}
-
-// select and return an array of orders made by user, include their products
-const getOrdersByUser = async ({ orderId }) => { 
-    try {
-        const { rows: orders } = await client.query(`
             SELECT *
             FROM orders
-            WHERE "userId" = $1
-        `, [orderId])
-
-        return orders
-    } catch (error) { 
+        `)
+        orders.forEach( async (order) => {
+            const { rows: products } = await client.query(`
+                SELECT * from products 
+                JOIN order_products ON products."productId"=orders_products."productId" 
+                WHERE order_products."orderId"=$1
+            `, [order.orderId])
+            order.products = products
+        })
+    } catch (error) {
         throw error
     }
+
 }
 
-const getCartByUser = async ({ orderId }) => { 
-    try { 
-        const { rows: [ cart ] } = await client.query(`
-            SELECT * 
-            FROM orders 
-            WHERE "userID"=$1 AND status='created';
-        `, [orderId])
-
-        return cart;
-    } catch (error) { 
-        throw error
-    }
-}
 
 const createOrder = async ({ userId, datePlaced, status }) => { 
     try { 
         const { rows: [ order ]} = await client.query(`
-        INSERT INTO orders("userId", "datePlaced", status)
-        VALUES($1, $2, $3)
-        RETURNING *
+            INSERT INTO orders("userId", "datePlaced", status)
+            VALUES($1, $2, $3)
+            RETURNING *
         `, [userId, datePlaced, status])
         return order;
     } catch(error) {
@@ -73,11 +121,43 @@ const createOrder = async ({ userId, datePlaced, status }) => {
     }
 }
 
+const completeOrder = async ({ id }) => { 
+    try {
+        const { rows: [order] } = client.query(`
+            UPDATE order
+            SET status = 'completed'
+            WHERE id = $1
+            RETURNING *;
+        `,[id])
+
+        return order;
+    } catch (error) { 
+        throw error 
+    }
+} 
+
+const cancelOrder = async (id) => { 
+    try { 
+         const { rows: [order] } = await client.query(`
+            UPDATE orders 
+            SET status = 'cancelled'
+            WHERE id =$1
+            RETURNING *;
+         `, [id])
+         return order
+    } catch (error) {
+        throw error
+    }
+}
+
 module.exports = { 
     client, 
+    getOrdersByProduct,
     getOrderById,
     getAllOrders,
     getOrdersByUser,
     getCartByUser,
-    createOrder
+    createOrder,
+    cancelOrder,
+    completeOrder
 }
