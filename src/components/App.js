@@ -10,6 +10,7 @@ import { callApi } from '../util';
 import Products from './Product';
 import Cart from './Cart';
 import Login from './Login';
+import Orders from './Orders';
 
 /* do these need an import or something? commented out as temp fix 
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -30,6 +31,7 @@ const App = () =>
     const [ description, setDescription ] = useState( '' );
     const [ price, setPrice ] = useState( '' );
     const [ message, setMessage ] = useState( '' );
+    const [ order, setOrder ] = useState( [] );
     const [ token, setToken ] = useState ( localStorage.getItem( "token" ) || "" );
     const [ currentUser, setCurrentUser ] = useState(
     {
@@ -96,6 +98,10 @@ const App = () =>
 
                 <Route exact path="/account/">
                     <Account token={token}></Account>
+                </Route>
+
+                <Route exact path='/orders'> 
+                    <Orders order={order} /> 
                 </Route>
 
                 <Route exact path="/cart/checkout">
