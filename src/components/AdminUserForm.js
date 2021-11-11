@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { callApi } from '../util'
 
 const AdminUserForm = ( props ) => 
 {
     const params = useParams();
     const id = Number(params[0]);
-    
     const token = props.token;
     const currentUser = props.currentUser;
 
@@ -61,39 +61,26 @@ const AdminUserForm = ( props ) =>
             event.preventDefault();
             callApi(
             {
-                url: `users/${ register ? "register" : "login" }`,
-                method: ( edit ? "UPDATE" : "POST" ),
+                url: `users/${ edit ? id : "register" }`,
+                method: ( edit ? "PATCH" : "POST" ),
                 body:
                 {
                     firstName: firstName,
                     lastName: lastName,
                     email: email,
                     username: username,
+                    ...(!edit && {password: password}),
                     imageURL: imageURL,
                     admin: admin
                 }
-            }
-            ).then( ( response ) =>
+            } )
+            .then( ( response ) =>
             {
                 if ( response )
                 {
-                    if ( response.token )
+                    if ( response.id )
                     {
-                        setToken( response.token );
-                        setMessage( "You are logged in." );
-                        setCurrentUser(
-                        {
-                            id: response.id,
-                            name: response.username,
-                            admin: response.admin
-                        });
-                        if ( remember )
-                        {
-                            localStorage.setItem( "token", response.token );
-                            localStorage.setItem( "username", response.username );
-                            localStorage.setItem( "id", response.id );
-                            localStorage.setItem( "admin", response.admin )
-                        }
+                        setMessage( `Successfully ${ ( edit ? `edited` : `created` ) } User: ${ response.username }` );
                     }
                     else
                     {
@@ -102,64 +89,57 @@ const AdminUserForm = ( props ) =>
                 }
                 else
                 {
-                    setMessage("error " + ( register ? "registering":"logging in" ) + "." );
+                    setMessage( `Error ${ edit ? "editing" : "creating" } User.` );
                 }
-            });
+            } );
         }}>
-            <div>
-                <input type = "checkbox" checked = { register } value = { register }  onChange = { () =>
-                {
-                    setRegister(!register);
-                }}/>
-                <label htmlFor = "Register">Register</label>
-            </div>
+
             <input required type = "text" placeholder = "Username" value = { username } onChange = { ( event ) =>
             {
                 setUsername( event.target.value );
             }}/>
 
-            <input required type = { hidden ? "password" : "text" } placeholder = "Password" value = { password } onChange = { ( event ) =>
+            <input required type = "text" disabled = { edit } placeholder = "Password" value = { password } onChange = { ( event ) =>
             {
                 setPassword( event.target.value );
             }}/>
 
-            <input required type = "password" disabled = { !register } placeholder = "Confirm Password" value = { confirmPassword } onChange = { ( event ) =>
-            {
-                setConfirmPassword( event.target.value );
-            }}/>
-
-            <div>
-                <input type = "checkbox" checked = { hidden } value = { hidden }  onChange = { () =>
-                {
-                    setHidden ( !hidden );
-                }}/>
-                <label htmlFor = "Hide Password">Hide Password</label>
-            </div>
-            <input required type = "text" disabled = { !register } placeholder = "First Name" value = { firstName } onChange = { ( event ) =>
+            <input required type = "text" placeholder = "First Name" value = { firstName } onChange = { ( event ) =>
             {
                 setFirstName( event.target.value );
             }}/>
 
-            <input required type = "text" disabled = { !register } placeholder = "Last Name" value = { lastName } onChange = { ( event ) =>
+            <input required type = "text" placeholder = "Last Name" value = { lastName } onChange = { ( event ) =>
             {
                 setLastName( event.target.value );
             }}/>
 
-            <input required type = "email" pattern = ".+@.+" disabled = { !register } placeholder = "Email" value = { email } title = "Please provide a valid email address like: someName@someSite" onChange = { ( event ) =>
+            <input required type = "email" pattern = ".+@.+" placeholder = "Email" value = { email } title = "Please provide a valid email address like: someName@someSite" onChange = { ( event ) =>
             {
                 setEmail( event.target.value );
             }}/>
+
+            <input type = "text" placeholder = "Image URL" value = { imageURL } title = "Please provide a valid image address like: http://imageSite.com/image.jpeg" onChange = { ( event ) =>
+            {
+                setImageUrl( event.target.value );
+            }}/>
+
             <div>
-                <input type = "checkbox" checked = { remember } value = { remember }  onChange = { () =>
+                <input type = "checkbox" checked = { admin } value = { admin } onChange = { () =>
                 {
-                    setRemember( !remember );
+                    setAdmin( !admin );
                 }}/>
-                <label htmlFor = "Remember Me">Remember Me</label>
+                <label htmlFor = "Admin">Admin</label>
             </div>
+            
+            <input required type = "text" pattern = "admin" disabled = { !admin } placeholder = "Type admin to confirm Admin" value = { confirmAdmin } title = { `Please write admin to confirm making User:${ id } an admin` } onChange = { ( event ) =>
+            {
+                setConfirmAdmin( event.target.value );
+            }}/>
 
             <p>{ message }</p>
 
-            <button type = "submit" disabled = { !username || !password || ( register && ( password !== confirmPassword || !firstName || !lastName|| !email ) ) }>{ register ? "Register" : "Login" }</button>
+            <button type = "submit" disabled = { !username || ( edit && !password) || !firstName || !lastName || !email || ( admin && ! ( confirmAdmin === "admin" ) )  }>{ edit ? "Update" : "Create" }</button>
         </form>
     : <>You must be logged in as an admin to view this page.</>
 }

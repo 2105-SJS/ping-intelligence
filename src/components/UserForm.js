@@ -108,7 +108,7 @@ const UserForm = ( props ) =>
             }
             else
             {
-                setMessage("error " + ( register ? "registering":"logging in" ) + "." );
+                setMessage("Error " + ( register ? "registering":"logging in" ) + "." );
             }
         });
     }}>
@@ -156,7 +156,7 @@ const UserForm = ( props ) =>
             setEmail( event.target.value );
         }}/>
         <div>
-            <input type = "checkbox" checked = { remember } value = { remember }  onChange = { () =>
+            <input type = "checkbox" checked = { remember } value = { remember } onChange = { () =>
             {
                 setRemember( !remember );
             }}/>
