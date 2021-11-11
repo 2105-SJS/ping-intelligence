@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { makeStyles, Typography } from '@material-ui/core';
 
+
 const useStyles = makeStyles({
     image:{
       maxWidth:'100vw'
@@ -42,7 +43,7 @@ const NavBar = ( props ) =>
         <div id ='leftside'>
         <NavLink className= {styles.link} to = "/">Home</NavLink>
         <NavLink className= {styles.link} to = "/products">Products</NavLink>
-        {token ? <><NavLink className= {styles.link} to="/account">Account</NavLink></> : null}
+        {token ? <><NavLink to="/account">Account</NavLink>|</> : null}
         </div>
         <div id ='rightNav'>
        <NavLink className= {styles.link} to = "/cart/checkout">View Cart</NavLink>
