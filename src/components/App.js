@@ -78,23 +78,22 @@ const App = () =>
                 <NavBar token = { token }></NavBar>
             </header>
         
-            {/* <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/> */}
+            <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/>
             
             <Switch>
                 <Route exact path ="/">
                     <Home currentUser={currentUser}></Home>
                 </Route>
 
-                <Route exact path ="/products/">
+                <Route exact path ="/products/products/">
                     <Products products={products}></Products>
                 </Route>
 
                 <Route exact path ="/products/:productId">
-                    {/* no such react component exists un comment this when created also where is product.id coming from?
-                    <ProductsId productId={product.id}></ProductsId>*/}
+                    <Products productId={products.id}></Products>
                 </Route>
 
-                <Route exact path="/account/">
+                <Route exact path="/components/account/">
                     <Account token={token}></Account>
                 </Route>
 

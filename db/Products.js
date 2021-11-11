@@ -1,4 +1,5 @@
 const {client}=require('./client');
+const { product }= require('./seed');
 
 async function getProductById(id) {
     try {

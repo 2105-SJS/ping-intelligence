@@ -1,3 +1,7 @@
+const { client } = require('.');
+const db = require('./cars-dev');
+const { NewProduct } = require('./api/products')
+
 async function createInitialProducts() {
     try {
         console.log("Starting to create products...");
@@ -36,7 +40,6 @@ async function createInitialProducts() {
         throw error;
     }
 }
-
 
 async function createInitialUsers() {
     try {

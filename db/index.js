@@ -4,5 +4,6 @@ module.exports = {
   ...require('./Products'),
   ...require('./users'),
   ...require('./checkout')
+  ...require('./seed')
   // db methods
 }
