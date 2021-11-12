@@ -9,12 +9,9 @@ import { NewProduct, } from './index';
 import { callApi } from '../util';
 import Products from './Product';
 import Cart from './Cart';
-<<<<<<< HEAD
 import AllUsers from './AllUsers';
 import AdminUserForm from './AdminUserForm';
-=======
 import Login from './Login';
->>>>>>> dev
 
 /* do these need an import or something? commented out as temp fix 
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -95,10 +92,6 @@ const App = () =>
                     <Products products = { products }></Products>
                 </Route>
 
-<<<<<<< HEAD
-                <Route exact path = "/account/">
-                    <Account token = { token } ></Account>
-=======
                 <Route exact path ="/products/:productId">
                     {/* no such react component exists un comment this when created also where is product.id coming from?
                     <ProductsId productId={product.id}></ProductsId>*/}
@@ -106,7 +99,6 @@ const App = () =>
 
                 <Route exact path="/account/">
                     <Account token={token}></Account>
->>>>>>> dev
                 </Route>
 
                 <Route exact path = "/users/">

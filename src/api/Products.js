@@ -10,7 +10,6 @@ productRouter.use( ( req, res, next ) => {
 });
 
 productRouter.get( '/', async (req, res, next) => {
-        dev
     try {
         const allProducts = await getAllProducts();
 

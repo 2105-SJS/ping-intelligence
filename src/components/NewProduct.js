@@ -24,6 +24,11 @@ const NewProduct = ( { token, setProduct, product } ) =>
             setImageUrl( product.imageUrl || '' );
             setInStock( product.inStock || '' );
             setCategory( product.category || '' );
+            setEdit( true );
+        }
+        else
+        {
+            setEdit( false );
         }
     },
     [ product ] );

@@ -35,20 +35,6 @@ const useStyles = makeStyles({
 
 const NavBar = ( props ) =>
 {
-<<<<<<< HEAD
-    const currentUser = props.currentUser;
-
-    return <h2 className = 'nav-bar'>
-        <NavLink to = "/">Home</NavLink>|
-        <NavLink to = "/products/">Products</NavLink>|
-        { currentUser && currentUser.id ? <><NavLink to="/account/">Account</NavLink>|</> : null}
-        { currentUser && currentUser.admin ? <>
-            <NavLink to="/users/">Users</NavLink>
-            <NavLink to="/users/add">AddUser</NavLink>
-        </> : null}
-        <NavLink to = "/cart/checkout/">View Cart</NavLink>
-    </h2>
-=======
     const styles = useStyles();
     const token = props.token;
 
@@ -61,9 +47,12 @@ const NavBar = ( props ) =>
         <div id ='rightNav'>
        <NavLink className= {styles.link} to = "/cart/checkout">View Cart</NavLink>
        <NavLink className= {styles.link} to = "/accounts/register">Profile</NavLink>
+       { currentUser && currentUser.admin ? <>
+            <NavLink className= {styles.link} to="/users/">Users</NavLink>
+            <NavLink className= {styles.link} to="/users/add">AddUser</NavLink>
+        </> : null}
         </div>
     </div>
->>>>>>> dev
 }
 
 export default NavBar;
