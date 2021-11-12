@@ -26,7 +26,7 @@ const NewProduct = ( { token, product, fetchProducts } ) =>
             setInStock( product.inStock || '' );
             setCategory( product.category || '' );
             setEdit( true );
-            setMessage( `Editing Product:${ product.productId }`);
+            setMessage( `Editing Product id:${ product.productId }`);
         }
         else
         {
@@ -81,11 +81,6 @@ const NewProduct = ( { token, product, fetchProducts } ) =>
         <div className = "newproduct">
             <h1>{ edit ? 'Edit' : 'Add' } Product</h1>
             <form onSubmit = { handleAdd }>
-
-                <fieldset>
-                    <label className = "addformlabel">Id: </label>
-                    <input type = "text" placeholder = " Id" value = { id } onChange = { ( event ) => setId( event.target.value ) }></input>
-                </fieldset>
 
                 <fieldset>
                     <label className = "addformlabel">Name: </label>
