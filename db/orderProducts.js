@@ -1,5 +1,5 @@
 const { client } = require('.');
-const db = require('./cars-dev');
+// const db = require('./cars-dev');
 
 async function getOrderProductsById(id) {
     console.log('Db getOrderProductsById with id: ', id);

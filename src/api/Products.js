@@ -9,17 +9,17 @@ productRouter.use( ( req, res, next ) => {
     next();
 });
 
-productRouter.get( '/', async (req, res, next) => {
-        dev
-    try {
-        const allProducts = await getAllProducts();
+// productRouter.get( '/', async (req, res, next) => {
+//         dev
+//     try {
+//         const allProducts = await getAllProducts();
 
-        res.send( { allProducts } );
-    } catch ( { name, message } ) {
-        console.log( "productRouter.get message: ", message );
-        next( { name, message });
-    }
-});
+//         res.send( { allProducts } );
+//     } catch ( { name, message } ) {
+//         console.log( "productRouter.get message: ", message );
+//         next( { name, message });
+//     }
+// });
 
 productRouter.get('/products/:productId', async (req, res, next) => {
     try {

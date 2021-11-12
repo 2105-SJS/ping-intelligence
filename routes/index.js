@@ -1,6 +1,6 @@
 const apiRouter = require('express').Router();
 const usersRouter = require('./users');
-
+const ordersRouter = require('./orders')
 const productRouter = require('../src/api/Products');
 const jwt = require('jsonwebtoken');
 const { getUserById } = require('../db');
@@ -64,6 +64,8 @@ apiRouter.get("/", ( req, res, next ) => {
 apiRouter.use( '/users', usersRouter );
 
 apiRouter.use( '/products', productRouter );
+
+apiRouter.use( '/orders', ordersRouter);
 
 //error handling
 apiRouter.use( ( req, res ) =>
