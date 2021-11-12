@@ -2,7 +2,7 @@ import { getContrastRatio } from '@material-ui/core';
 import React from 'react';
 import { callApi } from '../util';
 
-const SingleProduct = ({ product, children, addProductToCart, getCart }) => {
+const SingleProduct = ({ product, children, getCart, cart }) => {
 
     const handleAddtoCart = async (event) => {
         event.preventDefault();
