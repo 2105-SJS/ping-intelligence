@@ -9,13 +9,26 @@ import { NewProduct, } from './index';
 import { callApi } from '../util';
 import Products from './Product';
 import Cart from './Cart';
+<<<<<<< HEAD
 import AllUsers from './AllUsers';
 import AdminUserForm from './AdminUserForm';
+=======
+import Login from './Login';
+>>>>>>> dev
+
+/* do these need an import or something? commented out as temp fix 
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Badge from "@material-ui/core/Badge";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+*/
 
 const { REACT_APP_BASE_URL } = process.env;
 
-const App = () => {
-
+const App = () => 
+{
     const [ products, setProducts ] = useState( [] );
     const [ productId, setProductId ] = useState( '' );
     const [ productName, setProductName ] = useState( [] );
@@ -37,7 +50,8 @@ const App = () => {
     },
     []);
 
-    const fetchProducts = async () => {
+    const fetchProducts = async () => 
+    {
         try {
             const respObj = await callApi( {
             url: `products/`,
@@ -49,25 +63,28 @@ const App = () => {
             }
         } catch ( error ) {
             throw error;
-        }
+        }     
     }
-
-    useEffect( () => {
-        try {
+   
+    useEffect( () => 
+    {
+        try 
+        {
             fetchProducts();
-        } catch ( error ) {
+        } catch ( error ) 
+        {
             console.error( error );
         }
-    }, [ token ] );
+      
+    }, [token]);
 
     return <div className = "App">
-
         <BrowserRouter>
             <header className = "site-banner">
                 <NavBar currentUser = { currentUser }></NavBar>
             </header>
         
-            <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/>
+            {/* <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/> */}
             
             <Switch>
                 <Route exact path = "/">
@@ -78,8 +95,18 @@ const App = () => {
                     <Products products = { products }></Products>
                 </Route>
 
+<<<<<<< HEAD
                 <Route exact path = "/account/">
                     <Account token = { token } ></Account>
+=======
+                <Route exact path ="/products/:productId">
+                    {/* no such react component exists un comment this when created also where is product.id coming from?
+                    <ProductsId productId={product.id}></ProductsId>*/}
+                </Route>
+
+                <Route exact path="/account/">
+                    <Account token={token}></Account>
+>>>>>>> dev
                 </Route>
 
                 <Route exact path = "/users/">
@@ -93,6 +120,10 @@ const App = () => {
                 <Route exact path="/cart/checkout/">
                     <Cart token = { token } currentUser = { currentUser } localCart = { localCart }></Cart>
                 </Route>    
+
+                <Route path="/accounts/register">
+                    <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/>
+                </Route>
 
                 <Route path="/*">
                     <Component404></Component404>

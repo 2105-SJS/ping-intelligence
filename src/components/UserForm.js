@@ -155,6 +155,7 @@ const UserForm = ( props ) =>
         {
             setEmail( event.target.value );
         }}/>
+
         <div>
             <input type = "checkbox" checked = { remember } value = { remember } onChange = { () =>
             {

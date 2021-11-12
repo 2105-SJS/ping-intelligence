@@ -72,6 +72,7 @@ async function buildTables() {
       "order_productId" SERIAL PRIMARY KEY,
       "productId" INTEGER REFERENCES products("productId"),
       "orderId" INTEGER REFERENCES orders("orderId"),
+      UNIQUE ("productId", "orderId"),
       price NUMERIC NOT NULL,
       quantity INTEGER DEFAULT 1
     );
