@@ -1,6 +1,19 @@
 import React from 'react';
+import { callApi } from '../util';
 
-const SingleProduct = ({ product, children }) => {
+const SingleProduct = ({ product, token, currentUser, fetchProducts, children }) => {
+
+    const deleteProduct = async () =>
+    {
+        callApi(
+        {
+            url: `products/${ product.id }`,
+            method: 'DELETE',
+            token: token
+        } )
+        .then( fetchProducts() );
+    }
+
     return product
         ? <div
             style={{ margin: '1.2rem' }}
@@ -17,6 +30,10 @@ const SingleProduct = ({ product, children }) => {
             <div>Category: { product.category }</div>
             {
                 children
+            }
+            { currentUser && currentUser.admin ? 
+                <button onClick = { deleteProduct } >Delete Product</button> 
+                : null 
             }
         </div>
         : 'Loading Single Product...'

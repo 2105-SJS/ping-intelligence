@@ -36,13 +36,13 @@ const useStyles = makeStyles({
 const NavBar = ( props ) =>
 {
     const styles = useStyles();
-    const token = props.token;
+    const currentUser = props.currentUser;
 
     return <div className = 'nav-bar' className={styles.NavBar}>
         <div id ='leftside'>
         <NavLink className= {styles.link} to = "/">Home</NavLink>
         <NavLink className= {styles.link} to = "/products">Products</NavLink>
-        {token ? <><NavLink className= {styles.link} to="/account">Account</NavLink></> : null}
+        { currentUser && currentUser.id ? <><NavLink className= {styles.link} to="/account">Account</NavLink></> : null}
         </div>
         <div id ='rightNav'>
        <NavLink className= {styles.link} to = "/cart/checkout">View Cart</NavLink>

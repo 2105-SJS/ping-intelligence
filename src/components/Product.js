@@ -2,15 +2,18 @@ import React from 'react';
 import { callApi } from '../util';
 import { Link } from 'react-router-dom';
 import SingleProduct from './SingleProduct';
+import NewProduct from './NewProduct';
 
-const Products = ( { products } ) => 
+const Products = ( { products, token, currentUser, fetchProducts } ) => 
 {
     return products
         ? <>
             <div className = 'products'>
+                { currentUser && currentUser.admin ? 
+                <NewProduct token = { token } fetchProducts = { fetchProducts }></NewProduct> : null }
                 <span>Products:</span>
                 {
-                    products.map(product => <SingleProduct key={product.id} product={product}/>)
+                    products.map(product => <SingleProduct key = { product.id } product = { product } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }/>)
                 }
             </div>
         </>

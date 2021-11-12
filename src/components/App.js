@@ -89,27 +89,27 @@ const App = () =>
                 </Route>
 
                 <Route exact path = "/products/">
-                    <Products products = { products }></Products>
+                    <Products products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }></Products>
                 </Route>
 
-                <Route exact path ="/products/:productId">
+                <Route exact path = "/products/:productId">
                     {/* no such react component exists un comment this when created also where is product.id coming from?
                     <ProductsId productId={product.id}></ProductsId>*/}
                 </Route>
 
-                <Route exact path="/account/">
-                    <Account token={token}></Account>
+                <Route exact path = "/account/">
+                    <Account token = { token }></Account>
                 </Route>
 
                 <Route exact path = "/users/">
-                    <AllUsers token= { token } currentUser = { currentUser }></AllUsers>
+                    <AllUsers token = { token } currentUser = { currentUser }></AllUsers>
                 </Route>
 
                 <Route exact path = { [ "/users/add/", "/users/:userId/" ] } >
-                    <AdminUserForm token= { token } currentUser = { currentUser }></AdminUserForm>
+                    <AdminUserForm token = { token } currentUser = { currentUser }></AdminUserForm>
                 </Route>
 
-                <Route exact path="/cart/checkout/">
+                <Route exact path = "/cart/checkout/">
                     <Cart token = { token } currentUser = { currentUser } localCart = { localCart }></Cart>
                 </Route>    
 

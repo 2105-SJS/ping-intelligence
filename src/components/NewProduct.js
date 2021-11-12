@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { callApi } from '../util';
 
 
-const NewProduct = ( { token, setProduct, product } ) => 
+const NewProduct = ( { token, product, fetchProducts } ) => 
 {
     const [ edit, setEdit ] = useState( false );
     const [ id, setId ] = useState( '' );
@@ -53,9 +53,7 @@ const NewProduct = ( { token, setProduct, product } ) =>
             }
         } );
 
-        const productResponse = await callApi( { url: '/products', token } );
-
-        setProduct( productResponse.data.products );
+        fetchProducts();
     }
 
     return <div>

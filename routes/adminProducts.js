@@ -55,7 +55,7 @@ productsRouter.delete( '/:productId', async ( req, res, next ) =>
     {
         if ( req.auth && req.auth.isAdmin )
         {
-            res.send ( await destoryProduct( { id:params.productId } ) );
+            res.send ( await destoryProduct( { id: params.productId } ) );
         }
         else
         {
