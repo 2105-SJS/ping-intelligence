@@ -31,7 +31,10 @@ const useStyles = makeStyles({
         color:'blue'
     },
     blank:{
-        paddingTop:'5rem'
+        paddingTop:'2rem'
+    },
+    blanklow:{
+        paddingTop:'2rem'
     }
     
 })
@@ -203,7 +206,8 @@ const UserForm = ( props ) =>
         <Typography>{ message }</Typography>
 
         <Button className={classes.button} type = "submit" disabled = { !username || !password || ( register && ( password !== confirmPassword || !firstName || !lastName|| !email ) ) }>{ register ? "Register" : "Login" }</Button>
-    </form>
+    </form><>
+    <Container className={classes.blanklow}></Container></>
     </Container>
     </>
     
