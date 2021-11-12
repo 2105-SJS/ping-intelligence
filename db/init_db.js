@@ -4,7 +4,7 @@ const {
   // other db methods 
 } = require('./index');
 
-import { createInitialUsers,createInitialProducts } from 'seed';
+const  { createInitialUsers,createInitialProducts } = require('./seed');
 
 async function buildTables() {
   try {

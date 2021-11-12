@@ -8,6 +8,11 @@ const { JWT_SECRET } = process.env;
 
 //Check authorization before anything else
 //JWT Authorization
+
+apiRouter.get('/health', (req, res) => {
+    res.send({message: 'Hello'});
+});
+
 apiRouter.use( async ( req, res, next )=>
 {
     const authHeader = req.header('Authorization');

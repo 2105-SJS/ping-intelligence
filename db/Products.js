@@ -1,11 +1,11 @@
 const {client}=require('./client');
-const { rebuildDB } = require('./seedData');
+// const { buildTables } = require('./init_db');
 
 async function getProductById(id) {
     try {
         const { rows: [ product ] } = await client.query(`
       SELECT *
-      FROM product
+      FROM products
       WHERE id=$1;
     `, [id]);
         
@@ -24,23 +24,23 @@ async function getProductById(id) {
 async function getAllProducts() {
     try {
         const { rows } = await client.query(`
-      SELECT *
-      FROM products;
-    `);
+            SELECT *
+            FROM products;
+        `);
         return rows;
     } catch (error) {
         throw error;
     }
 }
 
-const createProduct = async ({ id, name, description, price, imageURL, inStock, category}) => { 
+const createProduct = async ({ name, description, price, imageURL, inStock, category}) => { 
 
     try { 
         const { rows: [ product ] } = await client.query(`
-            INSERT INTO products(id, name, description, price, "imageURL", "inStock", category)
-            VALUES($1, $2, $3, $4, $5, $6, $7)
+            INSERT INTO products( name, description, price, "imageURL", "inStock", category)
+            VALUES($1, $2, $3, $4, $5, $6)
             RETURNING *;
-        `, [id, name, description, price, imageURL, inStock, category])
+        `, [name, description, price, imageURL, inStock, category])
 
         return product;
     } catch (error) {
@@ -129,9 +129,9 @@ const destroyOrderProduct = async (id) => {
         throw error;
     }
 }
-rebuildDB()
-  .catch(console.error)
-  .finally(() => client.end());
+// rebuildDB()
+//   .catch(console.error)
+//   .finally(() => client.end());
 
 
 module.exports = {

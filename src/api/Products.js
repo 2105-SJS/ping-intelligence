@@ -2,7 +2,7 @@ const express = require('express');
 const productRouter = express.Router();
 const { createProduct, getProductById, getAllProducts } = require('../../db');
 const { requireUser } = require('./utils');
-const { seedData } = require('./db/seed');
+// const { seedData } = require('./db/seed');
 
 productRouter.use( ( req, res, next ) => {
     console.log("A request is being made to /products");
@@ -11,7 +11,6 @@ productRouter.use( ( req, res, next ) => {
 });
 
 productRouter.get( '/', async (req, res, next) => {
-        dev
     try {
         const allProducts = await getAllProducts();
 

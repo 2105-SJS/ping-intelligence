@@ -79,7 +79,7 @@ const App = () =>
                 <NavBar token = { token }></NavBar>
             </header>
         
-            <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/>
+            {/* <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/> */}
             
             <Switch>
                 <Route exact path ="/">
