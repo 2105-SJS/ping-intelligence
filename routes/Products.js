@@ -1,7 +1,8 @@
 const express = require('express');
 const productRouter = express.Router();
-const { createProduct, getProductById, getAllProducts } = require('../../db');
-const { requireUser } = require('./utils');
+const { createProduct, getProductById, getAllProducts } = require('../db');
+const { requireUser } = require('../src/api/utils');
+const adminProductsRouter = require('./adminProducts');
 
 productRouter.use( ( req, res, next ) => {
     console.log("A request is being made to /products");
@@ -102,4 +103,6 @@ productRouter.delete('/order_products/:orderProductId', requireUser, async (req,
         next(error);
     }
 })
+
+productRouter.use( adminProductsRouter );
 module.exports = productRouter;

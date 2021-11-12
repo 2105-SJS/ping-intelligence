@@ -1,11 +1,8 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
-const { JWT_SECRET } = process.env;
-const { createUser, getUser, getUserByUsername, getAllUsers, updateUser, createProduct, destoryProduct, updateProduct } = require('../db');
-const productsRouter = express.Router();
+const { getUserByUsername, getAllUsers, createProduct, destoryProduct, updateProduct } = require('../db');
+const adminProductsRouter = express.Router();
 
-productsRouter.post( '/', async ( req, res, next ) =>
+adminProductsRouter.post( '/', async ( req, res, next ) =>
 {
     try 
     {
@@ -49,7 +46,7 @@ productsRouter.post( '/', async ( req, res, next ) =>
     }
 } );
 
-productsRouter.delete( '/:productId', async ( req, res, next ) =>
+adminProductsRouter.delete( '/:productId', async ( req, res, next ) =>
 {
     try 
     {
@@ -69,7 +66,7 @@ productsRouter.delete( '/:productId', async ( req, res, next ) =>
     }
 } );
 
-productsRouter.patch( '/:productId', async ( req, res, next ) =>
+adminProductsRouter.patch( '/:productId', async ( req, res, next ) =>
 {
     try 
     {
@@ -102,7 +99,7 @@ productsRouter.patch( '/:productId', async ( req, res, next ) =>
     }
 } );
 
-productsRouter.get( '/:productId/orders', async ( req,  res, next ) =>
+adminProductsRouter.get( '/:productId/orders', async ( req,  res, next ) =>
 {
     try 
     {
@@ -122,7 +119,7 @@ productsRouter.get( '/:productId/orders', async ( req,  res, next ) =>
     }
 } );
 
-productsRouter.patch( '/:productId', async ( req, res, next ) =>
+adminProductsRouter.patch( '/:productId', async ( req, res, next ) =>
 {
     try 
     {
@@ -180,4 +177,4 @@ usersRouter.get( '/', async ( req, res, next ) =>
     }
 } );
 
-module.exports = productsRouter;
+module.exports = adminProductsRouter;
