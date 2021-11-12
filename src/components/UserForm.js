@@ -16,6 +16,7 @@ const useStyles = makeStyles({
         borderRadius:'10px',
         border:'5px solid black',
         minHeight:'700px',
+        marginLeft:'22rem'
     },
     register:{
         fontSize:'20px'
@@ -100,7 +101,7 @@ const UserForm = ( props ) =>
 
     return  <>
     <Container className={classes.blank}></Container>
-    <Container className={classes.page} onSubmit = { async ( event ) =>
+    <Container><form className={classes.page} onSubmit = { async ( event ) =>
     {
         event.preventDefault();
         callApi(
@@ -202,7 +203,10 @@ const UserForm = ( props ) =>
         <Typography>{ message }</Typography>
 
         <Button className={classes.button} type = "submit" disabled = { !username || !password || ( register && ( password !== confirmPassword || !firstName || !lastName|| !email ) ) }>{ register ? "Register" : "Login" }</Button>
-    </Container></>
+    </form>
+    </Container>
+    </>
+    
 }
 
 export default UserForm;
