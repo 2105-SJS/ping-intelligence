@@ -1,7 +1,8 @@
 const { client } = require('.');
 
+// Helper function 
 const getProductsFromOrderId = async (orderId) => {
-    try { 
+    try {
         const { rows: products } = await client.query(`
             SELECT * 
             FROM products 
@@ -89,9 +90,9 @@ const getOrdersByUser = async ({ id }) => {
         JOIN users on orders."creatorId"=users."usersId"
         WHERE "userId" = $1
     `, [id]);
-       for (let order of rows) {
-           order.products = await getProductsFromOrderId(order.id);
-       }
+        for (let order of rows) {
+            order.products = await getProductsFromOrderId(order.id);
+        }
 
         return rows;
     } catch (error) {

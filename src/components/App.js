@@ -101,7 +101,7 @@ const App = () =>
                 </Route>
 
                 <Route exact path='/orders'> 
-                    <Orders order={order} /> 
+                    <Orders order={order} setOrder={setOrder} token={token}/> 
                 </Route>
 
                 <Route exact path="/cart/checkout">
