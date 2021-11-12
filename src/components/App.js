@@ -64,8 +64,8 @@ const App = () =>
         try {
             const respObj = await callApi({ url: 'orders/cart', token})
             if (respObj) {
-                setLocalCart(response);
-                localStorage.setItem('cart', JSON.stringify(response));
+                setLocalCart(respObj);
+                localStorage.setItem('cart', JSON.stringify(respObj));
             };
         } catch (error) {
             throw error;
@@ -91,7 +91,7 @@ const App = () =>
             throw error;
         }
 
-    });
+    }, [token]);
 
     return <div className = "App">
         <BrowserRouter>
