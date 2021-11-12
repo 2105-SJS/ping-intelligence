@@ -86,7 +86,7 @@ const App = () =>
                     <Home currentUser={currentUser}></Home>
                 </Route>
 
-                <Route exact path ="/roductsAll">
+                <Route exact path ="./products">
                     <ProductsAll products={products}></ProductsAll>
                 </Route>
 
