@@ -91,14 +91,14 @@ const UserForm = ( props ) =>
                     {
                         id: response.id,
                         name: response.username,
-                        admin: response.admin
+                        admin: response.isAdmin
                     });
                     if ( remember )
                     {
                         localStorage.setItem( "token", response.token );
                         localStorage.setItem( "username", response.username );
                         localStorage.setItem( "id", response.id );
-                        localStorage.setItem( "admin", response.admin )
+                        localStorage.setItem( "admin", response.isAdmin )
                     }
                 }
                 else

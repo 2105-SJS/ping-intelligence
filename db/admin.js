@@ -6,11 +6,10 @@ const destoryProduct = async ( { id } ) =>
     {
         const { rows: order_products } = await client.query(
         `DELETE FROM order_products
-        JOIN order."orderId"=order_products."orderId"
-        WHERE "productId"=$1
-        AND status!='completed';`
-        );
-
+        USING orders WHERE orders."orderId"=order_products."orderId"
+        AND "productId"=$1
+        AND status !='completed';`,
+        [ id ] );
         const { rows: [ product ] } = await client.query(
         `DELETE FROM products
         WHERE "productId"=$1;`,

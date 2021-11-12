@@ -10,7 +10,7 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, children })
     {
         callApi(
         {
-            url: `products/${ product.id }`,
+            url: `products/${ product.productId }`,
             method: 'DELETE',
             token: token
         } )
