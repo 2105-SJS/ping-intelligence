@@ -1,5 +1,5 @@
 const {client}=require('./client');
-const { product }= require('./seed');
+const { rebuildDB } = require('./seedData');
 
 async function getProductById(id) {
     try {
@@ -129,7 +129,9 @@ const destroyOrderProduct = async (id) => {
         throw error;
     }
 }
-
+rebuildDB()
+  .catch(console.error)
+  .finally(() => client.end());
 
 
 module.exports = {

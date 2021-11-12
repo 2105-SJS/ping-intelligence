@@ -24,7 +24,7 @@ productRouter.get( '/', async (req, res, next) => {
 
 productRouter.get('/db/seed', async (req, res, next) => {
     try {
-        const allProductsFromSeed = await seedData({id});
+        const allProductsFromSeed = await getAllProducts({seedData});
 
         res.send({
             allProductsFromSeed

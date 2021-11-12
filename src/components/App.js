@@ -10,6 +10,7 @@ import { callApi } from '../util';
 import Products from './Product';
 import Cart from './Cart';
 import Login from './Login';
+import ProductsAll from './ProductsAll';
 
 /* do these need an import or something? commented out as temp fix 
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -85,15 +86,15 @@ const App = () =>
                     <Home currentUser={currentUser}></Home>
                 </Route>
 
-                <Route exact path ="/products/products/">
-                    <Products products={products}></Products>
+                <Route exact path ="/roductsAll">
+                    <ProductsAll products={products}></ProductsAll>
                 </Route>
 
                 <Route exact path ="/products/:productId">
                     <Products productId={products.id}></Products>
                 </Route>
 
-                <Route exact path="/components/account/">
+                <Route exact path="/components/account">
                     <Account token={token}></Account>
                 </Route>
 
