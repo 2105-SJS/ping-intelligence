@@ -13,7 +13,7 @@ const Products = ( { products, token, currentUser, fetchProducts } ) =>
                 <NewProduct token = { token } fetchProducts = { fetchProducts }></NewProduct> : null }
                 <span>Products:</span>
                 {
-                    products.map(product => <SingleProduct key = { product.id } product = { product } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }/>)
+                    products.map(product => <SingleProduct key = { product.productId } product = { product } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }/>)
                 }
             </div>
         </>

@@ -54,6 +54,7 @@ const App = () =>
             url: `products/`,
             token
             });
+            console.log(respObj);
             if ( respObj && respObj.allProducts )
             {
                 setProducts( respObj.allProducts ); 

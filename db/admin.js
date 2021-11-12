@@ -46,7 +46,7 @@ const updateProduct = async ( product ) =>
         SET ${ setString }
         WHERE "productId"=${ id }
         RETURNING *;`,
-        Object.values( user ) );
+        Object.values( product ) );
         return edited;
     }
     catch(error)
