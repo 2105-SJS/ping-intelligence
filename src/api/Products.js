@@ -2,7 +2,7 @@ const express = require('express');
 const productRouter = express.Router();
 const { createProduct, getProductById, getAllProducts } = require('../../db');
 const { requireUser } = require('./utils');
-// const { seedData } = require('./db/seed');
+
 
 productRouter.use( ( req, res, next ) => {
     console.log("A request is being made to /products");
@@ -18,19 +18,6 @@ productRouter.get( '/', async (req, res, next) => {
     } catch ( { name, message } ) {
         console.log( "productRouter.get message: ", message );
         next( { name, message });
-    }
-});
-
-productRouter.get('/db/seed', async (req, res, next) => {
-    try {
-        const allProductsFromSeed = await getAllProducts({seedData});
-
-        res.send({
-            allProductsFromSeed
-        });
-    } catch ({ name, message }) {
-        console.log("productRouter.get message: ", message)
-        next({ name, message });
     }
 });
 

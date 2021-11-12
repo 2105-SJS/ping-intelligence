@@ -1,8 +1,8 @@
 const express = require('express');
 const productRouter = express.Router();
-const { createProduct, getProductById, getAllProducts } = require('../../db');
+const { createProduct, getProductById, getAllProducts } = require('../db');
 const { requireUser } = require('./utils');
-const { seedData } = require('./db/seed');
+// const { seedData } = require('../db/seed');
 
 productRouter.use( ( req, res, next ) => {
     console.log("A request is being made to /products");
@@ -11,7 +11,6 @@ productRouter.use( ( req, res, next ) => {
 });
 
 productRouter.get( '/', async (req, res, next) => {
-        dev
     try {
         const allProducts = await getAllProducts();
 
@@ -22,18 +21,18 @@ productRouter.get( '/', async (req, res, next) => {
     }
 });
 
-productRouter.get('/db/seed', async (req, res, next) => {
-    try {
-        const allProductsFromSeed = await getAllProducts({seedData});
+// productRouter.get('/db/seed', async (req, res, next) => {
+//     try {
+//         const allProductsFromSeed = await getAllProducts({seedData});
 
-        res.send({
-            allProductsFromSeed
-        });
-    } catch ({ name, message }) {
-        console.log("productRouter.get message: ", message)
-        next({ name, message });
-    }
-});
+//         res.send({
+//             allProductsFromSeed
+//         });
+//     } catch ({ name, message }) {
+//         console.log("productRouter.get message: ", message)
+//         next({ name, message });
+//     }
+// });
 
 productRouter.get('/products/:productId', async (req, res, next) => {
     try {

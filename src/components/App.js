@@ -48,14 +48,16 @@ const App = () =>
     const fetchProducts = async () => 
     {
         try {
-            const respObj = await callApi( {
-            url: `products/`,
-            token
+            const respObj = await fetch( 
+            "http://127.0.0.1:5000/api/products",
+           { headers: {
+            "Content-Type": "application/json"}
             });
-            if ( respObj && respObj.allProducts )
-            {
-                setProducts( respObj.allProducts ); 
+            if(respObj) {
+             const data= await respObj.json()
+             console.log(data);
             }
+            
         } catch ( error ) {
             throw error;
         }     
@@ -86,7 +88,7 @@ const App = () =>
                     <Home currentUser={currentUser}></Home>
                 </Route>
 
-                <Route exact path ="./products">
+                <Route exact path ="/products">
                     <ProductsAll products={products}></ProductsAll>
                 </Route>
 

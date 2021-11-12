@@ -1,7 +1,7 @@
 // export
 module.exports = {
   ...require('./client'),
-  ...require('./Products'),
+  ...require('./products'),
   ...require('./users'),
   ...require('./checkout'),
   ...require('./seed')

@@ -25,7 +25,7 @@ order_productRouter.post('/order:Id/products', async (req, res, next) => {
             const product = await getProductById(orderProducts.productsId);
             const { productId } = product;
             if( !productId ) 
-                throw Error("Unsuccessful in adding prodcut")
+                throw Error("Unsuccessful in adding product")
             } else {
                 const addingProduct = await addProductToOrder({ orderId, productId, price, quantity }) 
                 res.send(addingProduct);

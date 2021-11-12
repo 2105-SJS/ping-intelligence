@@ -1,12 +1,11 @@
 const {client}=require('./client');
-// const { buildTables } = require('./init_db');
 
 async function getProductById(id) {
     try {
         const { rows: [ product ] } = await client.query(`
-      SELECT *
-      FROM products
-      WHERE id=$1;
+            SELECT *
+            FROM products
+            WHERE id=$1;
     `, [id]);
         
         if (!product) {
@@ -18,8 +17,8 @@ async function getProductById(id) {
         return product;
     } catch (error) {
         throw error;
-    }
-}
+    };
+};
 
 async function getAllProducts() {
     try {
@@ -30,17 +29,17 @@ async function getAllProducts() {
         return rows;
     } catch (error) {
         throw error;
-    }
-}
+    };
+};
 
-const createProduct = async ({ name, description, price, imageURL, inStock, category}) => { 
+const createProduct = async ({ productName, description, price, imageURL, inStock, category}) => { 
 
     try { 
         const { rows: [ product ] } = await client.query(`
-            INSERT INTO products( name, description, price, "imageURL", "inStock", category)
+            INSERT INTO products( "productName", description, price, "imageURL", "inStock", category)
             VALUES($1, $2, $3, $4, $5, $6)
             RETURNING *;
-        `, [name, description, price, imageURL, inStock, category])
+        `, [productName, description, price, imageURL, inStock, category])
 
         return product;
     } catch (error) {
@@ -129,10 +128,6 @@ const destroyOrderProduct = async (id) => {
         throw error;
     }
 }
-// rebuildDB()
-//   .catch(console.error)
-//   .finally(() => client.end());
-
 
 module.exports = {
     getProductById,
@@ -141,4 +136,4 @@ module.exports = {
     getOrderProductById,
     updateOrderProduct,
     destroyOrderProduct
-  }
+}

@@ -1,52 +1,40 @@
-const apiRouter = require('express').Router();
-const usersRouter = require('./users');
-
-const productRouter = require('../src/api/Products');
 const jwt = require('jsonwebtoken');
 const { getUserById } = require('../db');
 const { JWT_SECRET } = process.env;
 
-//Check authorization before anything else
-//JWT Authorization
+const express = require('express');
+const apiRouter = express.Router();
 
+//health check
 apiRouter.get('/health', (req, res) => {
     res.send({message: 'Hello'});
 });
 
-apiRouter.use( async ( req, res, next )=>
-{
-    const authHeader = req.header('Authorization');
-    if ( !authHeader )//skip if empty
-    {
+//Check authorization before anything else
+//JWT Authorization
+apiRouter.use(async (req, res, next) => {
+    const prefix = 'Bearer ';
+    const auth = req.header('Authorization');
+
+    if(!auth) {
         next();
-    }
-    else try
-    {
-        if ( req.auth ) //make sure authorization is only from here
-        {
-            delete req.auth;
-        }
-        const auth = authHeader.slice( 7 );
-        
-        const { id, username } = jwt.verify( auth,JWT_SECRET );
-        if ( id && username )
-        {
-            req.auth = await getUserById( id );
-            if( req.auth && req.auth.username === username )
-            {
+    } else if (auth.startsWith(prefix)) {
+        const token = auth.slice(prefix.length);
+        try {
+            const { id } = jwt.verify(token, JWT_SECRET)
+            if (id) {
+                req.user = await getUserById(id);
                 next();
             }
-            else
-            {
-                delete req.auth;
-                next('Invalid Authorization');
-            }     
-        }
-    }
-    catch ( error )
-    {
-        next ( error );
-    }
+        } catch ({ name, message}) {
+            next ({ name, message });
+        };
+    } else {
+        next ({
+            name: 'AuthorizationHeaderError',
+            message: `Authorization token must start with ${prefix}`
+        });
+    };
 });
 
 //CORS enable
@@ -66,9 +54,11 @@ apiRouter.get("/", ( req, res, next ) => {
 });
 
 //routes
+const usersRouter = require('./users')
 apiRouter.use( '/users', usersRouter );
 
-apiRouter.use( '/products', productRouter );
+const productsRouter = require('./products')
+apiRouter.use( '/products', productsRouter );
 
 //error handling
 apiRouter.use( ( req, res ) =>
