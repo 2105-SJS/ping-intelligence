@@ -17,7 +17,7 @@ usersRouter.post( '/register', async ( req, res, next ) =>
                 lastName: req.body.lastName,
                 email: req.body.email,
                 username: req.body.username,
-                password: req.body.password
+                password: req.body.password,
             } );
             if ( user && user.id )
             {
@@ -136,7 +136,7 @@ usersRouter.patch( '/:userId/', async ( req, res, next ) =>
     {
         if ( req.auth && req.auth.isAdmin )
         {
-            if (req.body && req.params.userId === req.body.id )
+            if (req.body && Number( req.params.userId ) === Number( req.body.id ) )
             {
                 res.send( await updateUser( req.body ) );
             }

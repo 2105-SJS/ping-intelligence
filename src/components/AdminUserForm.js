@@ -5,10 +5,11 @@ import { callApi } from '../util'
 const AdminUserForm = ( props ) => 
 {
     const params = useParams();
-    const id = Number(params[0]);
+
     const token = props.token;
     const currentUser = props.currentUser;
 
+    const [ id, setId ] = useState( -1 );
     const [ edit, setEdit ] = useState( true );
     const [ username, setUsername ] = useState( "" );
     const [ firstName, setFirstName ] = useState( "" );
@@ -22,7 +23,12 @@ const AdminUserForm = ( props ) =>
     
     useEffect( () =>
     {
-        if ( id )
+        setId( Number( params.userId ) || -1 );
+    }, [ params.userId ] );
+
+    useEffect( () =>
+    {
+        if ( id !== -1 )
         {
             callApi( 
             {
@@ -34,17 +40,18 @@ const AdminUserForm = ( props ) =>
             {
                 if ( response && response.id )
                 {
-                    setUsername( response.username );
-                    setFirstName( response.firstName );
-                    setLastName( response.lastName );
-                    setEmail( response.email );
-                    setImageUrl( response.imageURL );
-                    setAdmin( response.admin );
-                    setMessage( `Editing user Id:${id} Username:${username}` );
+                    setEdit( true );
+                    setUsername( response.username || "" );
+                    setFirstName( response.firstName || "" );
+                    setLastName( response.lastName || "" );
+                    setEmail( response.email || "" );
+                    setImageUrl( response.imageURL || "" );
+                    setAdmin( response.admin || false );
+                    setMessage( `Editing user Id:${ id } Username:${ response.username }` );
                 }
                 else
                 {
-                    setMessage( `Unable to find user with Id:${id}` );
+                    setMessage( `Unable to find user with Id:${ id }` );
                 }
             } );    
         }
@@ -53,9 +60,11 @@ const AdminUserForm = ( props ) =>
             setEdit( false );
             setMessage( "Add new User" );
         }
-    }, [] );
+    }, [ id, token ] );
 
-    return currentUser && currentUser.admin ? 
+    return <div className = "AdminUserForm" > 
+    { 
+        currentUser && currentUser.admin ? 
         <form onSubmit = { async ( event ) =>
         {
             event.preventDefault();
@@ -63,15 +72,17 @@ const AdminUserForm = ( props ) =>
             {
                 url: `users/${ edit ? id : "register" }`,
                 method: ( edit ? "PATCH" : "POST" ),
+                token: token,
                 body:
                 {
+                    ...( edit && { id: id } ),
                     firstName: firstName,
                     lastName: lastName,
                     email: email,
                     username: username,
-                    ...(!edit && {password: password}),
+                    ...( !edit && { password: password } ),
                     imageURL: imageURL,
-                    admin: admin
+                    isAdmin: admin
                 }
             } )
             .then( ( response ) =>
@@ -119,29 +130,30 @@ const AdminUserForm = ( props ) =>
                 setEmail( event.target.value );
             }}/>
 
-            <input type = "text" placeholder = "Image URL" value = { imageURL } title = "Please provide a valid image address like: http://imageSite.com/image.jpeg" onChange = { ( event ) =>
+            <input type = "text" disabled = { !edit } placeholder = "Image URL" value = { imageURL } onChange = { ( event ) =>
             {
                 setImageUrl( event.target.value );
             }}/>
 
             <div>
-                <input type = "checkbox" checked = { admin } value = { admin } onChange = { () =>
+                <input type = "checkbox" disabled = { !edit } checked = { admin } value = { admin } onChange = { () =>
                 {
                     setAdmin( !admin );
                 }}/>
                 <label htmlFor = "Admin">Admin</label>
             </div>
             
-            <input required type = "text" pattern = "admin" disabled = { !admin } placeholder = "Type admin to confirm Admin" value = { confirmAdmin } title = { `Please write admin to confirm making User:${ id } an admin` } onChange = { ( event ) =>
+            <input required type = "text" pattern = "admin" disabled = { !admin } placeholder = "Type admin " value = { confirmAdmin } title = { `Please write admin to confirm making User:${ id } an admin` } onChange = { ( event ) =>
             {
                 setConfirmAdmin( event.target.value );
             }}/>
 
             <p>{ message }</p>
 
-            <button type = "submit" disabled = { !username || ( edit && !password) || !firstName || !lastName || !email || ( admin && ! ( confirmAdmin === "admin" ) )  }>{ edit ? "Update" : "Create" }</button>
+            <button type = "submit" disabled = { !username || ( !edit && !password) || !firstName || !lastName || !email || ( admin && ! ( confirmAdmin === "admin" ) )  }>{ edit ? "Update" : "Create" }</button>
         </form>
-    : <>You must be logged in as an admin to view this page.</>
+        : <>You must be logged in as an admin to view this page.</>
+    }</div>;
 }
 
 export default AdminUserForm;

@@ -5,7 +5,7 @@ import User from './User';
 const AllUsers = ( props ) =>
 {
     const token = props.token;
-    const currentUser = props.token;
+    const currentUser = props.currentUser;
 
     const [ allUsers, setAllUsers ] = useState( [] );
 
@@ -33,8 +33,7 @@ const AllUsers = ( props ) =>
     return <>
         { currentUser && currentUser.admin ? allUsers.map( ( user ) => 
         {
-            return <User user = { user } currentUser = { currentUser } ></User>
-
+            return <User key = { user.id } user = { user } currentUser = { currentUser } ></User>;
         } ) : <>You must be logged in as an admin to view this page.</> }
     </>;
 }

@@ -83,11 +83,11 @@ const App = () => {
                 </Route>
 
                 <Route exact path = "/users/">
-                    <AllUsers token={ token } currentUser = { currentUser }></AllUsers>
+                    <AllUsers token= { token } currentUser = { currentUser }></AllUsers>
                 </Route>
 
-                <Route exact path = "/users/:userId">
-                    <AdminUserForm token={ token } currentUser = { currentUser }></AdminUserForm>
+                <Route exact path = { [ "/users/add/", "/users/:userId/" ] } >
+                    <AdminUserForm token= { token } currentUser = { currentUser }></AdminUserForm>
                 </Route>
 
                 <Route exact path="/cart/checkout/">

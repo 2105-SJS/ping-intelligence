@@ -9,7 +9,10 @@ const NavBar = ( props ) =>
         <NavLink to = "/">Home</NavLink>|
         <NavLink to = "/products/">Products</NavLink>|
         { currentUser && currentUser.id ? <><NavLink to="/account/">Account</NavLink>|</> : null}
-        { currentUser && currentUser.admin ? <><NavLink to="/users/">Users</NavLink>|</> : null}
+        { currentUser && currentUser.admin ? <>
+            <NavLink to="/users/">Users</NavLink>
+            <NavLink to="/users/add">AddUser</NavLink>
+        </> : null}
         <NavLink to = "/cart/checkout/">View Cart</NavLink>
     </h2>
 }

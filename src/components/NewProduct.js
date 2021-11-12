@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { callApi } from '../util';
 
-productRouter.use( ( req, res, next ) => {
-    console.log("A request is being made to /products");
 
-    next();
-});
-const NewProduct = ( { token, setProduct } ) => {
+const NewProduct = ( { token, setProduct, product } ) => 
+{
+    const [ edit, setEdit ] = useState( false );
     const [ id, setId ] = useState( '' );
     const [ name, setName ] = useState( '' );
     const [ description, setDescription ] = useState( '' );
@@ -15,24 +13,40 @@ const NewProduct = ( { token, setProduct } ) => {
     const [ inStock, setInStock ] = useState( false );
     const [ category, setCategory ] = useState( '' );
 
-    const handleAdd = async (ev) => {
+    useEffect( () =>
+    {
+        if( product && product.id )
+        {
+            setId( product.id || -1 );
+            setName( product.name || '' );
+            setDescription( product.description || '' );
+            setPrice( product.price || '' );
+            setImageUrl( product.imageUrl || '' );
+            setInStock( product.inStock || '' );
+            setCategory( product.category || '' );
+        }
+    },
+    [ product ] );
+
+    const handleAdd = async (ev) => 
+    {
         ev.preventDefault();
-        const postResponse = await callApi( {
-            url: '/products',
-            method: 'POST',
+        await callApi( 
+        {
+            url: `/products${ edit ? `/${ id }` : '' }`,
+            method: edit ? 'PATCH' : 'POST',
             token,
-            body: {
-                post: {
-                    id,
-                    name,
-                    description,
-                    price,
-                    imageUrl,
-                    inStock,
-                    category
-                }
+            body: 
+            {
+                id,
+                name,
+                description,
+                price,
+                imageUrl,
+                inStock,
+                category
             }
-        });
+        } );
 
         const productResponse = await callApi( { url: '/products', token } );
 
@@ -40,7 +54,7 @@ const NewProduct = ( { token, setProduct } ) => {
     }
 
     return <div>
-        <div className = "newpost">
+        <div className = "newproduct">
             <h1>Add Product</h1>
             <form onSubmit = { handleAdd }>
 
@@ -78,9 +92,9 @@ const NewProduct = ( { token, setProduct } ) => {
                         <option value = "true">Yes</option>
                     </select>
                 </fieldset>
-                <button type = "submit">Add Product</button>
+                <button type = "submit">{ `${ edit ? "Edit" : "Add" } Product` }</button>
             </form>
         </div>
     </div>
 }
-module.exports = productsRouter;
+export default NewProduct;
