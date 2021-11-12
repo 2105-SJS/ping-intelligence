@@ -59,6 +59,18 @@ const App = () =>
             throw error;
         }     
     }
+
+    const getCart = async () => {
+        try {
+            const respObj = await callApi({ url: 'orders/cart', token})
+            if (respObj) {
+                setLocalCart(response);
+                localStorage.setItem('cart', JSON.stringify(response));
+            };
+        } catch (error) {
+            throw error;
+        }
+    }
    
     useEffect( () => 
     {
@@ -71,6 +83,15 @@ const App = () =>
         }
       
     }, [token]);
+
+    useEffect( () => {
+        try {
+            getCart();
+        } catch (error) {
+            throw error;
+        }
+
+    });
 
     return <div className = "App">
         <BrowserRouter>
