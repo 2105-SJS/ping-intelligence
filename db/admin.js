@@ -8,11 +8,13 @@ const destoryProduct = async ( { id } ) =>
         `DELETE FROM order_products
         USING orders WHERE orders."orderId"=order_products."orderId"
         AND "productId"=$1
-        AND status !='completed';`,
+        AND status !='completed'
+        RETURNING *;`,
         [ id ] );
         const { rows: [ product ] } = await client.query(
         `DELETE FROM products
-        WHERE "productId"=$1;`,
+        WHERE "productId"=$1
+        RETURNING *;`,
         [ id ] );
 
         product.order_products = order_products;

@@ -8,13 +8,13 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, children })
 
     const deleteProduct = async () =>
     {
-        callApi(
+        await callApi(
         {
             url: `products/${ product.productId }`,
             method: 'DELETE',
             token: token
         } )
-        .then( fetchProducts() );
+        await fetchProducts();
     }
 
     return product
