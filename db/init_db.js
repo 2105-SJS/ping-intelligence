@@ -1,12 +1,10 @@
 // code to build and initialize DB goes here
-const {
-  client
-  // other db methods 
-} = require('./index');
+const { client } = require('./index');
+
+const  { createInitialUsers, createInitialProducts } = require('./seed');
 
 async function buildTables() {
   try {
-    client.connect();
     console.log('Dropping All Tables...');
 
     // drop tables in correct order
@@ -44,7 +42,7 @@ async function buildTables() {
       "orderId" SERIAL PRIMARY KEY,
       "userId" INTEGER REFERENCES users(id),
       "datePlaced" DATE,
-      status BOOLEAN DEFAULT true
+      status VARCHAR(255) DEFAULT 'created'
     );
 
   `);
@@ -58,7 +56,7 @@ async function buildTables() {
       "productName" VARCHAR UNIQUE NOT NULL,
       description VARCHAR NOT NULL,
       price VARCHAR NOT NULL,
-      "imageURL" VARCHAR,
+      "imageURL" VARCHAR DEFAULT 'https://images.unsplash.com/photo-1618486613525-c694bf152b2c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
       "inStock" BOOLEAN DEFAULT false,
       category VARCHAR(255) NOT NULL
     );
@@ -72,6 +70,7 @@ async function buildTables() {
       "order_productId" SERIAL PRIMARY KEY,
       "productId" INTEGER REFERENCES products("productId"),
       "orderId" INTEGER REFERENCES orders("orderId"),
+      UNIQUE ("productId", "orderId"),
       price NUMERIC NOT NULL,
       quantity INTEGER DEFAULT 1
     );
@@ -86,13 +85,15 @@ async function buildTables() {
 
 async function populateInitialData() {
   try {
-    // create useful starting data
+    await createInitialUsers();
+    await createInitialProducts();
   } catch (error) {
     throw error;
   }
 }
 
-buildTables()
+client.connect()
+  .then(buildTables)
   .then(populateInitialData)
   .catch(console.error)
   .finally(() => client.end());

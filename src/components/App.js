@@ -1,99 +1,170 @@
 import React, { useState, useEffect } from 'react';
-import {BrowserRouter,Route,Switch} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import NavBar from './NavBar';
 import Component404 from './404';
 import Users from './Users';
 import Home from './Home';
 import Account from './Account';
-import {
-  NewProduct,
-} from './index';
+import { NewProduct, } from './index';
 import { callApi } from '../util';
-import Products from './Product';
+import Product from './Product';
+import Cart from './Cart';
+import AllUsers from './AllUsers';
+import AdminUserForm from './AdminUserForm';
+import Login from './Login';
+import Orders from './Orders';
+import ProductsAll from './ProductsAll';
+import { makeStyles } from '@material-ui/core'
+
+/* do these need an import or something? commented out as temp fix 
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Badge from "@material-ui/core/Badge";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+*/
+const useStyles = makeStyles({
+    page:{
+      backgroundColor:'#e46400',
+      minHeight:'100vh',
+      paddingTop:'1.5rem',
+      paddingBottom:'1.5rem'
+    }
+  })
 
 const { REACT_APP_BASE_URL } = process.env;
 
-const App = () => {
-
-    const [products, setProducts] = useState([]);
-    const [productId, setProductId] = useState('');
-    const [productName, setProductName] = useState([]);
-    const [description, setDescription] = useState('');
-    const [price, setPrice] = useState('');
-    const [message, setMessage] = useState('');
-    const [token,setToken]=useState(localStorage.getItem("token")||"");
-    const [currentUser,setCurrentUser]=useState(
+const App = () => 
+{
+    const classes = useStyles();
+    const [ products, setProducts ] = useState( [] );
+    const [ productId, setProductId ] = useState( '' );
+    const [ productName, setProductName ] = useState( [] );
+    const [ description, setDescription ] = useState( '' );
+    const [ price, setPrice ] = useState( '' );
+    const [ message, setMessage ] = useState( '' );
+    const [ order, setOrder ] = useState( [] );
+    const [ token, setToken ] = useState ( localStorage.getItem( "token" ) || "" );
+    const [ currentUser, setCurrentUser ] = useState(
     {
-        id:Number(localStorage.getItem("id")),
-        name:localStorage.getItem("username")
-    }||{});
+        id: Number( localStorage.getItem( "id" ) ),
+        name: localStorage.getItem( "username" ),
+        admin: localStorage.getItem( "admin" )
+    } || {} );
+    //const [ localCart, setLocalCart ] = useState( {} );
+    const [ cart, setCart ] = useState( {} );
+
+    // useEffect( () =>
+    // {
+    //     setLocalCart( JSON.parse( localStorage.getItem( "order" ) ) );
+    // },
+    // []);
 
     const fetchProducts = async () => {
         try {
-            const respObj = await callApi({
+            const respObj = await callApi( {
             url: `products/`,
             token
             });
-            if(respObj&&respObj.allProducts)
+            if ( respObj && respObj.allProducts )
             {
-                setProducts(respObj.allProducts); 
+                setProducts( respObj.allProducts ); 
             }
+        } catch ( error ) {
+            throw error;
+        }     
+    }
+
+    const getCart = async () => {
+        try {
+            const respObj = await callApi({ url: 'orders/cart', token})
+            if (respObj) {
+                setCart(respObj);
+                //localStorage.setItem('cart', JSON.stringify(respObj));
+            }
+            else
+            {
+                setCart( {} );
+            };
         } catch (error) {
             throw error;
         }
-        
-        
     }
-
-    useEffect(() => {
-        try {
+   
+    useEffect( () => 
+    {
+        try 
+        {
             fetchProducts();
-        } catch (error) {
-            console.error(error);
+        } catch ( error ) 
+        {
+            console.error( error );
         }
+      
     }, [token]);
 
+    useEffect( () => {
+        try {
+            if ( token )
+            {
+                getCart();
+            }
+            // else
+            // {
+            //     setCart( JSON.parse( localStorage.getItem( 'cart' ) ) || {} );
+            // }
+        } catch (error) {
+            throw error;
+        }
 
-    return <div className="App">
+    }, [ token ] );
 
+    return <div className = {classes.page}>
         <BrowserRouter>
-            <header className="site-banner">
-                <NavBar token={token}></NavBar>
+            <header className = "site-banner">
+                <NavBar currentUser = { currentUser }></NavBar>
             </header>
         
-            <Users setToken={setToken} setCurrentUser={setCurrentUser} currentUser={currentUser}/>
+            {/* <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/> */}
             
             <Switch>
-                <Route exact path ="/">
-                    <Home currentUser={currentUser}></Home>
+                <Route exact path = "/">
+                    <Home currentUser = { currentUser }></Home>
                 </Route>
 
-                <Route exact path ="/products/">
-                    <Products products={products}></Products>
+                <Route exact path = "/products/">
+                    <ProductsAll products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts } cart = { cart } getCart = { getCart }></ProductsAll>
                 </Route>
 
-                {/*
-                Example routes
-
-                <Route exact path ="/">
-                    <Home currentUser={currentUser}></Home>
+                <Route exact path = "/products/:productId">
+                    <Product products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }></Product>
                 </Route>
 
-                <Route exact path ="/routines/">
-                    <Routines token={token} currentUser={currentUser}></Routines>
+                <Route exact path = "/account/">
+                    <Account token = { token }></Account>
                 </Route>
 
-                <Route exact path ="/myroutines/">
-                    <MyRoutines token={token} currentUser={currentUser}></MyRoutines>
+                <Route exact path = "/users/">
+                    <AllUsers token = { token } currentUser = { currentUser }></AllUsers>
                 </Route>
 
-                <Route exact path ="/activities/">
-                    <Activities token={token}></Activities>
+                <Route exact path = { [ "/users/add/", "/users/:userId/" ] } >
+                    <AdminUserForm token = { token } currentUser = { currentUser }></AdminUserForm>
                 </Route>
-                */}
-                <Route exact path="/account/">
-                    <Account token={token}></Account>
+
+                <Route exact path='/orders'> 
+                    <Orders order={order} setOrder={setOrder} token={token}/> 
                 </Route>
+
+                <Route exact path = "/cart/checkout/">
+                    <Cart token = { token } currentUser = { currentUser } cart = { cart }></Cart>
+                </Route>    
+
+                <Route path="/accounts/register">
+                    <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/>
+                </Route>
+
                 <Route path="/*">
                     <Component404></Component404>
                 </Route>
@@ -103,32 +174,3 @@ const App = () => {
     </div>;
 }
 export default App;
-
-// import React, { useState, useEffect } from 'react';
-
-// import {
-//   getSomething
-// } from '../api';
-
-// const App = () => {
-//   const [message, setMessage] = useState('');
-
-//   useEffect(() => {
-//     getSomething()
-//       .then(response => {
-//         setMessage(response.message);
-//       })
-//       .catch(error => {
-//         setMessage(error.message);
-//       });
-//   });
-
-//   return (
-//     <div className="App">
-//       <h1>Hello, World!</h1>
-//       <h2>{ message }</h2>
-//     </div>
-//   );
-// }
-
-// export default App;

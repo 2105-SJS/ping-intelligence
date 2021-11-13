@@ -1,12 +1,17 @@
 import React from 'react';
-const User = (props) => 
+import { NavLink } from 'react-router-dom';
+const User = ( props ) => 
 {
-    const user=props.user;
+    const user = props.user;
+    const currentUser = props.currentUser;
 
     return<>
-        <h2>Username:{user.username}</h2>
-        <h3>First Name:{user.firstName}</h3>
-        <h3>Last Name:{user.lastName}</h3>
+        { currentUser && currentUser.admin ?
+        <NavLink to = { `/users/${ user.id }/` }>Username:{ user.username }</NavLink> :
+        <h2>Username:{ user.username }</h2>}
+       
+        {user.firstName ? <h3>First Name:{ user.firstName }</h3> : null}
+        {user.lastName ? <h3>Last Name:{ user.lastName }</h3> : null}
     </>;
 }
 

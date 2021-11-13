@@ -1,50 +1,50 @@
-const bcrypt=require('bcrypt');
-const {client}=require('./client');
+const bcrypt = require('bcrypt');
+const { client } = require('./client');
 
-const createUser= async({firstName,lastName,email,username,password})=>
+const createUser = async( { firstName, lastName, email, username, password } ) =>
 {
     try 
     {
-        if(emailCheck(email))
+        if ( emailCheck( email ) )
         {
-            const{rows:[user]}=await client.query(
+            const { rows: [ user ] } = await client.query(
             `INSERT INTO users("firstName","lastName",email,username,password)
             VALUES($1,$2,$3,$4,$5)
             ON CONFLICT
             DO NOTHING
             RETURNING id,"firstName","lastName",email,username;`,
-            [firstName,lastName,email,username,await bcrypt.hash(password,10)]
+            [ firstName, lastName, email, username, await bcrypt.hash( password, 10 ) ]
             );
             return user;
         }
         else
         {
-            throw Error("invalid email");
+            throw Error( "invalid email" );
         }
     }
-    catch (error) 
+    catch ( error ) 
     {
         throw error;
     }
 }
 
-const emailCheck=(email)=>
+const emailCheck = ( email ) =>
 {
-    return /.+?@.+?/.test(email);
+    return /.+?@.+?/.test( email );
 }
 
 
-const getUser=async({username,password})=>
+const getUser = async ( { username, password } ) =>
 {
     try
     {
-        const {rows:[user]}=await client.query(
+        const { rows: [ user ] } = await client.query(
         `SELECT *
         FROM users 
         WHERE username=$1;`,
-        [username]    
+        [ username ]    
         );
-        if(user&&await bcrypt.compare(password,user.password))
+        if ( user && await bcrypt.compare( password, user.password ) )
         {
             delete user.password;//dont expose password unless required to
             return user;
@@ -54,60 +54,60 @@ const getUser=async({username,password})=>
             return;
         }
     }
-    catch(error)
+    catch ( error )
     {
         throw error;
     }
 }
 
-const getAllUsers=async()=>
+const getAllUsers = async () =>
 {
-    const {rows:users}=await client.query(
+    const { rows: users } = await client.query(
     `SELECT id,"firstName","lastName",email,username
-    FROM users;`,   
+    FROM users;`   
     );
     return users;
 }
 
-const getUserById=async(id)=>
+const getUserById = async ( id ) =>
 {
     try
     {
-        const {rows:[user]}=await client.query(
+        const { rows: [ user ] } = await client.query(
         `SELECT *
         FROM users 
         WHERE id=$1;`,
-        [id]    
+        [ id ]    
         );
         delete user.password;//dont expose password unless required to
         return user;
     }
-    catch(error)
+    catch ( error )
     {
         throw error;
     }
 }
 
-const getUserByUsername=async(username)=>
+const getUserByUsername = async ( username ) =>
 {
     try
     {
-        const {rows:[user]}=await client.query(
+        const { rows: [ user ] } = await client.query(
         `SELECT *
         FROM users 
         WHERE username=$1;`,
-        [username]    
+        [ username ]    
         );
         delete user.password;//dont expose password unless required to
         return user;
     }
-    catch(error)
+    catch( error )
     {
         throw error;
     }
 }
 
-module.exports=
+module.exports =
 {
     createUser,
     getUser,
