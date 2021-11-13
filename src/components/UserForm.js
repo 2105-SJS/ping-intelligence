@@ -131,13 +131,15 @@ const UserForm = ( props ) =>
                     setCurrentUser(
                     {
                         id: response.id,
-                        name: response.username
+                        name: response.username,
+                        admin: response.isAdmin
                     });
                     if ( remember )
                     {
                         localStorage.setItem( "token", response.token );
                         localStorage.setItem( "username", response.username );
                         localStorage.setItem( "id", response.id );
+                        localStorage.setItem( "admin", response.isAdmin )
                     }
                 }
                 else
@@ -147,7 +149,7 @@ const UserForm = ( props ) =>
             }
             else
             {
-                setMessage("error " + ( register ? "registering":"logging in" ) + "." );
+                setMessage("Error " + ( register ? "registering":"logging in" ) + "." );
             }
         });
     }}>
@@ -196,7 +198,7 @@ const UserForm = ( props ) =>
         }}/>
 
         <Typography className={classes.remember}>
-            <input type = "checkbox" checked = { remember } value = { remember }  onChange = { () =>
+            <input type = "checkbox" checked = { remember } value = { remember } onChange = { () =>
             {
                 setRemember( !remember );
             }}/>
