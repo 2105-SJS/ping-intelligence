@@ -64,7 +64,7 @@ const getAllUsers = async () =>
 {
     const { rows: users } = await client.query(
     `SELECT id,"firstName","lastName",email,username
-    FROM users;`,   
+    FROM users;`   
     );
     return users;
 }
