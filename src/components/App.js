@@ -14,6 +14,7 @@ import AdminUserForm from './AdminUserForm';
 import Login from './Login';
 import Orders from './Orders';
 import ProductsAll from './ProductsAll';
+import { makeStyles } from '@material-ui/core'
 
 /* do these need an import or something? commented out as temp fix 
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -23,11 +24,20 @@ import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 */
+const useStyles = makeStyles({
+    page:{
+      backgroundColor:'#e46400',
+      minHeight:'100vh',
+      paddingTop:'1.5rem',
+      paddingBottom:'1.5rem'
+    }
+  })
 
 const { REACT_APP_BASE_URL } = process.env;
 
 const App = () => 
 {
+    const classes = useStyles();
     const [ products, setProducts ] = useState( [] );
     const [ productId, setProductId ] = useState( '' );
     const [ productName, setProductName ] = useState( [] );
@@ -110,7 +120,7 @@ const App = () =>
 
     }, [ token ] );
 
-    return <div className = "App">
+    return <div className = {classes.page}>
         <BrowserRouter>
             <header className = "site-banner">
                 <NavBar currentUser = { currentUser }></NavBar>
