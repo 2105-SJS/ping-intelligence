@@ -71,7 +71,7 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
             <NavLink to = { `/products/${product.productId}` }>Product Name: { product.productName }</NavLink>
             <div>Description: { product.description }</div>
             <div>Price: { product.price }</div>
-            <div>Image URL: { product.imageURL }</div>
+            <img src = { product.imageURL }/>
             <div>In Stock: { product.inStock ? 'yes' : 'no' }</div>
             <div>Category: { product.category }</div>
             <div><button onClick = { handleAddtoCart }>Add To Cart</button></div>
