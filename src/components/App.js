@@ -12,6 +12,9 @@ import Cart from './Cart';
 import AllUsers from './AllUsers';
 import AdminUserForm from './AdminUserForm';
 import Login from './Login';
+import {Container, makeStyles} from '@material-ui/core'
+import { mergeClasses } from '@material-ui/styles';
+import { CallMissedSharp } from '@material-ui/icons';
 
 /* do these need an import or something? commented out as temp fix 
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -23,9 +26,17 @@ import RemoveIcon from "@material-ui/icons/Remove";
 */
 
 const { REACT_APP_BASE_URL } = process.env;
+const useStyles = makeStyles({
+    page:{
+      backgroundColor:'#e46400',
+      minHeight:'100vh',
+      minWidth:'100vw'
+    }
+  })
 
 const App = () => 
 {
+    const classes = useStyles()
     const [ products, setProducts ] = useState( [] );
     const [ productId, setProductId ] = useState( '' );
     const [ productName, setProductName ] = useState( [] );
@@ -76,7 +87,7 @@ const App = () =>
       
     }, [token]);
 
-    return <div className = "App">
+    return <div className={classes.page}>
         <BrowserRouter>
             <header className = "site-banner">
                 <NavBar currentUser = { currentUser }></NavBar>
