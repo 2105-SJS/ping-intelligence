@@ -64,7 +64,7 @@ const AdminUserForm = ( props ) =>
 
     return <div className = "AdminUserForm" > 
     { 
-        currentUser && currentUser.admin ? 
+        currentUser && currentUser.admin === true ? 
         <form onSubmit = { async ( event ) =>
         {
             event.preventDefault();

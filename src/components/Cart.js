@@ -9,7 +9,6 @@ const Cart = ( props ) =>
     const currentUser = props.currentUser;
     const cart = props.cart;
 
-    //const [ order, setOrder ] = useState( {} );
     const [ user, setUser ] = useState( {} );
     const [ message, setMessage ] = useState( "Complete or cancel your order here." );
 
@@ -45,30 +44,6 @@ const Cart = ( props ) =>
                 username: "Guest"
             } );
         }
-        // callApi(
-        // {
-        //     url: `orders/cart`,
-        //     method: "GET",
-        //     token: token
-        // } )
-        // .then( ( response ) => 
-        // {
-        //     if ( response )
-        //     {
-        //         setOrder( response );
-        //     }
-        //     else
-        //     {
-        //         if (cart && cart.products)
-        //         {
-        //             setOrder( cart );
-        //         }
-        //         else
-        //         {
-        //             setOrder( {} );
-        //         }
-        //     }
-        // } );
     }, [ token, cart ] )
 
     const callUpdate=(type)=>
@@ -90,10 +65,6 @@ const Cart = ( props ) =>
             {
                 if ( response.orderId )
                 {
-                    if ( response.status === 'completed' )
-                    {
-                        //stripe submit order here
-                    }
                     setMessage( `order for ${ user.username } successfully ${ type }` );
                 }
                 else if ( response.message )

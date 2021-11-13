@@ -1,18 +1,15 @@
-import { getContrastRatio } from '@material-ui/core';
+
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { callApi } from '../util';
 import NewProduct from './NewProduct';
-import { Typography, TextField, Button, Grid, Card, Container} from '@material-ui/core';
+import { Typography, Card } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
     carcard:{
         border:'2px solid black'
     },
-
-  
-  
   })
 
 const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, cart, children }) => {
@@ -35,7 +32,7 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
         try {
             if (product && cart) {
                 const productId = Number(product.productId)
-                if( cart.orderId!== undefined ) 
+                if( cart.orderId === undefined ) 
                 {
                     await callApi(
                     {
@@ -90,7 +87,7 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
             {
                 children
             }
-            { currentUser && currentUser.admin ? 
+            { currentUser && currentUser.admin === true ? 
                 <>
                     <button onClick = { deleteProduct } >Delete Product</button>
                     <button onClick = { () =>
