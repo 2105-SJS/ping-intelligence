@@ -2,7 +2,6 @@ import React from 'react';
 import SingleProduct from './SingleProduct';
 import NewProduct from './NewProduct';
 import { useParams } from 'react-router-dom';
-import { Grid , Typography, TextField, Button, Card, Container} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({

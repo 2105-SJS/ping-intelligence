@@ -1,15 +1,5 @@
 const { client } = require('./client');
 
-const getOrderById = async ( { id } ) =>
-{
-    const { rows: [ order ] } = await client.query(
-    `SELECT *
-    FROM orders
-    WHERE "orderId"=$1`,
-    [ id ] );
-    return order;
-}
-
 const updateOrder = async ( { id, status, userId } ) =>
 {
     const fields = 
@@ -80,7 +70,6 @@ const cancelOrder = async ( id ) =>
 
 module.exports =
 {
-    getOrderById,
     updateOrder,
     completeOrder,
     cancelOrder,

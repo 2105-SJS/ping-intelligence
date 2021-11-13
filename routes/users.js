@@ -186,4 +186,5 @@ usersRouter.get( '/:userId/', async ( req, res, next ) =>
         next( error );
     }
 } );
+
 module.exports = usersRouter;

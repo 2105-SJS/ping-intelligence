@@ -1,4 +1,5 @@
-import { CardContent, CardMedia, getContrastRatio } from '@material-ui/core';
+import { CardContent, CardMedia } from '@material-ui/core';
+
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { callApi } from '../util';
@@ -38,7 +39,7 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
         try {
             if (product && cart) {
                 const productId = Number(product.productId)
-                if( cart.orderId!== undefined ) 
+                if( cart.orderId === undefined ) 
                 {
                     await callApi(
                     {
@@ -80,32 +81,32 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
             style={{ margin: '1.2rem' }}
         >
             <CardActionArea>
-            <h5>
-                {product.title}
-            </h5>
-            <CardMedia
-                component="img"
-                height="150"
-                image= {product.imageURL}
-                alt="carimg"
-                />
-            {/* // <img src = { product.imageURL }/> */}
-            <CardContent className = {classes.text}>
-            {/* <Typography>Product ID: { product.productId }</Typography> */}
-            <Typography>
-            <NavLink to = { `/products/${product.productId}` }>{ product.productName }</NavLink>
-            </Typography>
-            <Typography>Description: { product.description }</Typography>
-            <Typography>Price: { product.price }</Typography>
-            <Typography>In Stock: { product.inStock ? 'yes' : 'no' }</Typography>
-            <Typography>Category: { product.category }</Typography>
-            {/* <CardActions>
-                <Button size="small" className={classes.button} onClick = { handleAddtoCart }>Add To Cart</Button>
-            </CardActions> */}
-            </CardContent>
-            {
-                children
-            }
+                <h5>
+                    {product.title}
+                </h5>
+                <CardMedia
+                    component="img"
+                    height="150"
+                    image= {product.imageURL}
+                    alt="carimg"
+                    />
+                {/* // <img src = { product.imageURL }/> */}
+                <CardContent className = {classes.text}>
+                {/* <Typography>Product ID: { product.productId }</Typography> */}
+                <Typography>
+                <NavLink to = { `/products/${product.productId}` }>{ product.productName }</NavLink>
+                </Typography>
+                <Typography>Description: { product.description }</Typography>
+                <Typography>Price: { product.price }</Typography>
+                <Typography>In Stock: { product.inStock ? 'yes' : 'no' }</Typography>
+                <Typography>Category: { product.category }</Typography>
+                {/* <CardActions>
+                    <Button size="small" className={classes.button} onClick = { handleAddtoCart }>Add To Cart</Button>
+                </CardActions> */}
+                </CardContent>
+                {
+                    children
+                }
             </CardActionArea>
             <CardActions>
                 <Button size="small" className={classes.button} onClick = { handleAddtoCart }>Add To Cart</Button>
