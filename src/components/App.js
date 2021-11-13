@@ -7,11 +7,12 @@ import Home from './Home';
 import Account from './Account';
 import { NewProduct, } from './index';
 import { callApi } from '../util';
-import Products from './Product';
+import Product from './Product';
 import Cart from './Cart';
 import AllUsers from './AllUsers';
 import AdminUserForm from './AdminUserForm';
 import Login from './Login';
+import ProductsAll from './ProductsAll';
 
 /* do these need an import or something? commented out as temp fix 
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -47,14 +48,12 @@ const App = () =>
     },
     []);
 
-    const fetchProducts = async () => 
-    {
+    const fetchProducts = async () => {
         try {
             const respObj = await callApi( {
             url: `products/`,
             token
             });
-            console.log(respObj);
             if ( respObj && respObj.allProducts )
             {
                 setProducts( respObj.allProducts ); 
@@ -90,12 +89,11 @@ const App = () =>
                 </Route>
 
                 <Route exact path = "/products/">
-                    <Products products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }></Products>
+                    <ProductsAll products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }></ProductsAll>
                 </Route>
 
                 <Route exact path = "/products/:productId">
-                    {/* no such react component exists un comment this when created also where is product.id coming from?
-                    <ProductsId productId={product.id}></ProductsId>*/}
+                    <Product products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }></Product>
                 </Route>
 
                 <Route exact path = "/account/">

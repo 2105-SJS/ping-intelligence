@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { callApi } from '../util';
 import NewProduct from './NewProduct';
 
@@ -25,7 +26,7 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, children })
                 {product.title}
             </h5>
             <div>Product ID: { product.productId }</div>
-            <div>Product Name: { product.productName }</div>
+            <NavLink to = { `/products/${product.productId}` }>Product Name: { product.productName }</NavLink>
             <div>Description: { product.description }</div>
             <div>Price: { product.price }</div>
             <div>Image URL: { product.imageURL }</div>
