@@ -73,7 +73,7 @@ const Cart = ( props ) =>
                 }
                 else
                 {
-                    setMessage( `error trying to ${ type } order` );
+                    setMessage( `error trying to ${ type === 'completed' ? 'complete' : 'cancel'  } order` );
                 }
             }
         } );
