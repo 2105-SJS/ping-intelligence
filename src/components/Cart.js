@@ -7,7 +7,7 @@ const Cart = ( props ) =>
 {
     const token = props.token;
     const currentUser = props.currentUser;
-    const localCart = props.localCart;
+    const cart = props.cart;
 
     const [ order, setOrder ] = useState( {} );
     const [ user, setUser ] = useState( {} );
@@ -59,9 +59,9 @@ const Cart = ( props ) =>
             }
             else
             {
-                if (localCart && localCart.products)
+                if (cart && cart.products)
                 {
-                    setOrder( localCart );
+                    setOrder( cart );
                 }
                 else
                 {
@@ -69,7 +69,7 @@ const Cart = ( props ) =>
                 }
             }
         } );
-    }, [ token, localCart ] )
+    }, [ token, cart ] )
 
     const callUpdate=(type)=>
     {

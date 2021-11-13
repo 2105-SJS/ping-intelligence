@@ -3,7 +3,7 @@ const { getProductById } = require('../db');
 const order_productRouter = express.Router();
 const { getOrderProductsById, addProductToOrder, updateOrderProduct, destroyOrderProduct } = require('../db/orderProducts');
 const { getOrderById } = require('../db/orders');
-const { requireUser } = require('./utils');
+const { requireUser } = require('../src/api/utils');
 
 
 
@@ -13,23 +13,43 @@ order_productRouter.use((req, res, next) => {
     next();
 });
 
-order_productRouter.post('/order:Id/products', async (req, res, next) => {
+order_productRouter.post('/:orderId/products', async (req, res, next) => {
     try {
         const { orderId } = req.params;
-        const userId = req.user.Id
-        const orderProducts = await getOrderProductsById(id);
-        const { quantity } = req.body;
-        const { price } = req.body;
+        const userId = req.auth.id;
+        const { quantity, productId } = req.body;
+        const orderProducts = await getOrderProductsById( orderId );
+        //const { quantity } = req.body;
+        const { price } = await getProductById( productId );
         
-        if( orderProducts ) {
-            const product = await getProductById(orderProducts.productsId);
-            const { productId } = product;
-            if( !productId ) 
+        if( orderProducts ) 
+        {
+            const updatingProduct = await updateOrderProduct({ id: orderProducts.order_productId, price, quantity });
+            if( !updatingProduct ) 
+            {
                 throw Error("Unsuccessful in adding prodcut")
-            } else {
-                const addingProduct = await addProductToOrder({ orderId, productId, price, quantity }) 
-                res.send(addingProduct);
             } 
+            else
+            {
+                res.send(updatingProduct);
+            }
+        }
+        else 
+        {
+            const addingProduct = await addProductToOrder({ orderId, productId, price, quantity });
+            if( !addingProduct ) 
+            {
+                throw Error("Unsuccessful in adding prodcut")
+            } 
+            else
+            {
+                res.send(addingProduct);
+            }
+        } 
+            // const product = await getProductById(orderProducts.productId);
+            // console.log( product );
+            // const { productId } = product;
+        
     } catch (error) {
         throw error
     }

@@ -39,13 +39,14 @@ const App = () =>
         name: localStorage.getItem( "username" ),
         admin: localStorage.getItem( "admin" )
     } || {} );
-    const [ localCart, setLocalCart ] = useState( {} );
+    //const [ localCart, setLocalCart ] = useState( {} );
+    const [ cart, setCart ] = useState( {} );
 
-    useEffect( () =>
-    {
-        setLocalCart( JSON.parse( localStorage.getItem( "order" ) ) );
-    },
-    []);
+    // useEffect( () =>
+    // {
+    //     setLocalCart( JSON.parse( localStorage.getItem( "order" ) ) );
+    // },
+    // []);
 
     const fetchProducts = async () => 
     {
@@ -68,8 +69,9 @@ const App = () =>
         try {
             const respObj = await callApi({ url: 'orders/cart', token})
             if (respObj) {
-                setLocalCart(respObj);
-                localStorage.setItem('cart', JSON.stringify(respObj));
+                setCart(respObj);
+                console.log(respObj);
+                //localStorage.setItem('cart', JSON.stringify(respObj));
             };
         } catch (error) {
             throw error;
@@ -90,12 +92,19 @@ const App = () =>
 
     useEffect( () => {
         try {
-            getCart();
+            if ( token )
+            {
+                getCart();
+            }
+            // else
+            // {
+            //     setCart( JSON.parse( localStorage.getItem( 'cart' ) ) || {} );
+            // }
         } catch (error) {
             throw error;
         }
 
-    }, [token]);
+    }, [ token ] );
 
     return <div className = "App">
         <BrowserRouter>
@@ -111,7 +120,7 @@ const App = () =>
                 </Route>
 
                 <Route exact path = "/products/">
-                    <Products products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }></Products>
+                    <Products products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts } cart = { cart } getCart = { getCart }></Products>
                 </Route>
 
                 <Route exact path = "/products/:productId">
@@ -132,7 +141,7 @@ const App = () =>
                 </Route>
 
                 <Route exact path = "/cart/checkout/">
-                    <Cart token = { token } currentUser = { currentUser } localCart = { localCart }></Cart>
+                    <Cart token = { token } currentUser = { currentUser } cart = { cart }></Cart>
                 </Route>    
 
                 <Route path="/accounts/register">

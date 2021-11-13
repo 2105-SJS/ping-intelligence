@@ -18,24 +18,40 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
         await fetchProducts();
     }
 
-    const handleAddtoCart = async (event) => {
-        event.preventDefault();
+    const handleAddtoCart = async () => {
         try {
             if (product && cart) {
-                const productId = Number(product.id)
-                const {id} = cart;
-                if(id) {
-                    const response = await callApi({
-                        url: `orders/${id}/products`,
+                const productId = Number(product.productId)
+                //if( cart.orderId!== undefined ) 
+                {
+                    const response = await callApi(
+                    {
+                        url: `orders/`,
                         method: 'POST',
                         token,
-                        body: {quantity: 1, productId: productId}
-                    })
-                    if (response) {
-                        //setMessage(`Dream car was added to the cart!`)
-                        await getCart();
-                        return response;
+                        body:
+                        {
+                            userId: currentUser.id,
+                            status: 'created'
+                        }
+                    } );
+                    await getCart();
+                }
+                const response = await callApi(
+                {
+                    url: `order_products/${ cart.orderId }/products`,
+                    method: 'POST',
+                    token,
+                    body:
+                    {
+                        quantity: 1,
+                        productId: productId
                     }
+                } );
+                if (response) {
+                    //setMessage(`Dream car was added to the cart!`)
+                    await getCart();
+                    return response;
                 }
             }
         } catch (error) {
@@ -57,7 +73,7 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
             <div>Image URL: { product.imageURL }</div>
             <div>In Stock: { product.inStock ? 'yes' : 'no' }</div>
             <div>Category: { product.category }</div>
-            <div><button onClick={handleAddtoCart}>Add To Cart</button></div>
+            <div><button onClick = { handleAddtoCart }>Add To Cart</button></div>
             {
                 children
             }

@@ -4,6 +4,9 @@ module.exports = {
   ...require('./Products'),
   ...require('./users'),
   ...require('./checkout'),
-  ...require('./admin')
+  ...require('./admin'),
+  ...require('./orders'),
+  ...require('./orderProducts')
+
   // db methods
 }
