@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { callApi } from '../util';
 import NewProduct from './NewProduct';
+import { Typography, TextField, Button, Grid, Card, Container} from '@material-ui/core';
 
 const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, cart, children }) => {
 
@@ -61,7 +62,7 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
     }
 
     return product
-        ? <div
+        ? <Card
             style={{ margin: '1.2rem' }}
         >
             <h5>
@@ -91,7 +92,7 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
                 </> 
                 : null 
             }
-        </div>
+        </Card>
         : 'Loading Single Product...'
 }
 

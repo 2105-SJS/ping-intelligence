@@ -1,6 +1,7 @@
 import React from 'react';
 import SingleProduct from './SingleProduct';
 import NewProduct from './NewProduct';
+import { Grid} from '@material-ui/core';
 
 const ProductsAll = ( { products, token, currentUser, fetchProducts, cart, getCart } ) => 
 {
@@ -10,9 +11,14 @@ const ProductsAll = ( { products, token, currentUser, fetchProducts, cart, getCa
                 { currentUser && currentUser.admin ? 
                 <NewProduct token = { token } fetchProducts = { fetchProducts }></NewProduct> : null }
                 <span>Products:</span>
+                <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 {
-                    products.map(product => <SingleProduct key = { product.productId } product = { product } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }  cart = { cart } getCart = { getCart }/>)
+                    products.map((product) => (
+                    <Grid key={product.id} item xs={12} sm={6} md={4} lg={3}>
+                    <SingleProduct key = { product.productId } product = { product } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }  cart = { cart } getCart = { getCart }/>
+                    </Grid>))
                 }
+                </Grid>
             </div>
         </>
         : 'Loading Product...'
