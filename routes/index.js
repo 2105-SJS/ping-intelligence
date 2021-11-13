@@ -5,12 +5,6 @@ const { JWT_SECRET } = process.env;
 const express = require('express');
 const apiRouter = express.Router();
 
-//routes
-const usersRouter = require('./users')
-apiRouter.use( '/users', usersRouter );
-
-const productsRouter = require('./products')
-apiRouter.use( '/products', productsRouter );
 
 //Check authorization before anything else
 //JWT Authorization
@@ -55,7 +49,7 @@ apiRouter.use( async ( req, res, next )=>
 //CORS enable
 apiRouter.use( ( req, res, next ) => 
 {
-    res.header('Access-Control-Allow-Origin','http://localhost:5000');
+    res.header('Access-Control-Allow-Origin','http://localhost:3000');
     res.header("Access-Control-Allow-Credentials","true");
     res.header("Access-Control-Allow-Methods","POST,GET,UPDATE,DELETE");
     res.header("Access-Control-Allow-Headers","Authorization,Content-Type");
@@ -67,6 +61,13 @@ apiRouter.get("/", ( req, res, next ) => {
         message: "API is under construction!"
     });
 });
+
+//routes
+const usersRouter = require('./users')
+apiRouter.use( '/users', usersRouter );
+
+const productsRouter = require('./products')
+apiRouter.use( '/products', productsRouter );
 
 //error handling
 apiRouter.use( ( req, res ) =>
