@@ -3,10 +3,22 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { callApi } from '../util';
 import NewProduct from './NewProduct';
+import { Typography, TextField, Button, Grid, Card, Container} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+    carcard:{
+        border:'2px solid black'
+    },
+
+  
+  
+  })
 
 const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, cart, children }) => {
 
     const [ show, setShow ] = useState( false );
+    const classes=useStyles();
 
     const deleteProduct = async () =>
     {
@@ -61,19 +73,19 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
     }
 
     return product
-        ? <div
+        ? <Card className={classes.carcard}
             style={{ margin: '1.2rem' }}
         >
             <h5>
                 {product.title}
             </h5>
-            <div>Product ID: { product.productId }</div>
+            <Typography>Product ID: { product.productId }</Typography>
             <NavLink to = { `/products/${product.productId}` }>Product Name: { product.productName }</NavLink>
-            <div>Description: { product.description }</div>
-            <div>Price: { product.price }</div>
-            <div>Image URL: { product.imageURL }</div>
-            <div>In Stock: { product.inStock ? 'yes' : 'no' }</div>
-            <div>Category: { product.category }</div>
+            <Typography>Description: { product.description }</Typography>
+            <Typography>Price: { product.price }</Typography>
+            <img src = { product.imageURL }/>
+            <Typography>In Stock: { product.inStock ? 'yes' : 'no' }</Typography>
+            <Typography>Category: { product.category }</Typography>
             <div><button onClick = { handleAddtoCart }>Add To Cart</button></div>
             {
                 children
@@ -91,7 +103,7 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
                 </> 
                 : null 
             }
-        </div>
+        </Card>
         : 'Loading Single Product...'
 }
 
