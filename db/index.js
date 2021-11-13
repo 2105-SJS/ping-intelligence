@@ -1,9 +1,10 @@
 // export
 module.exports = {
   ...require('./client'),
-  ...require('./products'),
+  ...require('./Products'),
   ...require('./users'),
   ...require('./checkout'),
-  ...require('./seed')
+  ...require('./seed'),
+  ...require('./admin')
   // db methods
 }

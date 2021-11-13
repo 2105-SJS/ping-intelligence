@@ -20,6 +20,7 @@ const Users = (props) =>
             localStorage.removeItem( "id" )
             localStorage.removeItem( "username" );
             localStorage.removeItem( "token" );
+            localStorage.removeItem( "admin" );
         }
         }>Logout</button>
     </>:<UserForm setToken = { setToken } setCurrentUser = { setCurrentUser }></UserForm>

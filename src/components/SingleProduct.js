@@ -1,6 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { callApi } from '../util';
+import NewProduct from './NewProduct';
 
-const SingleProduct = ({ product, children }) => {
+const SingleProduct = ({ product, token, currentUser, fetchProducts, children }) => {
+
+    const [ show, setShow ] = useState( false );
+
+    const deleteProduct = async () =>
+    {
+        await callApi(
+        {
+            url: `products/${ product.productId }`,
+            method: 'DELETE',
+            token: token
+        } )
+        await fetchProducts();
+    }
+
     return product
         ? <div
             style={{ margin: '1.2rem' }}
@@ -8,15 +25,28 @@ const SingleProduct = ({ product, children }) => {
             <h5>
                 {product.title}
             </h5>
-            <div>Product ID: { product.id }</div>
-            <div>Product Name: { product.name }</div>
+            <div>Product ID: { product.productId }</div>
+            <NavLink to = { `/products/${product.productId}` }>Product Name: { product.productName }</NavLink>
             <div>Description: { product.description }</div>
             <div>Price: { product.price }</div>
-            <div>Image URL: { product.imageUrl }</div>
-            <div>In Stock: { product.inStock }</div>
+            <div>Image URL: { product.imageURL }</div>
+            <div>In Stock: { product.inStock ? 'yes' : 'no' }</div>
             <div>Category: { product.category }</div>
             {
                 children
+            }
+            { currentUser && currentUser.admin ? 
+                <>
+                    <button onClick = { deleteProduct } >Delete Product</button>
+                    <button onClick = { () =>
+                    {
+                        setShow( !show );
+                    } }>Edit Product</button>
+                    { show ? 
+                    <NewProduct token = { token } product = { product } fetchProducts = { fetchProducts }></NewProduct>
+                    : null }
+                </> 
+                : null 
             }
         </div>
         : 'Loading Single Product...'

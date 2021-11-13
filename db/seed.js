@@ -1,4 +1,4 @@
-const  { createProduct } = require('./products');
+const  { createProduct } = require('./Products');
 const  { createUser } = require('./users');
 
 async function createInitialProducts() {

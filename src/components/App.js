@@ -7,8 +7,10 @@ import Home from './Home';
 import Account from './Account';
 import { NewProduct, } from './index';
 import { callApi } from '../util';
-import Products from './Product';
+import Product from './Product';
 import Cart from './Cart';
+import AllUsers from './AllUsers';
+import AdminUserForm from './AdminUserForm';
 import Login from './Login';
 import ProductsAll from './ProductsAll';
 
@@ -35,7 +37,8 @@ const App = () =>
     const [ currentUser, setCurrentUser ] = useState(
     {
         id: Number( localStorage.getItem( "id" ) ),
-        name: localStorage.getItem( "username" )
+        name: localStorage.getItem( "username" ),
+        admin: localStorage.getItem( "admin" )
     } || {} );
     const [ localCart, setLocalCart ] = useState( {} );
 
@@ -47,19 +50,14 @@ const App = () =>
 
     const fetchProducts = async () => {
         try {
-            const respObj = await callApi( 
-            "localhost:5000/api/products",
-           { headers: {
-            "Content-Type": "application/json"}
+            const respObj = await callApi( {
+            url: `products/`,
+            token
             });
-            if(respObj) {
-              setProducts(respObj.allProducts);
-             const data= await respObj.json()
-  
-             return data;
+            if ( respObj && respObj.allProducts )
+            {
+                setProducts( respObj.allProducts ); 
             }
-            
-            
         } catch ( error ) {
             throw error;
         }     
@@ -80,29 +78,37 @@ const App = () =>
     return <div className = "App">
         <BrowserRouter>
             <header className = "site-banner">
-                <NavBar token = { token }></NavBar>
+                <NavBar currentUser = { currentUser }></NavBar>
             </header>
         
             {/* <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/> */}
             
             <Switch>
-                <Route exact path ="/">
-                    <Home currentUser={currentUser}></Home>
+                <Route exact path = "/">
+                    <Home currentUser = { currentUser }></Home>
                 </Route>
 
-                <Route exact path ="/products">
-                    <ProductsAll products={products}></ProductsAll>
+                <Route exact path = "/products/">
+                    <ProductsAll products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }></ProductsAll>
                 </Route>
 
-                <Route exact path ="/products/:productId">
-                    <Products productId={products.id}></Products>
+                <Route exact path = "/products/:productId">
+                    <Product products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }></Product>
                 </Route>
 
-                <Route exact path="/account">
-                    <Account token={token}></Account>
+                <Route exact path = "/account/">
+                    <Account token = { token }></Account>
                 </Route>
 
-                <Route exact path="/cart/checkout">
+                <Route exact path = "/users/">
+                    <AllUsers token = { token } currentUser = { currentUser }></AllUsers>
+                </Route>
+
+                <Route exact path = { [ "/users/add/", "/users/:userId/" ] } >
+                    <AdminUserForm token = { token } currentUser = { currentUser }></AdminUserForm>
+                </Route>
+
+                <Route exact path = "/cart/checkout/">
                     <Cart token = { token } currentUser = { currentUser } localCart = { localCart }></Cart>
                 </Route>    
 

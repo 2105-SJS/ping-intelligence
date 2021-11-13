@@ -1,13 +1,12 @@
+const apiRouter = require('express').Router();
+const usersRouter = require('./users');
+
+const productRouter = require('./Products');
 const jwt = require('jsonwebtoken');
 const { getUserById } = require('../db');
 const { JWT_SECRET } = process.env;
 
-const express = require('express');
-const apiRouter = express.Router();
 
-
-//Check authorization before anything else
-//JWT Authorization
 //Check authorization before anything else
 //JWT Authorization
 apiRouter.use( async ( req, res, next )=>
@@ -51,7 +50,7 @@ apiRouter.use( ( req, res, next ) =>
 {
     res.header('Access-Control-Allow-Origin','http://localhost:3000');
     res.header("Access-Control-Allow-Credentials","true");
-    res.header("Access-Control-Allow-Methods","POST,GET,UPDATE,DELETE");
+    res.header("Access-Control-Allow-Methods","POST,GET,PATCH,DELETE");
     res.header("Access-Control-Allow-Headers","Authorization,Content-Type");
     next();
 });
@@ -63,11 +62,9 @@ apiRouter.get("/", ( req, res, next ) => {
 });
 
 //routes
-const usersRouter = require('./users')
 apiRouter.use( '/users', usersRouter );
 
-const productsRouter = require('./products')
-apiRouter.use( '/products', productsRouter );
+apiRouter.use( '/products', productRouter );
 
 //error handling
 apiRouter.use( ( req, res ) =>
