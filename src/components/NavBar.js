@@ -50,7 +50,7 @@ const NavBar = ( props ) =>
         <div id ='rightNav'>
        <NavLink className= {styles.link} to = "/cart/checkout">View Cart</NavLink>
        <NavLink className= {styles.link} to = "/accounts/register">Profile</NavLink>
-       { currentUser && currentUser.admin ? <>
+       { currentUser && currentUser.admin === true ? <>
             <NavLink className= {styles.link} to="/users/">Users</NavLink>
             <NavLink className= {styles.link} to="/users/add">AddUser</NavLink>
         </> : null}
