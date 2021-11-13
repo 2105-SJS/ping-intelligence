@@ -12,6 +12,7 @@ import Cart from './Cart';
 import AllUsers from './AllUsers';
 import AdminUserForm from './AdminUserForm';
 import Login from './Login';
+import Orders from './Orders';
 import ProductsAll from './ProductsAll';
 
 /* do these need an import or something? commented out as temp fix 
@@ -33,6 +34,7 @@ const App = () =>
     const [ description, setDescription ] = useState( '' );
     const [ price, setPrice ] = useState( '' );
     const [ message, setMessage ] = useState( '' );
+    const [ order, setOrder ] = useState( [] );
     const [ token, setToken ] = useState ( localStorage.getItem( "token" ) || "" );
     const [ currentUser, setCurrentUser ] = useState(
     {
@@ -106,6 +108,10 @@ const App = () =>
 
                 <Route exact path = { [ "/users/add/", "/users/:userId/" ] } >
                     <AdminUserForm token = { token } currentUser = { currentUser }></AdminUserForm>
+                </Route>
+
+                <Route exact path='/orders'> 
+                    <Orders order={order} setOrder={setOrder} token={token}/> 
                 </Route>
 
                 <Route exact path = "/cart/checkout/">

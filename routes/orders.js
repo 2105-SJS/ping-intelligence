@@ -2,7 +2,8 @@ const express = require('express');
 const { reset } = require('nodemon');
 // const jwt = require('jsonwebtoken');
 const { requireUser } = require('../src/api/utils');
-const { getAllOrders, getCartByUser, createOrder } = require('../db')
+const { getAllOrders, getCartByUser, createOrder } = require('../db');
+const { addProductToOrder } = require('../db/orderProducts');
 const ordersRouter = express.Router();
 
 
@@ -51,4 +52,15 @@ ordersRouter.post('/', requireUser, async (req, res, next) => {
     }
 })
 
+ordersRouter.post('/:orderId/products', requireUser, async (req, res, next) => {
+    const { productId, price, quantity } = req.body;
+    const { orderId } = req.params;
+
+    try { 
+        const addProductsOnOrder = await addProductToOrder({productId, orderId, price, quantity});
+        res.send(addProductsOnOrder)
+    } catch ({name, message}) {
+        next({name, message})
+    }
+})
 module.exports = ordersRouter
