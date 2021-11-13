@@ -1,10 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import { callApi } from '../util'
+import { callApi } from '../util';
+import { Typography, TextField, Button, Grid, Card, Container} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+    page:{
+        width:'500px',
+        height:'500px',
+        display:'flex',
+        flexFlow:'column',
+        justifyContent:'center',
+        alignItems:'center',
+        color:'black',
+        backgroundColor:'white',
+        borderRadius:'10px',
+        border:'5px solid black',
+        minHeight:'700px',
+        marginLeft:'22rem'
+    },
+    register:{
+        fontSize:'20px'
+    },
+    hidepassword:{
+        fontSize:'20px'
+    },
+    remember:{
+        fontSize:'20px'
+    },
+    button:{
+        color:'blue'
+    },
+    blank:{
+        paddingTop:'2rem'
+    },
+    blanklow:{
+        paddingTop:'2rem'
+    }
+    
+})
 
 const UserForm = ( props ) => 
 {
     const setToken = props.setToken;
     const setCurrentUser = props.setCurrentUser;
+    const classes = useStyles();
 
     const [ register, setRegister ] = useState( false );
     const [ username, setUsername ] = useState( "" );
@@ -63,7 +102,9 @@ const UserForm = ( props ) =>
         }
     }, [ password, confirmPassword, register ] );
 
-    return <form onSubmit = { async ( event ) =>
+    return  <>
+    <Container className={classes.blank}></Container>
+    <Container><form className={classes.page} onSubmit = { async ( event ) =>
     {
         event.preventDefault();
         callApi(
@@ -90,13 +131,15 @@ const UserForm = ( props ) =>
                     setCurrentUser(
                     {
                         id: response.id,
-                        name: response.username
+                        name: response.username,
+                        admin: response.isAdmin
                     });
                     if ( remember )
                     {
                         localStorage.setItem( "token", response.token );
                         localStorage.setItem( "username", response.username );
                         localStorage.setItem( "id", response.id );
+                        localStorage.setItem( "admin", response.isAdmin )
                     }
                 }
                 else
@@ -106,66 +149,70 @@ const UserForm = ( props ) =>
             }
             else
             {
-                setMessage("error " + ( register ? "registering":"logging in" ) + "." );
+                setMessage("Error " + ( register ? "registering":"logging in" ) + "." );
             }
         });
     }}>
-        <div>
+        <Typography className ={classes.register}>
             <input type = "checkbox" checked = { register } value = { register }  onChange = { () =>
             {
                 setRegister(!register);
             }}/>
-            <label htmlFor = "Register">Register</label>
-        </div>
-        <input required type = "text" placeholder = "Username" value = { username } onChange = { ( event ) =>
+            <label htmlFor = "Register"> Register</label>
+        </Typography>
+        <TextField required type = "text" placeholder = "Username" value = { username } onChange = { ( event ) =>
         {
             setUsername( event.target.value );
         }}/>
 
-        <input required type = { hidden ? "password" : "text" } placeholder = "Password" value = { password } onChange = { ( event ) =>
+        <TextField required type = { hidden ? "password" : "text" } placeholder = "Password" value = { password } onChange = { ( event ) =>
         {
             setPassword( event.target.value );
         }}/>
 
-        <input required type = "password" disabled = { !register } placeholder = "Confirm Password" value = { confirmPassword } onChange = { ( event ) =>
+        <TextField required type = "password" disabled = { !register } placeholder = "Confirm Password" value = { confirmPassword } onChange = { ( event ) =>
         {
             setConfirmPassword( event.target.value );
         }}/>
 
-        <div>
+        <Typography className ={classes.hidepassword}>
             <input type = "checkbox" checked = { hidden } value = { hidden }  onChange = { () =>
             {
                 setHidden ( !hidden );
             }}/>
-            <label htmlFor = "Hide Password">Hide Password</label>
-        </div>
-        <input required type = "text" disabled = { !register } placeholder = "First Name" value = { firstName } onChange = { ( event ) =>
+            <label htmlFor = "Hide Password"> Hide Password</label>
+        </Typography>
+        <TextField required type = "text" disabled = { !register } placeholder = "First Name" value = { firstName } onChange = { ( event ) =>
         {
             setFirstName( event.target.value );
         }}/>
 
-        <input required type = "text" disabled = { !register } placeholder = "Last Name" value = { lastName } onChange = { ( event ) =>
+        <TextField required type = "text" disabled = { !register } placeholder = "Last Name" value = { lastName } onChange = { ( event ) =>
         {
             setLastName( event.target.value );
         }}/>
 
-        <input required type = "email" pattern = ".+@.+" disabled = { !register } placeholder = "Email" value = { email } title = "Please provide a valid email address like: someName@someSite" onChange = { ( event ) =>
+        <TextField required type = "email" pattern = ".+@.+" disabled = { !register } placeholder = "Email" value = { email } title = "Please provide a valid email address like: someName@someSite" onChange = { ( event ) =>
         {
             setEmail( event.target.value );
         }}/>
 
-        <div>
-            <input type = "checkbox" checked = { remember } value = { remember }  onChange = { () =>
+        <Typography className={classes.remember}>
+            <input type = "checkbox" checked = { remember } value = { remember } onChange = { () =>
             {
                 setRemember( !remember );
             }}/>
-            <label htmlFor = "Remember Me">Remember Me</label>
-        </div>
+            <label htmlFor = "Remember Me"> Remember Me</label>
+        </Typography>
 
-        <p>{ message }</p>
+        <Typography>{ message }</Typography>
 
-        <button type = "submit" disabled = { !username || !password || ( register && ( password !== confirmPassword || !firstName || !lastName|| !email ) ) }>{ register ? "Register" : "Login" }</button>
-    </form>
+        <Button className={classes.button} type = "submit" disabled = { !username || !password || ( register && ( password !== confirmPassword || !firstName || !lastName|| !email ) ) }>{ register ? "Register" : "Login" }</Button>
+    </form><>
+    <Container className={classes.blanklow}></Container></>
+    </Container>
+    </>
+    
 }
 
 export default UserForm;
