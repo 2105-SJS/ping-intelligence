@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const { getUserById } = require('../db');
 const { JWT_SECRET } = process.env;
 
+
 //Check authorization before anything else
 //JWT Authorization
 apiRouter.use( async ( req, res, next )=>
@@ -66,6 +67,8 @@ apiRouter.use( '/users', usersRouter );
 apiRouter.use( '/orders', ordersRouter );
 apiRouter.use( '/order_products', order_productRouter );
 apiRouter.use( '/products', productRouter );
+
+apiRouter.use( '/orders', ordersRouter);
 
 //error handling
 apiRouter.use( ( req, res ) =>

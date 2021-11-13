@@ -7,11 +7,13 @@ import Home from './Home';
 import Account from './Account';
 import { NewProduct, } from './index';
 import { callApi } from '../util';
-import Products from './Product';
+import Product from './Product';
 import Cart from './Cart';
 import AllUsers from './AllUsers';
 import AdminUserForm from './AdminUserForm';
 import Login from './Login';
+import Orders from './Orders';
+import ProductsAll from './ProductsAll';
 
 /* do these need an import or something? commented out as temp fix 
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -32,6 +34,7 @@ const App = () =>
     const [ description, setDescription ] = useState( '' );
     const [ price, setPrice ] = useState( '' );
     const [ message, setMessage ] = useState( '' );
+    const [ order, setOrder ] = useState( [] );
     const [ token, setToken ] = useState ( localStorage.getItem( "token" ) || "" );
     const [ currentUser, setCurrentUser ] = useState(
     {
@@ -48,14 +51,12 @@ const App = () =>
     // },
     // []);
 
-    const fetchProducts = async () => 
-    {
+    const fetchProducts = async () => {
         try {
             const respObj = await callApi( {
             url: `products/`,
             token
             });
-            console.log(respObj);
             if ( respObj && respObj.allProducts )
             {
                 setProducts( respObj.allProducts ); 
@@ -120,12 +121,11 @@ const App = () =>
                 </Route>
 
                 <Route exact path = "/products/">
-                    <Products products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts } cart = { cart } getCart = { getCart }></Products>
+                    <ProductsAll products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts } cart = { cart } getCart = { getCart }></ProductsAll>
                 </Route>
 
                 <Route exact path = "/products/:productId">
-                    {/* no such react component exists un comment this when created also where is product.id coming from?
-                    <ProductsId productId={product.id}></ProductsId>*/}
+                    <Product products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }></Product>
                 </Route>
 
                 <Route exact path = "/account/">
@@ -138,6 +138,10 @@ const App = () =>
 
                 <Route exact path = { [ "/users/add/", "/users/:userId/" ] } >
                     <AdminUserForm token = { token } currentUser = { currentUser }></AdminUserForm>
+                </Route>
+
+                <Route exact path='/orders'> 
+                    <Orders order={order} setOrder={setOrder} token={token}/> 
                 </Route>
 
                 <Route exact path = "/cart/checkout/">

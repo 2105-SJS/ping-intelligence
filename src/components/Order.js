@@ -1,13 +1,15 @@
 import React from 'react';
 
 
-const Order = ( props ) =>
+const Order = ({order}) =>
 {
+    console.log(order)
 
-
-    return <div className = "order">
+    return order
+        ? <> </> : null
+    {/* <div className = "order">
         order placeholder
-    </div>;
-}
+     </div>; */}
+};
 
 export default Order;

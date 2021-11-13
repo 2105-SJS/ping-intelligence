@@ -6,7 +6,7 @@ module.exports = {
   ...require('./checkout'),
   ...require('./admin'),
   ...require('./orders'),
-  ...require('./orderProducts')
-
+  ...require('./orderProducts'),
+  ...require('./seed'),
   // db methods
 }

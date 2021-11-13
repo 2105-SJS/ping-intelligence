@@ -17,20 +17,20 @@ async function getProductById(id) {
         return product;
     } catch (error) {
         throw error;
-    }
-}
+    };
+};
 
 async function getAllProducts() {
     try {
         const { rows } = await client.query(`
-      SELECT *
-      FROM products;
-    `);
+            SELECT *
+            FROM products;
+        `);
         return rows;
     } catch (error) {
         throw error;
-    }
-}
+    };
+};
 
 const createProduct = async ({ productName, description, price, imageURL, inStock, category }) => { 
 
@@ -129,8 +129,6 @@ const destroyOrderProduct = async (id) => {
     }
 }
 
-
-
 module.exports = {
     getProductById,
     getAllProducts,
@@ -138,4 +136,4 @@ module.exports = {
     getOrderProductById,
     updateOrderProduct,
     destroyOrderProduct
-  }
+}
