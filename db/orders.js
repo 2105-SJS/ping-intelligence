@@ -1,4 +1,4 @@
-const { client } = require('.');
+const { client } = require('./client');
 
 // Helper function 
 const getProductsFromOrderId = async (orderId) => {
@@ -128,23 +128,20 @@ const getAllOrders = async () => {
 
 }
 
-
-const createOrder = async ({ userId, datePlaced, status }) => {
-    try {
-        const { rows: [order] } = await client.query(`
-            INSERT INTO orders("userId", "datePlaced", status)
-            VALUES($1, $2, $3)
-            RETURNING *
-        `, [userId, datePlaced, status])
+const createOrder = async ({ userId, status }) => { 
+    try { 
+        const { rows: [ order ]} = await client.query(`
+        INSERT INTO orders("userId", "datePlaced", status)
+        VALUES($1, current_date, $2)
+        RETURNING *;
+        `, [userId, status])
         return order;
     } catch (error) {
         throw error
     }
 }
 
-
 module.exports = {
-    client,
     getOrdersByProduct,
     getOrderById,
     getAllOrders,

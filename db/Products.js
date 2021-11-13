@@ -3,10 +3,10 @@ const {client}=require('./client');
 async function getProductById(id) {
     try {
         const { rows: [ product ] } = await client.query(`
-            SELECT *
-            FROM products
-            WHERE id=$1;
-    `, [id]);
+        SELECT *
+        FROM products
+        WHERE "productId"=$1;
+        `, [id]);
         
         if (!product) {
             throw {

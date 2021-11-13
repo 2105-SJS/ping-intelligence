@@ -5,36 +5,29 @@ import Component404 from './404';
 import Users from './Users';
 import Home from './Home';
 import Account from './Account';
-import { NewProduct, } from './index';
 import { callApi } from '../util';
 import Product from './Product';
 import Cart from './Cart';
 import AllUsers from './AllUsers';
 import AdminUserForm from './AdminUserForm';
-import Login from './Login';
 import Orders from './Orders';
 import Order from './Order';
 import ProductsAll from './ProductsAll';
+import { makeStyles } from '@material-ui/core'
 
-/* do these need an import or something? commented out as temp fix 
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Badge from "@material-ui/core/Badge";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
-*/
-
-const { REACT_APP_BASE_URL } = process.env;
+const useStyles = makeStyles({
+    page:{
+      backgroundColor:'#e46400',
+      minHeight:'100vh',
+      paddingTop:'1.5rem',
+      paddingBottom:'1.5rem'
+    }
+  })
 
 const App = () => 
 {
+    const classes = useStyles();
     const [ products, setProducts ] = useState( [] );
-    const [ productId, setProductId ] = useState( '' );
-    const [ productName, setProductName ] = useState( [] );
-    const [ description, setDescription ] = useState( '' );
-    const [ price, setPrice ] = useState( '' );
-    const [ message, setMessage ] = useState( '' );
     const [ userData, setUserData ] = useState({});
     const [ cart, setCart ] = useState({});
     const [ orders, setOrders ] = useState( [] );
@@ -45,13 +38,7 @@ const App = () =>
         name: localStorage.getItem( "username" ),
         admin: localStorage.getItem( "admin" )
     } || {} );
-    const [ localCart, setLocalCart ] = useState( {} );
-
-    useEffect( () =>
-    {
-        setLocalCart( JSON.parse( localStorage.getItem( "order" ) ) );
-    },
-    []);
+    const [ cart, setCart ] = useState( {} );
 
     const fetchProducts = async () => {
         try {
@@ -66,6 +53,21 @@ const App = () =>
         } catch ( error ) {
             throw error;
         }     
+    }
+
+    const getCart = async () => {
+        try {
+            const respObj = await callApi({ url: 'orders/cart', token})
+            if (respObj) {
+                setCart(respObj);
+            }
+            else
+            {
+                setCart( {} );
+            };
+        } catch (error) {
+            throw error;
+        }
     }
    
     useEffect( () => 
@@ -161,21 +163,31 @@ const allProps = {
     setUserData
 }
 
-    return <div className = "App">
+    useEffect( () => {
+        try {
+            if ( token )
+            {
+                getCart();
+            }
+        } catch (error) {
+            throw error;
+        }
+
+    }, [ token ] );
+
+    return <div className = {classes.page}>
         <BrowserRouter>
             <header className = "site-banner">
                 <NavBar currentUser = { currentUser }></NavBar>
             </header>
-        
-            {/* <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/> */}
-            
+                      
             <Switch>
                 <Route exact path = "/">
                     <Home currentUser = { currentUser }></Home>
                 </Route>
 
                 <Route exact path = "/products/">
-                    <ProductsAll products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }></ProductsAll>
+                    <ProductsAll products = { products } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts } cart = { cart } getCart = { getCart }></ProductsAll>
                 </Route>
 
                 <Route exact path = "/products/:productId">
@@ -203,7 +215,7 @@ const allProps = {
                 </Route>
 
                 <Route exact path = "/cart/checkout/">
-                    <Cart token = { token } currentUser = { currentUser } localCart = { localCart }></Cart>
+                    <Cart token = { token } currentUser = { currentUser } cart = { cart }></Cart>
                 </Route>    
 
                 <Route path="/accounts/register">

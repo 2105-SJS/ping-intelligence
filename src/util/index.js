@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const { REACT_APP_BASE_URL = 'http://localhost:5000/api/' } = process.env;
+const { REACT_APP_BASE_URL = '/api/' } = process.env;
 
 export const callApi = async ( { url, method, token, body } ) => {
     try {

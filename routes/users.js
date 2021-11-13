@@ -2,7 +2,6 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { JWT_SECRET } = process.env;
-// const { createUser, getUser, getUserByUsername } = require('../db');
 const { getOrdersByUser } = require('../db/orders');
 const { requireUser } = require('./utils');
 const { createUser, getUser, getUserByUsername, getAllUsers, updateUser, getUserById } = require('../db');
@@ -187,4 +186,5 @@ usersRouter.get( '/:userId/', async ( req, res, next ) =>
         next( error );
     }
 } );
+
 module.exports = usersRouter;

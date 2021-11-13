@@ -1,6 +1,6 @@
 const express = require('express');
 const productRouter = express.Router();
-const { createProduct, getProductById, getAllProducts } = require('../db');
+const { getAllProducts } = require('../db');
 const { requireUser } = require('./utils');
 const adminProductsRouter = require('./adminProducts');
 
@@ -104,6 +104,7 @@ productRouter.delete('/order_products/:orderProductId', requireUser, async (req,
         next(error);
     }
 })
+
 
 productRouter.use( adminProductsRouter );
 module.exports = productRouter;

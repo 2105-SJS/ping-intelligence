@@ -13,6 +13,7 @@ checkoutRouter.patch( '/:orderId', async ( req, res, next ) =>
             {
                 if ( req.body )
                 {
+                    req.body.id = req.params.orderId;
                     const response = await updateOrder( req.body );
                     res.send( response );                    
                 }
@@ -66,4 +67,4 @@ checkoutRouter.delete( '/:orderId', async ( req, res, next ) =>
     }
 });
 
-module.exports = usersRouter;
+module.exports = checkoutRouter;
