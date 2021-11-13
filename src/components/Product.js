@@ -1,6 +1,7 @@
 import React from 'react';
 import SingleProduct from './SingleProduct';
 import NewProduct from './NewProduct';
+import { useParams } from 'react-router-dom';
 
 const Product = ( { products, token, currentUser, fetchProducts } ) => 
 {

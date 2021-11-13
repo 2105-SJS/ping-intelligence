@@ -1,6 +1,6 @@
 import React from 'react';
 import { callApi } from '../util';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Order from './Order';
 
 
@@ -9,20 +9,25 @@ import Order from './Order';
 // add view cart button to the navbar that can be used to navigate to the /cart route 
 
 // const Orders = ({ token, order, setOrder }) => {
-const Orders = ({ grabOrders }) => {
+const Orders = ({grabOrders, orders}) => {
 
-    console.log('>>> props', grabOrders);
-    console.log(grabOrders())
-    // return order 
-    //     ? <>
-    //         <div className='order'> 
-    //             <h2> Order </h2>
-    //             {/* { order.map(order => <Order key={order.id} order={order} /> )} */}
-    //         </div>
-    // </>
-    // : null
 
-    return  <div></div>
+    useEffect( () => 
+    {
+        try 
+        {
+            grabOrders();
+        } catch ( error ) 
+        {
+            console.error( error );
+        }
+      
+    }, []);
+
+    return <>
+        {orders.map (order => < Order key={order.orderId} order={order}/>)}
+       
+    </> 
 }
 
 export default Orders;

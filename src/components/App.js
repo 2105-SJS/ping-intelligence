@@ -35,8 +35,9 @@ const App = () =>
     const [ description, setDescription ] = useState( '' );
     const [ price, setPrice ] = useState( '' );
     const [ message, setMessage ] = useState( '' );
+    const [ userData, setUserData ] = useState({});
     const [ cart, setCart ] = useState({});
-    const [ order, setOrder ] = useState( [] );
+    const [ orders, setOrders ] = useState( [] );
     const [ token, setToken ] = useState ( localStorage.getItem( "token" ) || "" );
     const [ currentUser, setCurrentUser ] = useState(
     {
@@ -114,33 +115,40 @@ const App = () =>
     }
 
     const grabOrders = async () => { 
-        try { 
-            const { admin } = userData;
-            if(!admin) { 
-                return;
-            } else { 
+        try {
+            console.log('token>>>', token);
                 const resp = await callApi({
-                    url: '/orders'
+                    url: '/orders',
+                    token
                 });
-                if ( resp) { 
-                    setOrder(resp);
-                    return;
+                console.log('>>>>>orderResp', resp)
+                if (resp) { 
+                    setOrders(resp);
                 };
-                return
-            }
         } catch (error) {
             throw error
         }
     }
 
+    useEffect( () =>
+    {
+        try 
+        {
+            grabOrders();
+        } catch ( error ) 
+        {
+            console.error( error );
+        }
+      
+    }, []);
 
 const allProps = { 
     grabOrders,
     grabCart,
     fetchProducts,
 
-    order,
-    setOrder,
+    orders,
+    setOrders,
     token,
     setToken,
     cart,
@@ -148,7 +156,9 @@ const allProps = {
     currentUser,
     setCurrentUser,
     products,
-    setProducts
+    setProducts,
+    userData,
+    setUserData
 }
 
     return <div className = "App">
@@ -186,10 +196,10 @@ const allProps = {
 
                 <Route exact path='/orders'> 
                     <Orders {...allProps} />
-                    {/* <Orders order={order} setOrder={setOrder} token={token}/>  */}
                 </Route>
+
                 <Route exact path='/orders/:orderId'> 
-                    <Order {...allProps} /> 
+                    <Order userData={userData} orders={orders} setOrders={setOrders} products={products} token={token} /> 
                 </Route>
 
                 <Route exact path = "/cart/checkout/">
