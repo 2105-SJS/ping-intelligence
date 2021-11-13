@@ -1,9 +1,10 @@
+import { getContrastRatio } from '@material-ui/core';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { callApi } from '../util';
 import NewProduct from './NewProduct';
 
-const SingleProduct = ({ product, token, currentUser, fetchProducts, children }) => {
+const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, cart, children }) => {
 
     const [ show, setShow ] = useState( false );
 
@@ -14,8 +15,49 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, children })
             url: `products/${ product.productId }`,
             method: 'DELETE',
             token: token
-        } )
+        } );
         await fetchProducts();
+    }
+
+    const handleAddtoCart = async () => {
+        try {
+            if (product && cart) {
+                const productId = Number(product.productId)
+                if( cart.orderId!== undefined ) 
+                {
+                    await callApi(
+                    {
+                        url: `orders/`,
+                        method: 'POST',
+                        token,
+                        body:
+                        {
+                            userId: currentUser.id,
+                            status: 'created'
+                        }
+                    } );
+                    await getCart();
+                }
+                const response = await callApi(
+                {
+                    url: `order_products/${ cart.orderId }/products`,
+                    method: 'POST',
+                    token,
+                    body:
+                    {
+                        quantity: 1,
+                        productId: productId
+                    }
+                } );
+                if (response) {
+                    //setMessage(`Dream car was added to the cart!`)
+                    await getCart();
+                    return response;
+                }
+            }
+        } catch (error) {
+            throw error;
+        }
     }
 
     return product
@@ -32,6 +74,7 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, children })
             <div>Image URL: { product.imageURL }</div>
             <div>In Stock: { product.inStock ? 'yes' : 'no' }</div>
             <div>Category: { product.category }</div>
+            <div><button onClick = { handleAddtoCart }>Add To Cart</button></div>
             {
                 children
             }

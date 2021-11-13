@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { makeStyles, Typography } from '@material-ui/core';
 
+
 const useStyles = makeStyles({
     image:{
       maxWidth:'100vw'

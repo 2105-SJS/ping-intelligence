@@ -12,12 +12,21 @@ const getOrderById = async ( { id } ) =>
 
 const updateOrder = async ( { id, status, userId } ) =>
 {
-    const fields = { status, userId };
+    const fields = 
+    {
+        status: status,
+        userId: userId
+    };
     const setString = Object.keys( fields ).map( ( key, idx ) =>
     {
         return `"${ key }"=$${ idx + 1 }`
     })
     .join(',');
+    if(setString === "")
+    {
+        return;
+    }
+    console.log(setString);
     try 
     {
         const { rows: [ order ] } = await client.query(

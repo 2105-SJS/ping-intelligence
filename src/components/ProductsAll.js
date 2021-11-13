@@ -2,7 +2,7 @@ import React from 'react';
 import SingleProduct from './SingleProduct';
 import NewProduct from './NewProduct';
 
-const ProductsAll = ( { products, token, currentUser, fetchProducts } ) => 
+const ProductsAll = ( { products, token, currentUser, fetchProducts, cart, getCart } ) => 
 {
     return products
         ? <>
@@ -11,7 +11,7 @@ const ProductsAll = ( { products, token, currentUser, fetchProducts } ) =>
                 <NewProduct token = { token } fetchProducts = { fetchProducts }></NewProduct> : null }
                 <span>Products:</span>
                 {
-                    products.map(product => <SingleProduct key = { product.productId } product = { product } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }/>)
+                    products.map(product => <SingleProduct key = { product.productId } product = { product } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }  cart = { cart } getCart = { getCart }/>)
                 }
             </div>
         </>

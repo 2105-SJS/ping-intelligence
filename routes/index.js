@@ -1,8 +1,7 @@
 const apiRouter = require('express').Router();
 const usersRouter = require('./users');
-const ordersRouter = require('./orders')
-const productRouter = require('../src/api/Products');
-
+const ordersRouter = require('./orders');
+const order_productRouter = require('./orderProducts');
 const productRouter = require('./Products');
 const jwt = require('jsonwebtoken');
 const { getUserById } = require('../db');
@@ -65,7 +64,8 @@ apiRouter.get("/", ( req, res, next ) => {
 
 //routes
 apiRouter.use( '/users', usersRouter );
-
+apiRouter.use( '/orders', ordersRouter );
+apiRouter.use( '/order_products', order_productRouter );
 apiRouter.use( '/products', productRouter );
 
 apiRouter.use( '/orders', ordersRouter);
