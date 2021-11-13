@@ -10,9 +10,9 @@ const useStyles = makeStyles({
     maxWidth:'100vw',
     height:'750px',
     alignItems:'center',
-    // marginTop:'2rem',
+    marginTop:'2rem',
     marginLeft:'2.5rem',
-    // marginBottom:'2rem',
+    marginBottom:'2rem'
   },
   banner:{
     display:'flex',
