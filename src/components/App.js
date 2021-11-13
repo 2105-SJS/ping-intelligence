@@ -11,6 +11,7 @@ import Products from './Product';
 import Cart from './Cart';
 import Login from './Login';
 import Orders from './Orders';
+import Order from './Order';
 
 /* do these need an import or something? commented out as temp fix 
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -31,6 +32,7 @@ const App = () =>
     const [ description, setDescription ] = useState( '' );
     const [ price, setPrice ] = useState( '' );
     const [ message, setMessage ] = useState( '' );
+    const [ cart, setCart ] = useState({});
     const [ order, setOrder ] = useState( [] );
     const [ token, setToken ] = useState ( localStorage.getItem( "token" ) || "" );
     const [ currentUser, setCurrentUser ] = useState(
@@ -74,6 +76,78 @@ const App = () =>
       
     }, [token]);
 
+    const makeCart = async () => {
+        try { 
+            const rep = callApi({ 
+                method: 'POST', 
+                url: '/orders',
+                token
+            });
+            if(resp) { 
+                setCart(resp);
+            }
+        } catch (error) {
+            throw error; 
+        }
+    }
+
+    const grabCart = async () => {
+        try { 
+            const resp = await callApi({ 
+                url: 'orders/cart',
+                token
+            })
+            if (!resp) { 
+                makeCart();
+                grabCart();
+            }
+            if (resp) { 
+                setCart(resp);
+                localStorage.setItem('cart', JSON.stringify(resp));
+            }
+        } catch (error) {
+            throw error
+        }
+    }
+
+    const grabOrders = async () => { 
+        try { 
+            const { admin } = userData;
+            if(!admin) { 
+                return;
+            } else { 
+                const resp = await callApi({
+                    url: '/orders'
+                });
+                if ( resp) { 
+                    setOrder(resp);
+                    return;
+                };
+                return
+            }
+        } catch (error) {
+            throw error
+        }
+    }
+
+
+const allProps = { 
+    grabOrders,
+    grabCart,
+    fetchProducts,
+
+    order,
+    setOrder,
+    token,
+    setToken,
+    cart,
+    setCart,
+    currentUser,
+    setCurrentUser,
+    products,
+    setProducts
+}
+
     return <div className = "App">
         <BrowserRouter>
             <header className = "site-banner">
@@ -101,7 +175,11 @@ const App = () =>
                 </Route>
 
                 <Route exact path='/orders'> 
-                    <Orders order={order} setOrder={setOrder} token={token}/> 
+                    <Orders {...allProps} />
+                    {/* <Orders order={order} setOrder={setOrder} token={token}/>  */}
+                </Route>
+                <Route exact path='/orders/:orderId'> 
+                    <Order {...allProps} /> 
                 </Route>
 
                 <Route exact path="/cart/checkout">
