@@ -30,7 +30,7 @@ const useStyles = makeStyles({
         marginLeft:'2rem',
         marginRight:'2rem',
         color:'white',
-        fontSize:'1.5rem'
+        fontSize:'1.9rem'
     }
   
   })
@@ -47,7 +47,7 @@ const NavBar = ( props ) =>
         {token ? <><NavLink className= {styles.link} to="/account">Account</NavLink></> : null}
         </div>
         <div id ='rightNav'>
-       <NavLink className= {styles.link} to = "/cart/checkout">View Cart</NavLink>
+       <NavLink className= {styles.link} to = "/cart/checkout">🛒</NavLink>
        <NavLink className= {styles.link} to = "/accounts/register">Profile</NavLink>
         </div>
     </div>
