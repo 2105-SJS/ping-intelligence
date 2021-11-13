@@ -56,7 +56,7 @@ async function buildTables() {
       "productName" VARCHAR UNIQUE NOT NULL,
       description VARCHAR NOT NULL,
       price VARCHAR NOT NULL,
-      "imageURL" VARCHAR,
+      "imageURL" VARCHAR DEFAULT 'https://images.unsplash.com/photo-1618486613525-c694bf152b2c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
       "inStock" BOOLEAN DEFAULT false,
       category VARCHAR(255) NOT NULL
     );
