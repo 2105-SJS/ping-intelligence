@@ -12,12 +12,14 @@ const useStyles = makeStyles({
         justifyContent:'space-between',
         backgroundColor:'#e46400',
         color:'white',
-        paddingTop:'.5rem'
+        paddingTop:'.5rem',
+        height:'50px',
+        padding:'10px',
     },
     rightNav:{
         display:'flex',
         flexFlow:'row',
-        justifyContent:'space-between',
+        justifyContent:'space-between'
     },
     leftside:{
         display:'flex',
