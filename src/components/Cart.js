@@ -76,7 +76,7 @@ const Cart = ( props ) =>
         callApi(
         {
             url:`orders/${order.orderId}/`,
-            method: "UPDATE",
+            method: "PATCH",
             token: token,
             body:
             {

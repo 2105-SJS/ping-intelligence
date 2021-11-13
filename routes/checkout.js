@@ -66,4 +66,4 @@ checkoutRouter.delete( '/:orderId', async ( req, res, next ) =>
     }
 });
 
-module.exports = usersRouter;
+module.exports = checkoutRouter;
