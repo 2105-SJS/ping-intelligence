@@ -6,7 +6,7 @@ const User = ( props ) =>
     const currentUser = props.currentUser;
 
     return<>
-        { currentUser && currentUser.admin ?
+        { currentUser && currentUser.admin === true ?
         <NavLink to = { `/users/${ user.id }/` }>Username:{ user.username }</NavLink> :
         <h2>Username:{ user.username }</h2>}
        

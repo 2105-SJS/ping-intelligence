@@ -5,25 +5,15 @@ import Component404 from './404';
 import Users from './Users';
 import Home from './Home';
 import Account from './Account';
-import { NewProduct, } from './index';
 import { callApi } from '../util';
 import Product from './Product';
 import Cart from './Cart';
 import AllUsers from './AllUsers';
 import AdminUserForm from './AdminUserForm';
-import Login from './Login';
 import Orders from './Orders';
 import ProductsAll from './ProductsAll';
 import { makeStyles } from '@material-ui/core'
 
-/* do these need an import or something? commented out as temp fix 
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Badge from "@material-ui/core/Badge";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
-*/
 const useStyles = makeStyles({
     page:{
       backgroundColor:'#e46400',
@@ -33,17 +23,10 @@ const useStyles = makeStyles({
     }
   })
 
-const { REACT_APP_BASE_URL } = process.env;
-
 const App = () => 
 {
     const classes = useStyles();
     const [ products, setProducts ] = useState( [] );
-    const [ productId, setProductId ] = useState( '' );
-    const [ productName, setProductName ] = useState( [] );
-    const [ description, setDescription ] = useState( '' );
-    const [ price, setPrice ] = useState( '' );
-    const [ message, setMessage ] = useState( '' );
     const [ order, setOrder ] = useState( [] );
     const [ token, setToken ] = useState ( localStorage.getItem( "token" ) || "" );
     const [ currentUser, setCurrentUser ] = useState(
@@ -52,14 +35,7 @@ const App = () =>
         name: localStorage.getItem( "username" ),
         admin: localStorage.getItem( "admin" )
     } || {} );
-    //const [ localCart, setLocalCart ] = useState( {} );
     const [ cart, setCart ] = useState( {} );
-
-    // useEffect( () =>
-    // {
-    //     setLocalCart( JSON.parse( localStorage.getItem( "order" ) ) );
-    // },
-    // []);
 
     const fetchProducts = async () => {
         try {
@@ -81,7 +57,6 @@ const App = () =>
             const respObj = await callApi({ url: 'orders/cart', token})
             if (respObj) {
                 setCart(respObj);
-                //localStorage.setItem('cart', JSON.stringify(respObj));
             }
             else
             {
@@ -110,10 +85,6 @@ const App = () =>
             {
                 getCart();
             }
-            // else
-            // {
-            //     setCart( JSON.parse( localStorage.getItem( 'cart' ) ) || {} );
-            // }
         } catch (error) {
             throw error;
         }
@@ -125,9 +96,7 @@ const App = () =>
             <header className = "site-banner">
                 <NavBar currentUser = { currentUser }></NavBar>
             </header>
-        
-            {/* <Users setToken = { setToken } setCurrentUser = { setCurrentUser } currentUser = { currentUser }/> */}
-            
+                      
             <Switch>
                 <Route exact path = "/">
                     <Home currentUser = { currentUser }></Home>

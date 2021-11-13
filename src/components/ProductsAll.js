@@ -1,14 +1,14 @@
 import React from 'react';
 import SingleProduct from './SingleProduct';
 import NewProduct from './NewProduct';
-import { Grid} from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 const ProductsAll = ( { products, token, currentUser, fetchProducts, cart, getCart } ) => 
 {
     return products
         ? <>
             <div className = 'products'>
-                { currentUser && currentUser.admin ? 
+                { currentUser && currentUser.admin === true ? 
                 <NewProduct token = { token } fetchProducts = { fetchProducts }></NewProduct> : null }
                 <span>Products:</span>
                 <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
