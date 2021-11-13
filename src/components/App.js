@@ -45,18 +45,20 @@ const App = () =>
     },
     []);
 
-    const fetchProducts = async () => 
-    {
+    const fetchProducts = async () => {
         try {
-            const respObj = await fetch( 
-            "http://127.0.0.1:5000/api/products",
+            const respObj = await callApi( 
+            "localhost:5000/api/products",
            { headers: {
             "Content-Type": "application/json"}
             });
             if(respObj) {
+              setProducts(respObj.allProducts);
              const data= await respObj.json()
-             console.log(data);
+  
+             return data;
             }
+            
             
         } catch ( error ) {
             throw error;
@@ -96,7 +98,7 @@ const App = () =>
                     <Products productId={products.id}></Products>
                 </Route>
 
-                <Route exact path="/components/account">
+                <Route exact path="/account">
                     <Account token={token}></Account>
                 </Route>
 

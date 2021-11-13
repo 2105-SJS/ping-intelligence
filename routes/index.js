@@ -5,10 +5,12 @@ const { JWT_SECRET } = process.env;
 const express = require('express');
 const apiRouter = express.Router();
 
-//health check
-apiRouter.get('/health', (req, res) => {
-    res.send({message: 'Hello'});
-});
+//routes
+const usersRouter = require('./users')
+apiRouter.use( '/users', usersRouter );
+
+const productsRouter = require('./products')
+apiRouter.use( '/products', productsRouter );
 
 //Check authorization before anything else
 //JWT Authorization
@@ -52,13 +54,6 @@ apiRouter.get("/", ( req, res, next ) => {
         message: "API is under construction!"
     });
 });
-
-//routes
-const usersRouter = require('./users')
-apiRouter.use( '/users', usersRouter );
-
-const productsRouter = require('./products')
-apiRouter.use( '/products', productsRouter );
 
 //error handling
 apiRouter.use( ( req, res ) =>

@@ -83,4 +83,4 @@ const NewProduct = ( { token, setProduct } ) => {
         </div>
     </div>
 }
-module.exports = productRouter;
+export default = productRouter;
