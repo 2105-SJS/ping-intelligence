@@ -11,7 +11,8 @@
     "db:build": "node ./db/init_db.js",
     "dev:build": "nodemon ./db/init_db.js",
     "start": "node index.js",
-    "reset": "sudo service postgresql restart"
+    "reset": "sudo service postgresql restart",
+    "package": "npm install --package-lock-only"
   },
   "keywords": [],
   "author": "",

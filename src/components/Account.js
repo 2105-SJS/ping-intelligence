@@ -27,7 +27,7 @@ const Account = ( props ) =>
                 setUser( {} );
             }
         } )
-    }, [ token ])
+    }, [ token ] );
 
     return <>{ user && user.id ? <User user = { user } ></User>:<>You must be logged in to view this page.</>}</>;
 }
