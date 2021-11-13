@@ -9,3 +9,10 @@ html {
     justify-content: center;
     height:'100%'
 }
+body {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    flex-basis: center;
+    font-family: 'Oswald', sans-serif;
+}

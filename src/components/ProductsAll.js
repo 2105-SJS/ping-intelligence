@@ -9,7 +9,7 @@ const ProductsAll = ( { products, token, currentUser, fetchProducts } ) =>
             <div className = 'products'>
                 { currentUser && currentUser.admin ? 
                 <NewProduct token = { token } fetchProducts = { fetchProducts }></NewProduct> : null }
-                <span>Products:</span>
+              
                 {
                     products.map(product => <SingleProduct key = { product.productId } product = { product } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }/>)
                 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import SingleProduct from './SingleProduct';
 import NewProduct from './NewProduct';
+import { useParams } from 'react-router-dom';
 
 const Product = ( { products, token, currentUser, fetchProducts } ) => 
 {
@@ -10,7 +11,7 @@ const Product = ( { products, token, currentUser, fetchProducts } ) =>
             <div className = 'products'>
                 { currentUser && currentUser.admin ? 
                 <NewProduct token = { token } fetchProducts = { fetchProducts }></NewProduct> : null }
-                <span>Products:</span>
+                {/* <span>Products:</span> */}
                 {
                     products.filter( ( product ) => {
                         return product.productId===params.productId;
