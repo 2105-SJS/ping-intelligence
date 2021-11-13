@@ -14,35 +14,48 @@ apiRouter.use( '/products', productsRouter );
 
 //Check authorization before anything else
 //JWT Authorization
-apiRouter.use(async (req, res, next) => {
-    const prefix = 'Bearer ';
-    const auth = req.header('Authorization');
-
-    if(!auth) {
+//Check authorization before anything else
+//JWT Authorization
+apiRouter.use( async ( req, res, next )=>
+{
+    const authHeader = req.header('Authorization');
+    if ( !authHeader )//skip if empty
+    {
         next();
-    } else if (auth.startsWith(prefix)) {
-        const token = auth.slice(prefix.length);
-        try {
-            const { id } = jwt.verify(token, JWT_SECRET)
-            if (id) {
-                req.user = await getUserById(id);
+    }
+    else try
+    {
+        if ( req.auth ) //make sure authorization is only from here
+        {
+            delete req.auth;
+        }
+        const auth = authHeader.slice( 7 );
+        
+        const { id, username } = jwt.verify( auth,JWT_SECRET );
+        if ( id && username )
+        {
+            req.auth = await getUserById( id );
+            if( req.auth && req.auth.username === username )
+            {
                 next();
             }
-        } catch ({ name, message}) {
-            next ({ name, message });
-        };
-    } else {
-        next ({
-            name: 'AuthorizationHeaderError',
-            message: `Authorization token must start with ${prefix}`
-        });
-    };
+            else
+            {
+                delete req.auth;
+                next('Invalid Authorization');
+            }     
+        }
+    }
+    catch ( error )
+    {
+        next ( error );
+    }
 });
 
 //CORS enable
 apiRouter.use( ( req, res, next ) => 
 {
-    res.header('Access-Control-Allow-Origin','http://localhost:3000');
+    res.header('Access-Control-Allow-Origin','http://localhost:5000');
     res.header("Access-Control-Allow-Credentials","true");
     res.header("Access-Control-Allow-Methods","POST,GET,UPDATE,DELETE");
     res.header("Access-Control-Allow-Headers","Authorization,Content-Type");
