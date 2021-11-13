@@ -71,8 +71,11 @@ const App = () =>
             const respObj = await callApi({ url: 'orders/cart', token})
             if (respObj) {
                 setCart(respObj);
-                console.log(respObj);
                 //localStorage.setItem('cart', JSON.stringify(respObj));
+            }
+            else
+            {
+                setCart( {} );
             };
         } catch (error) {
             throw error;

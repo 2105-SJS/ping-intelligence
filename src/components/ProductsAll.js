@@ -2,7 +2,7 @@ import React from 'react';
 import SingleProduct from './SingleProduct';
 import NewProduct from './NewProduct';
 
-const ProductsAll = ( { products, token, currentUser, fetchProducts } ) => 
+const ProductsAll = ( { products, token, currentUser, fetchProducts, cart, getCart } ) => 
 {
     return products
         ? <>

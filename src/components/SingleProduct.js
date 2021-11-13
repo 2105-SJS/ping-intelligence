@@ -23,9 +23,9 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
         try {
             if (product && cart) {
                 const productId = Number(product.productId)
-                //if( cart.orderId!== undefined ) 
+                if( cart.orderId!== undefined ) 
                 {
-                    const response = await callApi(
+                    await callApi(
                     {
                         url: `orders/`,
                         method: 'POST',

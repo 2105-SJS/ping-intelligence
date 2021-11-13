@@ -1,8 +1,10 @@
 import React from 'react';
 import SingleProduct from './SingleProduct';
 import NewProduct from './NewProduct';
+import { useParams } from 'react-router';
 
-const Products = ( { products, token, currentUser, fetchProducts, cart, getCart } ) => 
+
+const Product = ( { products, token, currentUser, fetchProducts, cart, getCart } ) => 
 {
     const params = useParams();
     return products
@@ -13,7 +15,7 @@ const Products = ( { products, token, currentUser, fetchProducts, cart, getCart 
                 <span>Products:</span>
                 {
                     products.filter( ( product ) => {
-                        return product.productId===params.productId;
+                        return product.productId===Number(params.productId);
                     } )
                     .map(product => <SingleProduct key = { product.productId } product = { product } token = { token } currentUser = { currentUser } fetchProducts = { fetchProducts }  cart = { cart } getCart = { getCart }/>)
                 }

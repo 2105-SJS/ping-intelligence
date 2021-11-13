@@ -3,7 +3,7 @@ const { getProductById } = require('../db');
 const order_productRouter = express.Router();
 const { getOrderProductsById, addProductToOrder, updateOrderProduct, destroyOrderProduct } = require('../db/orderProducts');
 const { getOrderById } = require('../db/orders');
-const { requireUser } = require('../src/api/utils');
+const { requireUser } = require('./utils');
 
 
 

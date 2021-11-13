@@ -9,7 +9,7 @@ const Cart = ( props ) =>
     const currentUser = props.currentUser;
     const cart = props.cart;
 
-    const [ order, setOrder ] = useState( {} );
+    //const [ order, setOrder ] = useState( {} );
     const [ user, setUser ] = useState( {} );
     const [ message, setMessage ] = useState( "Complete or cancel your order here." );
 
@@ -45,38 +45,38 @@ const Cart = ( props ) =>
                 username: "Guest"
             } );
         }
-        callApi(
-        {
-            url: `orders/cart`,
-            method: "GET",
-            token: token
-        } )
-        .then( ( response ) => 
-        {
-            if ( response )
-            {
-                setOrder( response );
-            }
-            else
-            {
-                if (cart && cart.products)
-                {
-                    setOrder( cart );
-                }
-                else
-                {
-                    setOrder( {} );
-                }
-            }
-        } );
+        // callApi(
+        // {
+        //     url: `orders/cart`,
+        //     method: "GET",
+        //     token: token
+        // } )
+        // .then( ( response ) => 
+        // {
+        //     if ( response )
+        //     {
+        //         setOrder( response );
+        //     }
+        //     else
+        //     {
+        //         if (cart && cart.products)
+        //         {
+        //             setOrder( cart );
+        //         }
+        //         else
+        //         {
+        //             setOrder( {} );
+        //         }
+        //     }
+        // } );
     }, [ token, cart ] )
 
     const callUpdate=(type)=>
     {
         callApi(
         {
-            url:`orders/${order.orderId}/`,
-            method: "UPDATE",
+            url:`orders/${cart.orderId}/`,
+            method: "PATCH",
             token: token,
             body:
             {
@@ -110,7 +110,7 @@ const Cart = ( props ) =>
 
     return <div className = "cart">
         <User user = { user }></User>
-        <Order order = { order }></Order>
+        <Order order = { cart }></Order>
         <h2>{ message }</h2>
         <button onClick = { ( ( event ) => 
         {
