@@ -79,7 +79,7 @@ const Cart = ( props ) =>
         } );
     }
 
-    return <div className = "cart">
+    return currentUser && currentUser.id ? <div className = "cart">
         <User user = { user }></User>
         <Order order = { cart }></Order>
         <h2>{ message }</h2>
@@ -93,7 +93,8 @@ const Cart = ( props ) =>
             event.preventDefault();
             callUpdate('cancelled');
         } ) }>Cancel Order</button>
-    </div>;
+    </div>
+    :'You must be logged in to view this page';
 }
 
 export default Cart;
