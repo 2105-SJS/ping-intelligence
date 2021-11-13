@@ -26,7 +26,6 @@ const updateOrder = async ( { id, status, userId } ) =>
     {
         return;
     }
-    console.log(setString);
     try 
     {
         const { rows: [ order ] } = await client.query(
@@ -34,7 +33,7 @@ const updateOrder = async ( { id, status, userId } ) =>
         SET ${ setString }
         WHERE "orderId"=${ id }
         RETURNING *;`,
-        Object.values( fields ));
+        Object.values( fields ) );
         return order;
     }
     catch ( error ) 

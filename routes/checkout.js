@@ -13,7 +13,7 @@ checkoutRouter.patch( '/:orderId', async ( req, res, next ) =>
             {
                 if ( req.body )
                 {
-                    console.log(req.body);
+                    req.body.id = req.params.orderId;
                     const response = await updateOrder( req.body );
                     res.send( response );                    
                 }
