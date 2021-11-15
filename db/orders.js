@@ -3,14 +3,15 @@ const { client } = require('./client');
 // Helper function 
 const getProductsFromOrderId = async (orderId) => {
     try {
+        console.log('products', orderId)
         const { rows: products } = await client.query(`
             SELECT * 
             FROM products 
             JOIN order_products on products."productId"=order_products."productId"
             WHERE order_products."orderId"=$1;
         `, [orderId])
-
         return products
+        
     } catch (error) {
         throw error
     }
@@ -108,14 +109,19 @@ const getAllOrders = async () => {
             SELECT *
             FROM orders
         `)
-        orders.forEach(async (order) => {
-            const { rows: products } = await client.query(`
-                SELECT * from products 
-                JOIN order_products ON products."productId"=orders_products."productId" 
-                WHERE order_products."orderId"=$1
-            `, [order.orderId])
-            order.products = products
-        })
+        console.log('>>>>orders', orders)
+         const data = await Promise.all(orders.map(async (order) => { 
+            const resp = await getProductsFromOrderId(order.orderId);
+            console.log('>>>>resp', resp)
+            order["items"]=resp
+            console.log('>>>>', order)
+            return order
+        }))
+
+        console.log('>>>GetAllOrders', orders)
+        console.log('>>>>data', data)
+        return data;
+        
     } catch (error) {
         throw error
     }
