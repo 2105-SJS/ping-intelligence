@@ -1,7 +1,7 @@
 const express = require('express');
 const { getProductById } = require('../db');
 const order_productRouter = express.Router();
-const { getOrderProductsById, addProductToOrder, updateOrderProduct, destroyOrderProduct } = require('../db/orderProducts');
+const { getOrderProductsById, addProductToOrder, updateOrderProduct, destroyOrderProduct, getOrderProductsByProductIdAndOrderId } = require('../db/orderProducts');
 const { getOrderById } = require('../db/orders');
 const { requireUser } = require('./utils');
 
@@ -16,7 +16,7 @@ order_productRouter.post('/:orderId/products', async (req, res, next) => {
     try {
         const { orderId } = req.params;
         const { quantity, productId } = req.body;
-        const orderProducts = await getOrderProductsById( orderId );
+        const orderProducts = await getOrderProductsByProductIdAndOrderId( { productId, orderId } );
         const { price } = await getProductById( productId );
         
         if( orderProducts ) 
