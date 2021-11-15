@@ -11,6 +11,7 @@ import Cart from './Cart';
 import AllUsers from './AllUsers';
 import AdminUserForm from './AdminUserForm';
 import Orders from './Orders';
+import Order from './Order';
 import ProductsAll from './ProductsAll';
 import { makeStyles } from '@material-ui/core'
 
@@ -27,7 +28,9 @@ const App = () =>
 {
     const classes = useStyles();
     const [ products, setProducts ] = useState( [] );
-    const [ order, setOrder ] = useState( [] );
+    const [ userData, setUserData ] = useState({});
+    const [ cart, setCart ] = useState({});
+    const [ orders, setOrders ] = useState( [] );
     const [ token, setToken ] = useState ( localStorage.getItem( "token" ) || "" );
     const [ currentUser, setCurrentUser ] = useState(
     {
@@ -79,6 +82,87 @@ const App = () =>
       
     }, [token]);
 
+    const makeCart = async () => {
+        try { 
+            const rep = callApi({ 
+                method: 'POST', 
+                url: '/orders',
+                token
+            });
+            if(resp) { 
+                setCart(resp);
+            }
+        } catch (error) {
+            throw error; 
+        }
+    }
+
+    const grabCart = async () => {
+        try { 
+            const resp = await callApi({ 
+                url: 'orders/cart',
+                token
+            })
+            if (!resp) { 
+                makeCart();
+                grabCart();
+            }
+            if (resp) { 
+                setCart(resp);
+                localStorage.setItem('cart', JSON.stringify(resp));
+            }
+        } catch (error) {
+            throw error
+        }
+    }
+
+    const grabOrders = async () => { 
+        try {
+            console.log('token>>>', token);
+                const resp = await callApi({
+                    url: '/orders',
+                    token
+                });
+                console.log('>>>>>orderResp', resp)
+                if (resp) { 
+                    setOrders(resp);
+                };
+        } catch (error) {
+            throw error
+        }
+    }
+
+    useEffect( () =>
+    {
+        try 
+        {
+            grabOrders();
+        } catch ( error ) 
+        {
+            console.error( error );
+        }
+      
+    }, []);
+
+const allProps = { 
+    grabOrders,
+    grabCart,
+    fetchProducts,
+
+    orders,
+    setOrders,
+    token,
+    setToken,
+    cart,
+    setCart,
+    currentUser,
+    setCurrentUser,
+    products,
+    setProducts,
+    userData,
+    setUserData
+}
+
     useEffect( () => {
         try {
             if ( token )
@@ -123,7 +207,11 @@ const App = () =>
                 </Route>
 
                 <Route exact path='/orders'> 
-                    <Orders order={order} setOrder={setOrder} token={token}/> 
+                    <Orders {...allProps} />
+                </Route>
+
+                <Route exact path='/orders/:orderId'> 
+                    <Order userData={userData} orders={orders} setOrders={setOrders} products={products} token={token} /> 
                 </Route>
 
                 <Route exact path = "/cart/checkout/">

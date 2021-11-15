@@ -135,5 +135,6 @@ module.exports = {
     createProduct,
     getOrderProductById,
     updateOrderProduct,
-    destroyOrderProduct
+    destroyOrderProduct,
+    addProductToOrder
 }

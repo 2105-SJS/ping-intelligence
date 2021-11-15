@@ -15,6 +15,8 @@ ordersRouter.use((req, res, next) => {
 //  GET /orders 
 ordersRouter.get('/', async (req, res, next) => {
     try {
+        console.log('A request is being made to /orders');
+
         const orders = await getAllOrders();
         res.send(orders)
     } catch (error) {
