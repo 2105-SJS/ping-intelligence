@@ -149,7 +149,7 @@ const NewProduct = ( { token, product, fetchProducts } ) =>
                     </select>
                 </fieldset>
                 <p>{ message }</p>
-                <Button className={classes.add} color='red' type = "submit">{ `${ edit ? "Edit" : "Add" } Product` }</Button>
+                <Button className={classes.add} type = "submit">{ `${ edit ? "Edit" : "Add" } Product` }</Button>
             </form>
         </div>
     </div>
