@@ -29,8 +29,7 @@ async function createInitialProducts() {
             inStock: "yes",
             category: "new"
         });
-<<<<<<< Updated upstream
-=======
+        
         await createProduct({
             productName: 'BMW M3 1999',
             description: 'A 3.2-liter, 240 hp, naturally aspirated inline 6 cylinder Two-door, 4 seater',
@@ -167,7 +166,7 @@ async function createInitialProducts() {
             inStock: "yes",
             category: "used"
         });
->>>>>>> Stashed changes
+
 
         console.log("Finished creating products!");
     } catch (error) {
