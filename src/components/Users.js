@@ -7,8 +7,6 @@ const Users = (props) =>
     const currentUser = props.currentUser;
     const setCurrentUser = props.setCurrentUser;
 
-    
-
     return currentUser && currentUser.id ? 
     <>
         <h2>Logged in as { currentUser.name }</h2>

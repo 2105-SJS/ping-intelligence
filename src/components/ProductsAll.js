@@ -10,6 +10,7 @@ const ProductsAll = ( { products, token, currentUser, fetchProducts, cart, getCa
             <div className = 'products'>
                 { currentUser && currentUser.admin === true ? 
                 <NewProduct token = { token } fetchProducts = { fetchProducts }></NewProduct> : null }
+              
                 <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 {
                     products.map((product) => (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { callApi } from '../util';
-import { Typography, TextField, Button, Grid, Card, Container} from '@material-ui/core';
+import { Typography, TextField, Button, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -43,6 +43,7 @@ const UserForm = ( props ) =>
 {
     const setToken = props.setToken;
     const setCurrentUser = props.setCurrentUser;
+
     const classes = useStyles();
 
     const [ register, setRegister ] = useState( false );

@@ -33,7 +33,7 @@ const App = () =>
     {
         id: Number( localStorage.getItem( "id" ) ),
         name: localStorage.getItem( "username" ),
-        admin: localStorage.getItem( "admin" )
+        admin: Boolean( localStorage.getItem( "admin" ) )
     } || {} );
     const [ cart, setCart ] = useState( {} );
 
