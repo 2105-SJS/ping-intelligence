@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { callApi } from '../util';
-import { useEffect, useState } from 'react';
 import Order from './Order';
 
 

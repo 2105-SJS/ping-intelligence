@@ -29,7 +29,6 @@ const App = () =>
     const classes = useStyles();
     const [ products, setProducts ] = useState( [] );
     const [ userData, setUserData ] = useState({});
-    const [ cart, setCart ] = useState({});
     const [ orders, setOrders ] = useState( [] );
     const [ token, setToken ] = useState ( localStorage.getItem( "token" ) || "" );
     const [ currentUser, setCurrentUser ] = useState(
@@ -210,7 +209,7 @@ const allProps = {
                     <Orders {...allProps} />
                 </Route>
 
-                <Route exact path='/orders/:orderId'> 
+                <Route exact path={ ['/orders/:orderId', '/orders']}> 
                     <Order userData={userData} orders={orders} setOrders={setOrders} products={products} token={token} /> 
                 </Route>
 
