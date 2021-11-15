@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 
-import { useEffect } from 'react';
 import Order from './Order';
 
 

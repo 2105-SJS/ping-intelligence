@@ -38,7 +38,6 @@ const App = () =>
         name: localStorage.getItem( "username" ),
         admin: Boolean( localStorage.getItem( "admin" ) )
     } || {} );
-    const [ cart, setCart ] = useState( {} );
 
     const fetchProducts = async () => {
         try {
