@@ -3,6 +3,7 @@ import { callApi } from '../util';
 import { Typography, TextField, Button, Grid, Card, Container} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 
+<<<<<<< HEAD
 const useStyles = makeStyles({
     page:{
         width:'600px',
@@ -36,6 +37,8 @@ const useStyles = makeStyles({
     }   
 })
 
+=======
+>>>>>>> dev
 const NewProduct = ( { token, product, fetchProducts } ) => 
 {
     const classes = useStyles();
