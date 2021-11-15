@@ -1,18 +1,6 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-<<<<<<< HEAD
-const Order = ({order}) =>
-{
-    console.log(order)
-
-    return order
-        ? <> </> : null
-    {/* <div className = "order">
-        order placeholder
-     </div>; */}
-};
-=======
 const Order = (props) => {
     let { order, isCart, orders} = props;
     if(!order){ 
@@ -57,6 +45,5 @@ const Order = (props) => {
           : <div> Loading </div>
       );
   }
->>>>>>> bd5ba53e88d3b5e84acb0702049d07487767724c
 
 export default Order;
