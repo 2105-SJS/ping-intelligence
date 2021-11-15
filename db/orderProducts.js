@@ -1,5 +1,9 @@
 const { client } = require('./client');
-//const db = require('./cars-dev');
+
+const priceToNumber = (s) =>
+{
+    return Number( String( s ).replace( /[^01234567689.]+/g, '' ).match( /[0-9]*.?[0-9]*/ ) [ 0 ] );
+}
 
 async function getOrderProductsById(id) {
     console.log('Db getOrderProductsById with id: ', id);
@@ -19,6 +23,8 @@ async function getOrderProductsById(id) {
 async function addProductToOrder({ orderId, productId, price, quantity }) {
     console.log('Db addProductToOrder');
     try {
+        const value = priceToNumber( price );
+
         const {rows: [ order ]} = await client.query
         (`
         SELECT *
@@ -32,7 +38,7 @@ async function addProductToOrder({ orderId, productId, price, quantity }) {
             VALUES($1, $2, $3, $4)
             ON CONFLICT DO NOTHING
             RETURNING *
-            `, [productId, orderId, price, quantity])
+            `, [productId, orderId, value, quantity])
             return createOrder_Product; 
         }
         else {
@@ -41,7 +47,7 @@ async function addProductToOrder({ orderId, productId, price, quantity }) {
             SET "quantity" = $3 , "price" = $4 
             WHERE "orderId" = $1 AND "productId" = $2
             RETURNING * ;
-            `, [orderId, productId, order.quantity + quantity , price])
+            `, [orderId, productId, order.quantity + quantity , value])
             return addedProducts }
 
     } catch (error) {
@@ -52,12 +58,13 @@ async function addProductToOrder({ orderId, productId, price, quantity }) {
 async function updateOrderProduct({ id, price, quantity }) {
     console.log('Db updateOderProduct');
     try {
+        const value = priceToNumber( price );
         const {rows: [order]} = await client.query(`
         UPDATE order_products
         SET price = $1, quantity = $2
         WHERE "order_productId" = $3
         RETURNING *;
-        `, [price, quantity, id]);
+        `, [value, quantity, id]);
         return order; 
     } catch (error) {
         throw error;

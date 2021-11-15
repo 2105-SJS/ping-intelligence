@@ -39,6 +39,7 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
         try {
             if (product && cart) {
                 const productId = Number(product.productId)
+                console.log(cart);
                 if( cart.orderId === undefined ) 
                 {
                     await callApi(
