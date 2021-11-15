@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { callApi } from '../util';
 
-
 const NewProduct = ( { token, product, fetchProducts } ) => 
 {
     const [ edit, setEdit ] = useState( false );

@@ -1,14 +1,11 @@
 import React from 'react';
 import UserForm from './UserForm';
-import Login from './Login';
 
 const Users = (props) => 
 {
     const setToken = props.setToken;
     const currentUser = props.currentUser;
     const setCurrentUser = props.setCurrentUser;
-
-    
 
     return currentUser && currentUser.id ? 
     <>
