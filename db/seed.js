@@ -161,7 +161,11 @@ async function createInitialProducts() {
             productName: 'Bugatti Veyron 2010',
             description: 'A 6.5-liter, 1000 hp, naturally aspirated W16 Two-seater',
             price: '$2.5 million USD',
+<<<<<<< HEAD
             imageURL: 'https://www.exoticcarlist.com/blog/wp-content/uploads/2020/10/IMG_14467-large.jpg',
+=======
+            imageURL: 'https://www.exoticcarlist.com/blog/wp-content/uploads/2020/10/IMG_14467-large.jpg,
+>>>>>>> 9d5a0b5 (added addition vehicles)
             inStock: "yes",
             category: "used"
         });
