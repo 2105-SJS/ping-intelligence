@@ -1,23 +1,21 @@
 const { client } = require('./client');
 
-const getOrderById = async ( { id } ) =>
-{
-    const { rows: [ order ] } = await client.query(
-    `SELECT *
-    FROM orders
-    WHERE "orderId"=$1`,
-    [ id ] );
-    return order;
-}
-
 const updateOrder = async ( { id, status, userId } ) =>
 {
-    const fields = { status, userId };
+    const fields = 
+    {
+        status: status,
+        userId: userId
+    };
     const setString = Object.keys( fields ).map( ( key, idx ) =>
     {
         return `"${ key }"=$${ idx + 1 }`
     })
     .join(',');
+    if(setString === "")
+    {
+        return;
+    }
     try 
     {
         const { rows: [ order ] } = await client.query(
@@ -25,7 +23,7 @@ const updateOrder = async ( { id, status, userId } ) =>
         SET ${ setString }
         WHERE "orderId"=${ id }
         RETURNING *;`,
-        Object.values( fields ));
+        Object.values( fields ) );
         return order;
     }
     catch ( error ) 
@@ -72,7 +70,6 @@ const cancelOrder = async ( id ) =>
 
 module.exports =
 {
-    getOrderById,
     updateOrder,
     completeOrder,
     cancelOrder,

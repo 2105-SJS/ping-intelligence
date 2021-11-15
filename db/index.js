@@ -4,7 +4,9 @@ module.exports = {
   ...require('./Products'),
   ...require('./users'),
   ...require('./checkout'),
+  ...require('./admin'),
+  ...require('./orders'),
+  ...require('./orderProducts'),
   ...require('./seed'),
-  ...require('./admin')
   // db methods
 }
