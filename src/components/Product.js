@@ -2,10 +2,7 @@ import React from 'react';
 import SingleProduct from './SingleProduct';
 import NewProduct from './NewProduct';
 import { useParams } from 'react-router-dom';
-<<<<<<< HEAD
-=======
 import { makeStyles } from '@material-ui/core';
->>>>>>> dev
 
 const useStyles = makeStyles({
     header:{
@@ -28,11 +25,7 @@ const Product = ( { products, token, currentUser, fetchProducts, cart, getCart }
             <div className = 'products'>
                 { currentUser && currentUser.admin ? 
                 <NewProduct token = { token } fetchProducts = { fetchProducts }></NewProduct> : null }
-<<<<<<< HEAD
-                {/* <span>Products:</span> */}
-=======
                 <div className={classes.header}>Products:</div>
->>>>>>> dev
                 {
                     products.filter( ( product ) => {
                         return product.productId===Number(params.productId);
