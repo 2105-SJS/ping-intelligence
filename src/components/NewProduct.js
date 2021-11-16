@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
     page:{
-        width:'600px',
+        width:'400px',
         height:'300px',
         display:'flex',
         flexFlow:'column',
@@ -16,7 +16,8 @@ const useStyles = makeStyles({
         borderRadius:'10px',
         border:'5px solid black',
         minHeight:'450px',
-        marginLeft:'22rem'
+        alignSelf:'center'
+        // marginLeft:'22rem'
     },
     entire:{
         paddingTop:'3rem'
