@@ -125,13 +125,13 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
                     {
                         setShow( !show );
                     } }>Edit Product</Button>
-                    { show ? 
-                    <NewProduct token = { token } product = { product } fetchProducts = { fetchProducts }></NewProduct>
-                    : null }
                 </> 
                 : null 
             }
             </CardActions>
+            { show ? 
+            <NewProduct token = { token } product = { product } fetchProducts = { fetchProducts }></NewProduct>
+            : null }
         </Card>
         : 'Loading Single Product...'
 }
