@@ -1,6 +1,9 @@
 # The Smallest Starting Point
 
-
+.env requires:
+ADMIN_USER: name of the first admin
+ADMIN_PASS: first admins password
+JWT_SECRET: some secret for JWT
 
 So, you want to build a full-stack JavaScript application with:
 

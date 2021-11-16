@@ -20,3 +20,6 @@ Hi my name is: (presenter name)
 
 Talk about Register/Login and general engineering overall
 Hi my name is: (presenter name)
+I was in charge of developing the login function and forms. This form provides both the function of login and register functions with the click of a button, can show and hide your password, or choose whether the site will remember you.
+
+For users you can create or edit a user as an admin and make other users admins.
