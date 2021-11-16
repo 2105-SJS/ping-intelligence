@@ -1,13 +1,26 @@
 import React from 'react';
 import SingleProduct from './SingleProduct';
 import NewProduct from './NewProduct';
-import { Grid } from '@material-ui/core';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
+
+const useStyles = makeStyles({
+    product:{
+        fontSize:'35px',
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center',
+        color:'white'
+    }
+
+})
 
 const ProductsAll = ( { products, token, currentUser, fetchProducts, cart, getCart } ) => 
 {
+    const classes =useStyles()
     return products
         ? <>
             <div className = 'products'>
+            <Typography className={classes.product}>Tycoon Cars</Typography>
                 { currentUser && currentUser.admin === true ? 
                 <NewProduct token = { token } fetchProducts = { fetchProducts }></NewProduct> : null }
               
