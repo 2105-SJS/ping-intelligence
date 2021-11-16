@@ -9,7 +9,6 @@ const Cart = ( props ) =>
     const currentUser = props.currentUser;
     const cart = props.cart;
 
-    //const [ order, setOrder ] = useState( {} );
     const [ user, setUser ] = useState( {} );
     const [ message, setMessage ] = useState( "Complete or cancel your order here." );
 
@@ -45,30 +44,6 @@ const Cart = ( props ) =>
                 username: "Guest"
             } );
         }
-        // callApi(
-        // {
-        //     url: `orders/cart`,
-        //     method: "GET",
-        //     token: token
-        // } )
-        // .then( ( response ) => 
-        // {
-        //     if ( response )
-        //     {
-        //         setOrder( response );
-        //     }
-        //     else
-        //     {
-        //         if (cart && cart.products)
-        //         {
-        //             setOrder( cart );
-        //         }
-        //         else
-        //         {
-        //             setOrder( {} );
-        //         }
-        //     }
-        // } );
     }, [ token, cart ] )
 
     const callUpdate=(type)=>
@@ -90,10 +65,6 @@ const Cart = ( props ) =>
             {
                 if ( response.orderId )
                 {
-                    if ( response.status === 'completed' )
-                    {
-                        //stripe submit order here
-                    }
                     setMessage( `order for ${ user.username } successfully ${ type }` );
                 }
                 else if ( response.message )
@@ -102,13 +73,13 @@ const Cart = ( props ) =>
                 }
                 else
                 {
-                    setMessage( `error trying to ${ type } order` );
+                    setMessage( `error trying to ${ type === 'completed' ? 'complete' : 'cancel'  } order` );
                 }
             }
         } );
     }
 
-    return <div className = "cart">
+    return currentUser && currentUser.id ? <div className = "cart">
         <User user = { user }></User>
         <Order order = { cart }></Order>
         <h2>{ message }</h2>
@@ -122,7 +93,8 @@ const Cart = ( props ) =>
             event.preventDefault();
             callUpdate('cancelled');
         } ) }>Cancel Order</button>
-    </div>;
+    </div>
+    :'You must be logged in to view this page';
 }
 
 export default Cart;

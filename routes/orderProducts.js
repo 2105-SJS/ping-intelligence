@@ -1,7 +1,7 @@
 const express = require('express');
 const { getProductById } = require('../db');
 const order_productRouter = express.Router();
-const { getOrderProductsById, addProductToOrder, updateOrderProduct, destroyOrderProduct } = require('../db/orderProducts');
+const { getOrderProductsById, addProductToOrder, updateOrderProduct, destroyOrderProduct, getOrderProductsByProductIdAndOrderId } = require('../db/orderProducts');
 const { getOrderById } = require('../db/orders');
 const { requireUser } = require('./utils');
 
@@ -9,22 +9,19 @@ const { requireUser } = require('./utils');
 
 order_productRouter.use((req, res, next) => {
     console.log("A request is being made to /order_products");
-
     next();
 });
 
 order_productRouter.post('/:orderId/products', async (req, res, next) => {
     try {
         const { orderId } = req.params;
-        const userId = req.auth.id;
         const { quantity, productId } = req.body;
-        const orderProducts = await getOrderProductsById( orderId );
-        //const { quantity } = req.body;
+        const orderProducts = await getOrderProductsByProductIdAndOrderId( { productId, orderId } );
         const { price } = await getProductById( productId );
         
         if( orderProducts ) 
         {
-            const updatingProduct = await updateOrderProduct({ id: orderProducts.order_productId, price, quantity });
+            const updatingProduct = await addProductToOrder({ orderId, productId, price, quantity });
             if( !updatingProduct ) 
             {
                 throw Error("Unsuccessful in adding prodcut")
@@ -45,11 +42,8 @@ order_productRouter.post('/:orderId/products', async (req, res, next) => {
             {
                 res.send(addingProduct);
             }
-        } 
-            // const product = await getProductById(orderProducts.productId);
-            // console.log( product );
-            // const { productId } = product;
-        
+        }     
+  
     } catch (error) {
         throw error
     }
@@ -112,6 +106,5 @@ order_productRouter.delete('/Id', requireUser, async (req, res, next) => {
         throw error;
     }
 });
-
 
 module.exports = order_productRouter;

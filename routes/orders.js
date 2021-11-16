@@ -1,12 +1,9 @@
 const express = require('express');
-//const { reset } = require('nodemon');
-// const jwt = require('jsonwebtoken');
 const { requireUser } = require('./utils');
 const { getAllOrders, getCartByUser, createOrder } = require('../db');
 const { addProductToOrder } = require('../db/orderProducts');
 const checkoutRouter = require('./checkout');
 const ordersRouter = express.Router();
-
 
 //  USE /orders
 ordersRouter.use((req, res, next) => {
@@ -18,6 +15,8 @@ ordersRouter.use((req, res, next) => {
 //  GET /orders 
 ordersRouter.get('/', async (req, res, next) => {
     try {
+        console.log('A request is being made to /orders');
+
         const orders = await getAllOrders();
         res.send(orders)
     } catch (error) {
@@ -42,7 +41,6 @@ ordersRouter.get('/cart', async (req, res, next) => {
 });
 
 // POST /orders 
-
 ordersRouter.post('/', requireUser, async (req, res, next) => { 
     const { userId, status } = req.body;
     console.log('>>>> REQ', req.body)
