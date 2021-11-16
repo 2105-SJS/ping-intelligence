@@ -210,7 +210,7 @@ const allProps = {
                 </Route>
 
                 <Route exact path={ ['/orders/:orderId', '/orders']}> 
-                    <Order userData={userData} orders={orders} setOrders={setOrders} products={products} token={token} /> 
+                    <Order userData={userData} orders={orders} setOrders={setOrders} products={products} token={token} cart={cart} /> 
                 </Route>
 
                 <Route exact path = "/cart/checkout/">

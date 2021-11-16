@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Typography, Button, Card, CardActionArea, CardActions, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
-// import Image from 'material-ui-image'
 
 const useStyles = makeStyles({
     products: {
@@ -29,7 +28,6 @@ const useStyles = makeStyles({
         display: 'flex',
         margin: '10px',
         padding: '8px'
-        // width: '500px'
     },
     btn: {
         color: 'red',
@@ -45,8 +43,6 @@ const Order = (props) => {
         const { orderId } = useParams();
         order = orders.find(_order => _order.orderId === +orderId)
     }
-    // console.log('order', order)
-    // console.log('foo');
     return (
         order ?
             <>
@@ -59,12 +55,9 @@ const Order = (props) => {
                 <div>
                     Items inside cart:
                     <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="singleOrder">
-                        
                         {order.products && order.products.map(({ id, productName, description, category, price, quantity }) => {
                             return <Grid key={id} item xs={12} sm={6} md={4} lg={3}>
-                                {/* <Card className={classes.products}>  */}
                                 <Card className={classes.items}>
-                                    {/* <img src={product.imageUrl}/> */}
                                     <Typography key={id} className="product">
                                         <Typography> {productName} </Typography>
                                         <Typography> Category: {category} </Typography>

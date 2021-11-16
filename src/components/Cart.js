@@ -77,7 +77,7 @@ const Cart = ( props ) =>
             {
                 if ( response.orderId )
                 {
-                    setMessage( `order for ${ user.username } successfully ${ type }` );
+                    setMessage( `Order for ${ user.username } successfully ${ type }!` );
                 }
                 else if ( response.message )
                 {
