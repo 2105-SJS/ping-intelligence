@@ -29,15 +29,15 @@ const App = () =>
     const classes = useStyles();
     const [ products, setProducts ] = useState( [] );
     const [ userData, setUserData ] = useState({});
+    const [ cart, setCart ] = useState({});
     const [ orders, setOrders ] = useState( [] );
     const [ token, setToken ] = useState ( localStorage.getItem( "token" ) || "" );
     const [ currentUser, setCurrentUser ] = useState(
     {
         id: Number( localStorage.getItem( "id" ) ),
         name: localStorage.getItem( "username" ),
-        admin: localStorage.getItem( "admin" )
+        admin: Boolean( localStorage.getItem( "admin" ) )
     } || {} );
-    const [ cart, setCart ] = useState( {} );
 
     const fetchProducts = async () => {
         try {

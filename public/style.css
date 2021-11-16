@@ -1,11 +1,33 @@
+.nav-bar {
+    margin-right: 4vw;
+    margin-top: 56px;
+    margin-bottom: -2px;
+    padding-bottom: 12px;
+}
 * {
     min-height: 100%;
-    padding: 0;
-    margin: 0;
+    padding: 30;
+    margin: 30;
     box-sizing: border-box;
 }
 html {
     display: flex;
     justify-content: center;
     height:'100%'
+}
+body {
+    display: flex;
+    flex-direction: wrap;
+    align-content: center;
+    flex-basis: auto;
+    font-family: 'Oswald', sans-serif;
+}
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4.5em;
+    background-color: #466485;
+    min-height: 100vh;
 }
