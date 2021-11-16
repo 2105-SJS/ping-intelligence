@@ -36,7 +36,7 @@ const App = () =>
     {
         id: Number( localStorage.getItem( "id" ) ),
         name: localStorage.getItem( "username" ),
-        admin: Boolean( localStorage.getItem( "admin" ) )
+        admin: ( localStorage.getItem( "admin" ) === "true" ? true : false )
     } || {} );
 
     const fetchProducts = async () => {
