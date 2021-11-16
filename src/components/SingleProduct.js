@@ -16,6 +16,14 @@ const useStyles = makeStyles({
     },
     carcard:{
         border:'2px solid black'
+    },
+    buttons:{
+        backgroundColor:'#ff0100',
+        color:'white'
+    },
+    buttonsz:{
+        backgroundColor:'#4378bc',
+        color:'white',
     }
   })
 
@@ -110,11 +118,10 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
             </CardActionArea>
             <CardActions>
                 <Button size="small" className={classes.button} onClick = { handleAddtoCart }>Add To Cart</Button>
-            </CardActions>
             { currentUser && currentUser.admin ? 
                 <>
-                    <Button size ="small" color="green" onClick = { deleteProduct } >Delete Product</Button>
-                    <Button onClick = { () =>
+                    <Button className={classes.buttons} size ="small" onClick = { deleteProduct } >Delete Product</Button>
+                    <Button className={classes.buttonsz} size ="small" onClick = { () =>
                     {
                         setShow( !show );
                     } }>Edit Product</Button>
@@ -124,6 +131,7 @@ const SingleProduct = ({ product, token, currentUser, fetchProducts, getCart, ca
                 </> 
                 : null 
             }
+            </CardActions>
         </Card>
         : 'Loading Single Product...'
 }

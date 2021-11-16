@@ -1,8 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { callApi } from '../util';
+import { Typography, TextField, Button, Grid, Card, Container} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+    page:{
+        width:'600px',
+        height:'300px',
+        display:'flex',
+        flexFlow:'column',
+        justifyContent:'center',
+        alignItems:'center',
+        color:'black',
+        backgroundColor:'white',
+        borderRadius:'10px',
+        border:'5px solid black',
+        minHeight:'450px',
+        marginLeft:'22rem'
+    },
+    entire:{
+        paddingTop:'3rem'
+    },
+    add:{
+        border:'2px solid black',
+        color:'white',
+        backgroundColor:'#e46400',
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    title:{
+        fontSize:'25px',
+        color:'#e46400'
+
+    }   
+})
 
 const NewProduct = ( { token, product, fetchProducts } ) => 
 {
+    const classes = useStyles();
     const [ edit, setEdit ] = useState( false );
     const [ id, setId ] = useState( '' );
     const [ name, setName ] = useState( '' );
@@ -76,42 +112,44 @@ const NewProduct = ( { token, product, fetchProducts } ) =>
         fetchProducts();
     }
 
-    return <div>
-        <div className = "newproduct">
-            <h1>{ edit ? 'Edit' : 'Add' } Product</h1>
+    return <div className={classes.entire}>
+        <div className ={classes.page}>
+            <div className={classes.title}>
+            <Typography className={classes.title}>{ edit ? 'Edit' : 'Create' } Product</Typography>
+            </div>
             <form onSubmit = { handleAdd }>
 
                 <fieldset>
-                    <label className = "addformlabel">Name: </label>
-                    <input type = "text" placeholder = " name" value = { name } onChange = { ( event ) => setName( event.target.value ) }></input>
+                    <Typography className = "addformlabel">Name: </Typography>
+                    <TextField type = "text" placeholder = " name" value = { name } onChange = { ( event ) => setName( event.target.value ) }></TextField>
                 </fieldset>
 
                 <fieldset>
-                    <label className = "addformlabel">Description: </label>
-                    <input type = "text" placeholder = " description" value = { description } onChange = { ( event ) => setDescription( event.target.value )}></input>
+                    <Typography className = "addformlabel">Description: </Typography>
+                    <TextField type = "text" placeholder = " description" value = { description } onChange = { ( event ) => setDescription( event.target.value )}></TextField>
                 </fieldset>
 
                 <fieldset>
-                    <label className = "addformlabel">Price: </label>
-                    <input type = "text" placeholder = " price" value = { price } onChange = { ( event ) => setPrice( event.target.value ) }></input>
+                    <Typography className = "addformlabel">Price: </Typography>
+                    <TextField type = "text" placeholder = " price" value = { price } onChange = { ( event ) => setPrice( event.target.value ) }></TextField>
                 </fieldset>
                 <fieldset>
-                    <label className = "addformlabel">Image: </label>
-                    <input type = "text" placeholder = " imageurl" value = {imageUrl} onChange = { ( event ) => setImageUrl( event.target.value ) }></input>
+                    <Typography className = "addformlabel">Image: </Typography>
+                    <TextField type = "text" placeholder = " imageurl" value = {imageUrl} onChange = { ( event ) => setImageUrl( event.target.value ) }></TextField>
                 </fieldset>
                 <fieldset>
-                    <label className = "addformlabel">Category: </label>
-                    <input type = "text" placeholder = " category" value = { category } onChange = { ( event ) => setCategory( event.target.value ) }></input>
+                    <Typography className = "addformlabel">Category: </Typography>
+                    <TextField type = "text" placeholder = " category" value = { category } onChange = { ( event ) => setCategory( event.target.value ) }></TextField>
                 </fieldset>
                 <fieldset>
-                    <label className = "addformlabel">In Stock: </label>
+                    <Typography className = "addformlabel">In Stock: </Typography>
                     <select type = "text" value = { inStock } onChange = { ( event ) => setInStock( event.target.value )}>
                         <option value = "false">No</option>
                         <option value = "true">Yes</option>
                     </select>
                 </fieldset>
                 <p>{ message }</p>
-                <button type = "submit">{ `${ edit ? "Edit" : "Add" } Product` }</button>
+                <Button className={classes.add} type = "submit">{ `${ edit ? "Edit" : "Add" } Product` }</Button>
             </form>
         </div>
     </div>

@@ -167,7 +167,6 @@ async function createInitialProducts() {
             category: "used"
         });
 
-
         console.log("Finished creating products!");
     } catch (error) {
         console.error("Error creating products!");
