@@ -7,8 +7,6 @@ const ordersRouter = express.Router();
 
 //  USE /orders
 ordersRouter.use((req, res, next) => {
-    console.log('A request is being made to /orders');
-    console.log('>>>>>>>>>', req.auth)
     next();
 })
 
@@ -43,7 +41,6 @@ ordersRouter.get('/cart', async (req, res, next) => {
 // POST /orders 
 ordersRouter.post('/', requireUser, async (req, res, next) => { 
     const { userId, status } = req.body;
-    console.log('>>>> REQ', req.body)
     try { 
         const newCart = await createOrder({ userId, status});
         res.send( newCart );

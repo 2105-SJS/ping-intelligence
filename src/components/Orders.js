@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import Order from './Order';
 
+// const Product 
+// get orderId from url params
+// useEffect, fetch order data by id 
+// store order data in state
+// map over order data
 
-// Display the single order component when the url matches /orders/:orderId
-// Display the cart (using the single order component with the current users in progress order. Use the api call GET /orders/cart) when the url matches /cart
-// add view cart button to the navbar that can be used to navigate to the /cart route 
 
-// const Orders = ({ token, order, setOrder }) => {
-const Orders = ({grabOrders, orders}) => {
+const Orders = ({grabOrders, orders, products, cart}) => {
 
 
     useEffect( () => 
@@ -21,11 +22,10 @@ const Orders = ({grabOrders, orders}) => {
         }
       
     }, []);
-
+    console.log('>>>> cart', cart)
     return <>
-        {orders.map (order => < Order key={order.orderId} order={order}/>)}
-       
-    </> 
+        {orders.map (order => < Order key={order.orderId} order={order} products={products} cart={cart} />)}
+    </>    
 }
 
 export default Orders;

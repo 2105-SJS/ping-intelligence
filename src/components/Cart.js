@@ -2,9 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { callApi } from '../util';
 import Order from './Order';
 import User from './User';
+import { Button, makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+
+    btn: {
+        color: 'black',
+        border: '1px solid black',
+        backgroundColor: 'white',
+        margin: '3px'
+    }
+})
 
 const Cart = ( props ) =>
 {
+    const classes = useStyles();
     const token = props.token;
     const currentUser = props.currentUser;
     const cart = props.cart;
@@ -65,7 +77,7 @@ const Cart = ( props ) =>
             {
                 if ( response.orderId )
                 {
-                    setMessage( `order for ${ user.username } successfully ${ type }` );
+                    setMessage( `Order for ${ user.username } successfully ${ type }!` );
                 }
                 else if ( response.message )
                 {
@@ -83,16 +95,16 @@ const Cart = ( props ) =>
         <User user = { user }></User>
         <Order order = { cart }></Order>
         <h2>{ message }</h2>
-        <button onClick = { ( ( event ) => 
+        <Button size='small' className={classes.btn} onClick = { ( ( event ) => 
         {
             event.preventDefault();
             callUpdate('completed');
-        } ) }>Complete Order</button>
-        <button onClick = { ( ( event ) => 
+        } ) }>Complete Order</Button>
+        <Button size='small' className={classes.btn} onClick = { ( ( event ) => 
         {
             event.preventDefault();
             callUpdate('cancelled');
-        } ) }>Cancel Order</button>
+        } ) }>Cancel Order</Button>
     </div>
     :'You must be logged in to view this page';
 }

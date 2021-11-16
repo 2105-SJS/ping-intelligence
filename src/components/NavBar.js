@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core';
-
+import { makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
     image:{
@@ -48,9 +47,9 @@ const NavBar = ( props ) =>
         { currentUser && currentUser.id ? <><NavLink className= {styles.link} to="/account">Account</NavLink></> : null}
         </div>
         <div id ='rightNav'>
-       <NavLink className= {styles.link} to = "/cart/checkout">View Cart</NavLink>
+        { currentUser && currentUser.id ? <><NavLink className= {styles.link} to = "/cart/checkout">View Cart</NavLink></> : null}
        <NavLink className= {styles.link} to = "/accounts/register">Profile</NavLink>
-       { currentUser && currentUser.admin === true ? <>
+       { currentUser && currentUser.admin ? <>
             <NavLink className= {styles.link} to="/users/">Users</NavLink>
             <NavLink className= {styles.link} to="/users/add">AddUser</NavLink>
             <NavLink className= {styles.link} to="/orders">Orders</NavLink>
